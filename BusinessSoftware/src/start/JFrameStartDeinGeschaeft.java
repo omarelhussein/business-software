@@ -20,10 +20,10 @@ public class JFrameStartDeinGeschaeft extends JFrame {
 	private JLabel labelName;
 	private JTextField textField;
 	private JLabel labelAbteilungen;
-	private JButton buttonNewButton;
-	private JButton buttonNewButton_1;
 	private JButton buttonNewButton_2;
 	private JButton buttonErstellen;
+	private JTextField textField_1;
+	private JTextField textField_2;
 
 	/**
 	 * Launch the application.
@@ -80,23 +80,6 @@ public class JFrameStartDeinGeschaeft extends JFrame {
 			contentPane.add(labelAbteilungen);
 		}
 		{
-			buttonNewButton = new JButton("Lebensmittel");
-			buttonNewButton.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
-			buttonNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					buttonNewButtonActionPerformed(arg0);
-				}
-			});
-			buttonNewButton.setBounds(246, 273, 305, 48);
-			contentPane.add(buttonNewButton);
-		}
-		{
-			buttonNewButton_1 = new JButton("Elektronic");
-			buttonNewButton_1.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
-			buttonNewButton_1.setBounds(249, 343, 302, 48);
-			contentPane.add(buttonNewButton_1);
-		}
-		{
 			buttonNewButton_2 = new JButton("+");
 			buttonNewButton_2.setFont(new Font("Century Schoolbook", Font.PLAIN, 23));
 			buttonNewButton_2.setBounds(579, 277, 54, 42);
@@ -108,7 +91,17 @@ public class JFrameStartDeinGeschaeft extends JFrame {
 			buttonErstellen.setBounds(682, 419, 144, 31);
 			contentPane.add(buttonErstellen);
 		}
-	}
-	protected void buttonNewButtonActionPerformed(ActionEvent arg0) {
+		{
+			textField_1 = new JTextField();
+			textField_1.setBounds(248, 291, 303, 48);
+			contentPane.add(textField_1);
+			textField_1.setColumns(10);
+		}
+		{
+			textField_2 = new JTextField();
+			textField_2.setBounds(247, 384, 312, 48);
+			contentPane.add(textField_2);
+			textField_2.setColumns(10);
+		}
 	}
 }

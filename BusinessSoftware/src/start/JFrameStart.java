@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
 
+import general.Colors;
 import general.Utils;
 
 import java.awt.Color;

@@ -113,6 +113,11 @@ public class JFrameStart extends JFrame {
 			}
 			{
 				btnAnmelden = new JButton("Anmelden");
+				btnAnmelden.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						onAnmeldenClicked(arg0);
+					}
+				});
 				btnAnmelden.setRolloverEnabled(false);
 				btnAnmelden.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
 				btnAnmelden.setFocusable(false);
@@ -146,5 +151,10 @@ public class JFrameStart extends JFrame {
 	 */
 	private void showPane(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
+	}
+	
+	protected void onAnmeldenClicked(ActionEvent arg0) {
+		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
+		Utils.startNewJFrame(this, jFrameAnmelden);
 	}
 }

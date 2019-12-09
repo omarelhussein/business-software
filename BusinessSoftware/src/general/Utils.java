@@ -18,5 +18,10 @@ public class Utils {
 		frame.setBounds(100, 100, 900, 600);
 		frame.setLocationRelativeTo(null);
 	}
+	
+	public static void startNewJFrame(JFrame oldJFrame, JFrame newJFrame) {
+		newJFrame.setVisible(true);
+		oldJFrame.setVisible(false);
+	}
 
 }

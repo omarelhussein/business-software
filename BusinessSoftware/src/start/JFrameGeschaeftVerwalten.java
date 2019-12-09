@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.JButton;
 
 public class JFrameGeschaeftVerwalten extends JFrame {
 
@@ -21,6 +22,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	private JTextField textField_2;
 	private JLabel labelAllgemeineDatenVerwalten;
 	private JTextField textField_3;
+	private JButton buttonNewButton;
 
 	/**
 	 * Launch the application.
@@ -98,6 +100,12 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			textField_3.setBounds(365, 322, 268, 41);
 			contentPane.add(textField_3);
 			textField_3.setColumns(10);
+		}
+		{
+			buttonNewButton = new JButton("Abteilung bearbeiten");
+			buttonNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			buttonNewButton.setBounds(588, 65, 199, 41);
+			contentPane.add(buttonNewButton);
 		}
 	}
 }

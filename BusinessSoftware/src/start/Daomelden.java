@@ -24,8 +24,8 @@ public class Daomelden {
 				 String sa="INSERT into Abteilung VALUES (?,?,?)";
 				  preparedStatement=connection.prepareStatement(sa);
 				  System.out.println("dsadsadsa");
-				  preparedStatement.setInt(1, 3);
-				  preparedStatement.setString(2, "Adsad");
+				  preparedStatement.setInt(1, 5);
+				  preparedStatement.setString(2, "omar");
 				  preparedStatement.setInt(3, 1);
 				  preparedStatement.execute();
 				  

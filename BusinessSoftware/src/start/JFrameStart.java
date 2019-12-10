@@ -8,6 +8,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
 
+import general.Colors;
+import general.Fonts;
 import general.Utils;
 
 import java.awt.Color;
@@ -62,7 +64,7 @@ public class JFrameStart extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//position in center
-		Utils.setOriginalBackgroundSize(this);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -82,7 +84,7 @@ public class JFrameStart extends JFrame {
 				btnStartGeschaeft.setBackground(new Color(255, 228, 225));
 				btnStartGeschaeft.setFocusable(false);
 				btnStartGeschaeft.setRolloverEnabled(false);
-				btnStartGeschaeft.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
+				Fonts.setCenturySchoolbookFont(btnStartGeschaeft, 18);
 				btnStartGeschaeft.setBounds(198, 82, 368, 47);
 				panel.add(btnStartGeschaeft);
 			}
@@ -97,7 +99,7 @@ public class JFrameStart extends JFrame {
 				btnWeiterAlsGast.setBackground(new Color(255, 228, 225));
 				btnWeiterAlsGast.setFocusable(false);
 				btnWeiterAlsGast.setRolloverEnabled(false);
-				btnWeiterAlsGast.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
+				Fonts.setCenturySchoolbookFont(btnWeiterAlsGast, 18);
 				btnWeiterAlsGast.setBounds(198, 164, 368, 47);
 				panel.add(btnWeiterAlsGast);
 			}
@@ -105,7 +107,7 @@ public class JFrameStart extends JFrame {
 				buttonI = new JButton("i");
 				buttonI.setFocusable(false);
 				buttonI.setBackground(Color.GRAY);
-				buttonI.setFont(new Font("Century Schoolbook", Font.PLAIN, 24));
+				Fonts.setCenturySchoolbookFont(buttonI, 18);
 				buttonI.setForeground(Color.RED);
 				buttonI.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 				buttonI.setBounds(578, 82, 52, 47);
@@ -119,7 +121,7 @@ public class JFrameStart extends JFrame {
 					}
 				});
 				btnAnmelden.setRolloverEnabled(false);
-				btnAnmelden.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
+				Fonts.setCenturySchoolbookFont(btnAnmelden, 18);
 				btnAnmelden.setFocusable(false);
 				btnAnmelden.setBorder(new LineBorder(new Color(0, 0, 0)));
 				btnAnmelden.setBackground(new Color(255, 228, 225));

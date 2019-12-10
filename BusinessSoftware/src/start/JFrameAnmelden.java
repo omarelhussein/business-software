@@ -1,12 +1,12 @@
 package start;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import general.Colors;
 import general.Utils;
 
 import javax.swing.JLabel;
@@ -51,7 +51,7 @@ public class JFrameAnmelden extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Utils.setOriginalBackgroundSize(this);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.decode(Colors.LIGHT_YELLOW));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

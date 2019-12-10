@@ -1,5 +1,6 @@
 package abteilungen;
 
+import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.EventQueue;
 

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import abteilungen.JFrameAbteilungVerarbeiten;
 import general.Utils;
 
 import javax.swing.JLabel;

@@ -1,4 +1,4 @@
-package start;
+package artikel;
 
 public class Artikel {
 	private int id;

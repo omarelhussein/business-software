@@ -1,10 +1,12 @@
-package start;
+package abteilungen;
 
-import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.EventQueue;
 
 import javax.swing.border.EmptyBorder;
+
+import general.Utils;
+
 import java.awt.Font;
 
 public class JFrameAbteilungVerarbeiten extends JFrame {
@@ -40,7 +42,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 822, 459);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

@@ -1,5 +1,8 @@
 package general;
 
+import java.awt.Font;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 
@@ -14,9 +17,11 @@ public class Utils {
 	 * Created by Omar
 	 * @param frame set frames layout
 	 */
-	public static void setOriginalBackgroundSize(JFrame frame) {
+	public static void setMainFrameOptions(JFrame frame) {
 		frame.setBounds(100, 100, 900, 600);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.setTitle("business-software");
 	}
 
 }

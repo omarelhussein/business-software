@@ -6,10 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import general.Utils;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameGeschaeftVerwalten extends JFrame {
 
@@ -48,7 +53,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 831, 496);
+		Utils.setOriginalBackgroundSize(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -103,9 +108,24 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 		}
 		{
 			buttonNewButton = new JButton("Abteilung bearbeiten");
+			buttonNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onAbteilungBearbeitenClick(e);
+				}
+			});
 			buttonNewButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			buttonNewButton.setBounds(588, 65, 199, 41);
 			contentPane.add(buttonNewButton);
 		}
+	}
+	protected void onAbteilungBearbeitenClick(ActionEvent e) {
+		JFrameAbteilungVerarbeiten JFrameabteilung =new  JFrameAbteilungVerarbeiten();
+		Utils.startNewJFrame(this,  JFrameabteilung);
+		
+	}
+
+	private JFrameAbteilungVerarbeiten JFrameAbteilungVerarbeiten() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

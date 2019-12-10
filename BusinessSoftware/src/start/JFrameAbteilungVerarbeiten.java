@@ -6,12 +6,9 @@ import java.awt.EventQueue;
 
 import javax.swing.border.EmptyBorder;
 
-import artikel.JFrameArtikelKaufen;
 import general.Utils;
 
 import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class JFrameAbteilungVerarbeiten extends JFrame {
 
@@ -70,21 +67,11 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		contentPane.add(list);
 		
 		buttonNewButton = new JButton("Artikel");
-		buttonNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Onartikel(e);
-			}
-		});
 		buttonNewButton.setFont(new Font("Century Schoolbook", Font.PLAIN, 20));
 		buttonNewButton.setBounds(398, 101, 190, 44);
 		contentPane.add(buttonNewButton);
 		
 		buttonNewButton_1 = new JButton("Mitarbeiter");
-		buttonNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				buttonNewButton_1ActionPerformed(arg0);
-			}
-		});
 		buttonNewButton_1.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 		buttonNewButton_1.setBounds(398, 171, 190, 44);
 		contentPane.add(buttonNewButton_1);
@@ -100,13 +87,4 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		contentPane.add(labelAbteilungBearbeitung);
 	}
 
-	protected void Onartikel(ActionEvent e) {
-		JFrameArtikelKaufen JFrameOnartikel = new JFrameArtikelKaufen();
-		Utils.startNewJFrame(this, JFrameOnartikel);
-		
-	}
-	protected void buttonNewButton_1ActionPerformed(ActionEvent arg0) {
-		JFrameMitarbeiterHinzufuegen JFrameOnMitarbeiter = new JFrameMitarbeiterHinzufuegen();
-		Utils.startNewJFrame(this, JFrameOnMitarbeiter);
-	}
 }

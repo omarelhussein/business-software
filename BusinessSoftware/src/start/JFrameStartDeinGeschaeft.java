@@ -6,9 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import general.Utils;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
@@ -52,7 +49,7 @@ public class JFrameStartDeinGeschaeft extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Utils.setMainFrameOptions(this);
+		setBounds(100, 100, 893, 540);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

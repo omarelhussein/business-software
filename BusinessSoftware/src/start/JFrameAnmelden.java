@@ -17,8 +17,10 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class JFrameAnmelden extends JFrame {
 
+	
 	private JPanel contentPane;
 	private JLabel labelMeldenSieBitte;
 	private JLabel labelBenutzerName;
@@ -94,15 +96,22 @@ public class JFrameAnmelden extends JFrame {
 			buttonOk = new JButton("OK");
 			buttonOk.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					onOkClick(e);
+					try {
+						onOkClick(e);
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			});
 			buttonOk.setBounds(611, 327, 97, 25);
 			contentPane.add(buttonOk);
 		}
 	}
-	protected void onOkClick(ActionEvent e) {
+	protected void onOkClick(ActionEvent e) throws ClassNotFoundException {
 		JFrameGeschaeftVerwalten JFrameOK = new JFrameGeschaeftVerwalten() ;
 		Utils.startNewJFrame(this,JFrameOK );
+		Daomelden daomelden=new Daomelden();
+		daomelden.insert();
 	}
 }

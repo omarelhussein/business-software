@@ -75,11 +75,6 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 		{
 			buttonAnzeigen = new JButton("Anzeigen");
-			buttonAnzeigen.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					onArtikelAnzeigen(e);
-				}
-			});
 			buttonAnzeigen.setBounds(401, 67, 97, 25);
 			contentPane.add(buttonAnzeigen);
 		}
@@ -87,7 +82,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			buttonNewButton = new JButton("Bearbeiten");
 			buttonNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					onArtikelBearbeiten(arg0);
+					buttonNewButtonActionPerformed(arg0);
 				}
 			});
 			buttonNewButton.setBounds(401, 193, 97, 25);
@@ -100,13 +95,6 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 	}
 
-	protected void onArtikelBearbeiten(ActionEvent arg0) {
-		JFrameArtikelBearbeiten JFrameArtikel = new JFrameArtikelBearbeiten();
-		Utils.startNewJFrame(this,JFrameArtikel );
-		
-	}
-	protected void onArtikelAnzeigen(ActionEvent e) {
-		JFrameArtikelAnzeigenButton JFrameArtikel = new JFrameArtikelAnzeigenButton();
-		Utils.startNewJFrame(this,JFrameArtikel );
+	protected void buttonNewButtonActionPerformed(ActionEvent arg0) {
 	}
 }

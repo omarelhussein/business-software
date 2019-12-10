@@ -9,7 +9,6 @@ import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
 
 import general.Colors;
-import general.Fonts;
 import general.Utils;
 
 import java.awt.Color;
@@ -84,7 +83,7 @@ public class JFrameStart extends JFrame {
 				btnStartGeschaeft.setBackground(new Color(255, 228, 225));
 				btnStartGeschaeft.setFocusable(false);
 				btnStartGeschaeft.setRolloverEnabled(false);
-				Fonts.setCenturySchoolbookFont(btnStartGeschaeft, 18);
+				btnStartGeschaeft.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
 				btnStartGeschaeft.setBounds(198, 82, 368, 47);
 				panel.add(btnStartGeschaeft);
 			}
@@ -99,7 +98,7 @@ public class JFrameStart extends JFrame {
 				btnWeiterAlsGast.setBackground(new Color(255, 228, 225));
 				btnWeiterAlsGast.setFocusable(false);
 				btnWeiterAlsGast.setRolloverEnabled(false);
-				Fonts.setCenturySchoolbookFont(btnWeiterAlsGast, 18);
+				btnWeiterAlsGast.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
 				btnWeiterAlsGast.setBounds(198, 164, 368, 47);
 				panel.add(btnWeiterAlsGast);
 			}
@@ -107,7 +106,7 @@ public class JFrameStart extends JFrame {
 				buttonI = new JButton("i");
 				buttonI.setFocusable(false);
 				buttonI.setBackground(Color.GRAY);
-				Fonts.setCenturySchoolbookFont(buttonI, 18);
+				buttonI.setFont(new Font("Century Schoolbook", Font.PLAIN, 24));
 				buttonI.setForeground(Color.RED);
 				buttonI.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 				buttonI.setBounds(578, 82, 52, 47);
@@ -121,7 +120,7 @@ public class JFrameStart extends JFrame {
 					}
 				});
 				btnAnmelden.setRolloverEnabled(false);
-				Fonts.setCenturySchoolbookFont(btnAnmelden, 18);
+				btnAnmelden.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
 				btnAnmelden.setFocusable(false);
 				btnAnmelden.setBorder(new LineBorder(new Color(0, 0, 0)));
 				btnAnmelden.setBackground(new Color(255, 228, 225));

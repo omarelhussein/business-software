@@ -1,6 +1,5 @@
 package start;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,6 +7,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
+
+import general.Colors;
+import general.Utils;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -59,8 +62,8 @@ public class JFrameStart extends JFrame {
 		setTitle("Business Software");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);
-		setLocationRelativeTo(null); //position in center
+		//position in center
+		Utils.setOriginalBackgroundSize(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -111,6 +114,11 @@ public class JFrameStart extends JFrame {
 			}
 			{
 				btnAnmelden = new JButton("Anmelden");
+				btnAnmelden.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						onAnmeldenClicked(arg0);
+					}
+				});
 				btnAnmelden.setRolloverEnabled(false);
 				btnAnmelden.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
 				btnAnmelden.setFocusable(false);
@@ -144,5 +152,10 @@ public class JFrameStart extends JFrame {
 	 */
 	private void showPane(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
+	}
+	
+	protected void onAnmeldenClicked(ActionEvent arg0) {
+		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
+		Utils.startNewJFrame(this, jFrameAnmelden);
 	}
 }

@@ -53,7 +53,7 @@ public class JFrameAnmelden extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Utils.setOriginalBackgroundSize(this);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.decode(Colors.LIGHT_YELLOW));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

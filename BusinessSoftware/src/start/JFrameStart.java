@@ -63,7 +63,7 @@ public class JFrameStart extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//position in center
-		Utils.setOriginalBackgroundSize(this);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -1,6 +1,5 @@
-package start;
+package abteilungen;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,7 +10,6 @@ import general.Utils;
 
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;

@@ -8,11 +8,14 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import general.Utils;
+import start.JFrameAnmelden;
 
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameGeschaeftVerwalten extends JFrame {
 
@@ -26,6 +29,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	private JLabel labelAllgemeineDatenVerwalten;
 	private JTextField textField_3;
 	private JButton buttonNewButton;
+	private JButton buttonZurck;
 
 	/**
 	 * Launch the application.
@@ -110,5 +114,20 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			buttonNewButton.setBounds(588, 65, 199, 41);
 			contentPane.add(buttonNewButton);
 		}
+		{
+			buttonZurck = new JButton("Zur\u00FCck");
+			buttonZurck.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onBack(e);
+				}
+			});
+			buttonZurck.setBounds(79, 384, 97, 25);
+			contentPane.add(buttonZurck);
+		}
 	}
+	protected void onBack(ActionEvent e) {
+	JFrameAnmelden JFrameBack = new JFrameAnmelden();
+	Utils.reviewOldJFrame(this, JFrameBack);
+	}
+	
 }

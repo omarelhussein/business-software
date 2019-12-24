@@ -28,6 +28,7 @@ public class JFrameAnmelden extends JFrame {
 	private JLabel labelPasswort;
 	private JTextField textField_1;
 	private JButton buttonOk;
+	private JButton buttonZurck;
 
 	/**
 	 * Launch the application.
@@ -38,6 +39,7 @@ public class JFrameAnmelden extends JFrame {
 				try {
 					JFrameAnmelden frame = new JFrameAnmelden();
 					frame.setVisible(true);
+					frame.setResizable(false);// das Fenszter wird nicht gross
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -107,11 +109,25 @@ public class JFrameAnmelden extends JFrame {
 			buttonOk.setBounds(611, 327, 97, 25);
 			contentPane.add(buttonOk);
 		}
+		{
+			buttonZurck = new JButton("zur\u00FCck");
+			buttonZurck.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onBack(arg0);
+				}
+			});
+			buttonZurck.setBounds(53, 339, 97, 25);
+			contentPane.add(buttonZurck);
+		}
 	}
 	protected void onOkClick(ActionEvent e) throws ClassNotFoundException {
 		JFrameGeschaeftVerwalten JFrameOK = new JFrameGeschaeftVerwalten() ;
 		Utils.startNewJFrame(this,JFrameOK );
 		Daomelden daomelden=new Daomelden();
 		daomelden.insert();
+	}
+	protected void onBack(ActionEvent arg0) {
+		JFrameStart JFrameBack = new JFrameStart();
+		Utils.reviewOldJFrame(this, JFrameBack);
 	}
 }

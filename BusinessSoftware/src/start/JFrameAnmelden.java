@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import general.Colors;
 import general.Utils;
+import main.JFrameGeschaeftVerwalten;
 
 import javax.swing.JLabel;
 import java.awt.Font;

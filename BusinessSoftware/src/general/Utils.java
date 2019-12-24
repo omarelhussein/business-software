@@ -28,6 +28,5 @@ public class Utils {
 	public static void reviewOldJFrame(JFrame neueJFrame, JFrame alteJFrame) {
 		neueJFrame.setVisible(false);
 		alteJFrame.setVisible(true);
-		
 	}
 }

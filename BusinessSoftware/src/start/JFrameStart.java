@@ -79,6 +79,16 @@ public class JFrameStart extends JFrame {
 			panel.setLayout(null);
 			{
 				btnStartGeschaeft = new JButton("Starte dein Gesch\u00E4ft");
+				btnStartGeschaeft.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							do_btnStartGeschaeft_actionPerformed(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
 				btnStartGeschaeft.setBorder(new LineBorder(new Color(0, 0, 0)));
 				btnStartGeschaeft.setBackground(new Color(255, 228, 225));
 				btnStartGeschaeft.setFocusable(false);
@@ -157,5 +167,10 @@ public class JFrameStart extends JFrame {
 	protected void onAnmeldenClicked(ActionEvent arg0) {
 		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
 		Utils.startNewJFrame(this, jFrameAnmelden);
+	}
+	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+		Regstieren regstieren=new Regstieren();
+		regstieren.setVisible(true);
+		this.setVisible(false);
 	}
 }

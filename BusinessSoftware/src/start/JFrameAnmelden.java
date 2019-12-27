@@ -112,6 +112,6 @@ public class JFrameAnmelden extends JFrame {
 		JFrameGeschaeftVerwalten JFrameOK = new JFrameGeschaeftVerwalten() ;
 		Utils.startNewJFrame(this,JFrameOK );
 		Daomelden daomelden=new Daomelden();
-		daomelden.insert();
+		//daomelden.insert();
 	}
 }

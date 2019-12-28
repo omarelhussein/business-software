@@ -10,6 +10,7 @@ import javax.swing.border.LineBorder;
 
 import general.Colors;
 import general.Utils;
+import registrierung.JFrameRegistrieren;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * Created on 25.11.2019
+ * 
  * @author ajab, omar
  *
  */
@@ -58,11 +60,12 @@ public class JFrameStart extends JFrame {
 	public JFrameStart() {
 		initGUI();
 	}
+
 	private void initGUI() {
 		setTitle("Business Software");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//position in center
+		// position in center
 		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
@@ -146,7 +149,7 @@ public class JFrameStart extends JFrame {
 			contentPane.add(labelGeschftErstellen);
 		}
 	}
-	
+
 	/**
 	 * @author omar
 	 * @param arg0 action event
@@ -162,13 +165,25 @@ public class JFrameStart extends JFrame {
 	private void showPane(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
 	}
-	
+
+<<<<<<< Updated upstream
+=======
+	/**
+	 * @author ajab
+	 * @param arg0
+	 */
+>>>>>>> Stashed changes
 	protected void onAnmeldenClicked(ActionEvent arg0) {
 		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
 		Utils.startNewJFrame(this, jFrameAnmelden);
 	}
+
 	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
-		Regstieren regstieren=new Regstieren();
+<<<<<<< Updated upstream
+		JFrameRegistrieren regstieren = new JFrameRegistrieren();
+=======
+		Regstieren regstieren = new Regstieren();
+>>>>>>> Stashed changes
 		regstieren.setVisible(true);
 		this.setVisible(false);
 	}

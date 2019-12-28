@@ -46,6 +46,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	public JFrameAbteilunghinzufuegen() {
 		initGUI();
 	}
+
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Utils.setMainFrameOptions(this);
@@ -74,7 +75,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		{
 			comboBox = new JComboBox();
 			comboBox.setFont(new Font("Century Schoolbook", Font.PLAIN, 20));
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Lebensmittel", "Elektronik"}));
+			comboBox.setModel(new DefaultComboBoxModel(new String[] { "Lebensmittel", "Elektronik" }));
 			comboBox.setBounds(218, 154, 251, 50);
 			contentPane.add(comboBox);
 		}

@@ -214,20 +214,30 @@ public class Regstieren extends JFrame {
 		}
 		
 	}
-	//aref
+	/**
+	 * 
+	 * @param textBenutzung
+	 * @return
+	 * @author Aref 
+	 */
 	private boolean textFullen(JTextField field) {
 		boolean textnichtleher;
 		if(field.getText().equals("")) {
 			textnichtleher=false;
 			field.setBorder(new LineBorder(new Color(237,19,11)));         
-			
 		}else {
 			textnichtleher=true;
+			field.setBorder(new LineBorder(new Color(0,0,0)));
 		}
 		return textnichtleher;
 		
 	}
-	//aref
+	/**
+	 * 
+	 * @param textBenutzung
+	 * @return
+	 * @author Aref
+	 */
 	private boolean texteprüfen(boolean [] textBenutzung) {
 		
 		for (boolean b : textBenutzung) {

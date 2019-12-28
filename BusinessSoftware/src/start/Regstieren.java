@@ -189,6 +189,7 @@ public class Regstieren extends JFrame {
 	}
 	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
 		boolean genutzt=true;
+		textnutz=true;
 		boolean [] textBenutzung=new boolean[6];
 		textBenutzung[0]=textFullen(namedergeschaeft);
 		textBenutzung[1]=textFullen(textField_pass);
@@ -228,11 +229,10 @@ public class Regstieren extends JFrame {
 	private boolean texteprüfen(boolean [] textBenutzung) {
 		
 		for (boolean b : textBenutzung) {
-			System.out.println(b);
 			if (b==false) {
 				textnutz=b;	
 			}else {
-				textnutz=true;
+				
 			}
 			
 		}

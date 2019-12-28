@@ -214,6 +214,7 @@ public class Regstieren extends JFrame {
 		}
 		
 	}
+	//aref
 	private boolean textFullen(JTextField field) {
 		boolean textnichtleher;
 		if(field.getText().equals("")) {
@@ -226,6 +227,7 @@ public class Regstieren extends JFrame {
 		return textnichtleher;
 		
 	}
+	//aref
 	private boolean texteprüfen(boolean [] textBenutzung) {
 		
 		for (boolean b : textBenutzung) {

@@ -166,24 +166,13 @@ public class JFrameStart extends JFrame {
 		JOptionPane.showMessageDialog(this, msg);
 	}
 
-<<<<<<< Updated upstream
-=======
-	/**
-	 * @author ajab
-	 * @param arg0
-	 */
->>>>>>> Stashed changes
 	protected void onAnmeldenClicked(ActionEvent arg0) {
 		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
 		Utils.startNewJFrame(this, jFrameAnmelden);
 	}
 
 	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
-<<<<<<< Updated upstream
 		JFrameRegistrieren regstieren = new JFrameRegistrieren();
-=======
-		Regstieren regstieren = new Regstieren();
->>>>>>> Stashed changes
 		regstieren.setVisible(true);
 		this.setVisible(false);
 	}

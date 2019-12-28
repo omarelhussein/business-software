@@ -10,13 +10,8 @@ import general.SQLiteConnection;
 import main.Anschrift;
 
 public class Daomelden {
-<<<<<<< Updated upstream
-	private final String SQLITE_TABLE = "Geaschgeaft.db";
-=======
 	
-	String s = "org.sqlite.JDBC";
-	private final String CONNECTIONSTRING = "jdbc:sqlite:Geaschgeaft.db";
->>>>>>> Stashed changes
+	private final String SQLITE_TABLE = "Geaschgeaft.db";
 
 	public Daomelden() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();

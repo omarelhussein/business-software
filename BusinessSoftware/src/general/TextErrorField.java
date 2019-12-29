@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 public class TextErrorField extends JTextField {
 	
 	private JLabel mLabel;
-	private TextErrorField mField;
 	private JComponent mParent;
 	
 	/**
@@ -28,24 +27,8 @@ public class TextErrorField extends JTextField {
 	 */
 	public TextErrorField(JComponent parent) {
 		mLabel = new JLabel();
-		mField = new TextErrorField();
 		mParent = parent;
 		parent.add(mLabel);
-	}
-	
-	/**
-	 * @author omare
-	 * private empty constructor for a new object
-	 */
-	private TextErrorField() {
-		
-	}
-	
-	private TextErrorField getInstance() {
-		if(mField != null) {
-			return mField;
-		}
-		return new TextErrorField();
 	}
 
 	public void setErrorMessage(String msg) {

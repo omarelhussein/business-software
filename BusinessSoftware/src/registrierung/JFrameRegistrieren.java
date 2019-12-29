@@ -33,17 +33,17 @@ import javax.swing.SwingConstants;
 public class JFrameRegistrieren extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField namedergeschaeft;
-	private JTextField textField_bezeichnung;
+	private TextErrorField namedergeschaeft;
+	private TextErrorField textField_bezeichnung;
 	private JLabel lblNameDerGschaeft;
-	private JTextField textField_pass;
+	private TextErrorField textField_pass;
 	private JLabel lblNewLabel;
 	private JLabel lblPass;
-	private JTextField textField_stadt;
+	private TextErrorField textField_stadt;
 	private JLabel lblNewLabel_1;
-	private JTextField textField_Tel;
+	private TextErrorField textField_Tel;
 	private JLabel lblTel;
-	private JTextField textField_anschrift;
+	private TextErrorField textField_anschrift;
 	private JLabel lblNewLabel_2;
 	private JButton btnNewButton;
 	private Daomelden daomelden;
@@ -143,33 +143,34 @@ public class JFrameRegistrieren extends JFrame {
 					panel.add(errorField);
 				}
 				{
-					textField_stadt = new JTextField();
+					textField_stadt = new TextErrorField(panel);
 					textField_stadt.setBounds(250, 180, 177, 25);
 					panel.add(textField_stadt);
 					textField_stadt.setColumns(10);
 				}
 				{
-					textField_Tel = new JTextField();
+					textField_Tel = new TextErrorField(panel);
 					textField_Tel.setBounds(250, 230, 175, 25);
 					panel.add(textField_Tel);
 
 					textField_Tel.setColumns(10);
 				}
 				{
-					textField_anschrift = new JTextField();
+					textField_anschrift = new TextErrorField(panel);
 					textField_anschrift.setBackground(new Color(255, 255, 255));
 					textField_anschrift.setBounds(250, 280, 175, 25);
 					panel.add(textField_anschrift);
 					textField_anschrift.setColumns(10);
 				}
 				{
-					textField_pass = new JTextField();
+					textField_pass = new TextErrorField(panel);
 					textField_pass.setBounds(250, 130, 175, 25);
+					textField_pass.setErrorMessage("Irgendwas stimmt nicht");
 					panel.add(textField_pass);
 					textField_pass.setColumns(10);
 				}
 				{
-					textField_bezeichnung = new JTextField();
+					textField_bezeichnung = new TextErrorField(panel);
 					textField_bezeichnung.setBounds(250, 80, 175, 25);
 					panel.add(textField_bezeichnung);
 					textField_bezeichnung.setColumns(10);
@@ -238,9 +239,13 @@ public class JFrameRegistrieren extends JFrame {
 		if (field.getText().equals("")) {
 			textnichtleher = false;
 			field.setBorder(new LineBorder(Colors.parseColor("#FF0000")));
+			
 			if (field == errorField) {
 				errorField.setErrorVisibility(true);
+				
+				
 			}
+			
 
 		} else {
 			textnichtleher = true;
@@ -252,7 +257,7 @@ public class JFrameRegistrieren extends JFrame {
 	private boolean texteprüfen(boolean[] textBenutzung) {
 
 		for (boolean b : textBenutzung) {
-			System.out.println(b);
+			
 			if (b == false) {
 				textnutz = b;
 			} else {

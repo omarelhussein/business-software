@@ -1,15 +1,19 @@
 package abteilungen;
 
-import java.awt.BorderLayout;
-import javax.swing.*;
 import java.awt.EventQueue;
+import java.awt.Font;
 
+import javax.swing.AbstractListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import general.Utils;
 
-import java.awt.Font;
-
+@SuppressWarnings("serial")
 public class JFrameAbteilungVerarbeiten extends JFrame {
 
 	private JPanel contentPane;

@@ -136,7 +136,7 @@ public class JFrameAnmelden extends JFrame {
 		}
 		buttonZurck = new JButton(Unicodes.BACK_ARROW);
 		buttonZurck.setBounds(24, 484, 246, 46);
-		Utils.standardButtonOptions(buttonZurck);
+		Utils.setStandardButtonOptions(buttonZurck);
 		contentPane.add(buttonZurck);
 		buttonZurck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -145,7 +145,7 @@ public class JFrameAnmelden extends JFrame {
 		});
 		buttonOk = new JButton(Unicodes.CHECK);
 		buttonOk.setBounds(635, 484, 246, 46);
-		Utils.standardButtonOptions(buttonOk);
+		Utils.setStandardButtonOptions(buttonOk);
 		contentPane.add(buttonOk);
 		buttonOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

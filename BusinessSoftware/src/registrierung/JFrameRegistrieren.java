@@ -1,49 +1,46 @@
 package registrierung;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
+import general.Colors;
+import general.Fonts;
+import general.Unicodes;
+import general.Utils;
 import main.Anschrift;
 import start.Daomelden;
 import start.Gescheaft;
 import start.JFrameStart;
 
-import javax.swing.JTextField;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.border.LineBorder;
-
-import general.Colors;
-import general.Fonts;
-import general.TextErrorField;
-import general.Unicodes;
-import general.Utils;
-
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-
 @SuppressWarnings("serial")
 public class JFrameRegistrieren extends JFrame {
 
 	private JPanel contentPane;
-	private TextErrorField namedergeschaeft;
-	private TextErrorField textField_bezeichnung;
+	
+	private JTextField namedergeschaeft;
+	private JTextField textField_bezeichnung;
 	private JLabel lblNameDerGschaeft;
-	private TextErrorField textField_pass;
+	private JTextField textField_pass;
 	private JLabel lblNewLabel;
 	private JLabel lblPass;
-	private TextErrorField textField_stadt;
+	private JTextField textField_stadt;
 	private JLabel lblNewLabel_1;
-	private TextErrorField textField_Tel;
+	private JTextField textField_Tel;
 	private JLabel lblTel;
-	private TextErrorField textField_anschrift;
+	private JTextField textField_anschrift;
 	private JLabel lblNewLabel_2;
 	private JButton btnNewButton;
 	private Daomelden daomelden;
@@ -53,7 +50,7 @@ public class JFrameRegistrieren extends JFrame {
 	private JLabel label_register;
 	private boolean textnutz = true;
 	private JButton buttonNewButton;
-	private TextErrorField errorField;
+	private JTextField errorField;
 
 	/**
 	 * Launch the application.
@@ -136,41 +133,38 @@ public class JFrameRegistrieren extends JFrame {
 					panel.add(lblNewLabel_2);
 				}
 				{
-					errorField = new TextErrorField(panel);
+					errorField = new JTextField();
 					errorField.setBounds(250, 30, 175, 25);
-					errorField.setErrorMessage("Ihre eingabe stimmt leider nicht, versuchen Sie es bitte erneut.");
-					errorField.setErrorVisibility(false);
 					panel.add(errorField);
 				}
 				{
-					textField_stadt = new TextErrorField(panel);
+					textField_stadt = new JTextField();
 					textField_stadt.setBounds(250, 180, 177, 25);
 					panel.add(textField_stadt);
 					textField_stadt.setColumns(10);
 				}
 				{
-					textField_Tel = new TextErrorField(panel);
+					textField_Tel = new JTextField();
 					textField_Tel.setBounds(250, 230, 175, 25);
 					panel.add(textField_Tel);
 
 					textField_Tel.setColumns(10);
 				}
 				{
-					textField_anschrift = new TextErrorField(panel);
+					textField_anschrift = new JTextField();
 					textField_anschrift.setBackground(new Color(255, 255, 255));
 					textField_anschrift.setBounds(250, 280, 175, 25);
 					panel.add(textField_anschrift);
 					textField_anschrift.setColumns(10);
 				}
 				{
-					textField_pass = new TextErrorField(panel);
+					textField_pass = new JTextField();
 					textField_pass.setBounds(250, 130, 175, 25);
-					textField_pass.setErrorMessage("Irgendwas stimmt nicht");
 					panel.add(textField_pass);
 					textField_pass.setColumns(10);
 				}
 				{
-					textField_bezeichnung = new TextErrorField(panel);
+					textField_bezeichnung = new JTextField();
 					textField_bezeichnung.setBounds(250, 80, 175, 25);
 					panel.add(textField_bezeichnung);
 					textField_bezeichnung.setColumns(10);
@@ -184,7 +178,7 @@ public class JFrameRegistrieren extends JFrame {
 					contentPane.add(label_register);
 				}
 				btnNewButton = new JButton(Unicodes.CHECK);
-				Utils.standardButtonOptions(btnNewButton);
+				Utils.setStandardButtonOptions(btnNewButton);
 				btnNewButton.setBounds(696, 509, 178, 41);
 				contentPane.add(btnNewButton);
 				{
@@ -195,7 +189,7 @@ public class JFrameRegistrieren extends JFrame {
 						}
 					});
 					buttonNewButton.setBounds(10, 509, 178, 41);
-					Utils.standardButtonOptions(buttonNewButton);
+					Utils.setStandardButtonOptions(buttonNewButton);
 					contentPane.add(buttonNewButton);
 				}
 				btnNewButton.addActionListener(new ActionListener() {
@@ -239,14 +233,6 @@ public class JFrameRegistrieren extends JFrame {
 		if (field.getText().equals("")) {
 			textnichtleher = false;
 			field.setBorder(new LineBorder(Colors.parseColor("#FF0000")));
-			
-			if (field == errorField) {
-				errorField.setErrorVisibility(true);
-				
-				
-			}
-			
-
 		} else {
 			textnichtleher = true;
 		}
@@ -257,7 +243,7 @@ public class JFrameRegistrieren extends JFrame {
 	private boolean texteprüfen(boolean[] textBenutzung) {
 
 		for (boolean b : textBenutzung) {
-			
+			System.out.println(b);
 			if (b == false) {
 				textnutz = b;
 			} else {

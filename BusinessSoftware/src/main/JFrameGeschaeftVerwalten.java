@@ -1,30 +1,37 @@
 package main;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-
-import general.Colors;
-import general.Fonts;
-import general.Unicodes;
-import general.Utils;
-import start.JFrameAnmelden;
-import javax.swing.SwingConstants;
-import java.awt.Color;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JMenu;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import java.awt.SystemColor;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
+import abteilungen.JFrameAbteilungVerarbeiten;
+import abteilungen.JFrameAbteilunghinzufuegen;
+import general.Colors;
+import general.Fonts;
+import general.Utils;
+import start.JFrameStart;
+
+/**
+ * 
+ * @author ajab
+ *
+ */
+@SuppressWarnings("serial")
 public class JFrameGeschaeftVerwalten extends JFrame {
 
 	private JPanel contentPane;
@@ -36,10 +43,10 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	private JMenu menuSettings;
 	private JMenuItem menuItemLogout;
 	private JLabel labelNewLabel;
-	private JSeparator separator;
-	private JSeparator separator_1;
+	private JSeparator separator_horizontal;
+	private JSeparator separator_vertical_left;
 	private JButton buttonArtikelAnzeigen;
-	private JSeparator separator_2;
+	private JSeparator separator_vertical_right;
 	private JButton buttonAbteilungAnzeigen;
 	private JButton buttonArtikelVerwalten;
 	private JButton buttonMitarbeiterVerwalten;
@@ -81,6 +88,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				menuBar.add(menuSettings);
 				{
 					menuItemLogout = new JMenuItem("Abmelden");
+					menuItemLogout.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							menuItemLogoutActionPerformed(e);
+						}
+					});
 					menuSettings.add(menuItemLogout);
 				}
 			}
@@ -106,16 +118,21 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			contentPane.add(panel);
 			panel.setLayout(null);
 			{
-				btnAbteilungBearbeiten = new JButton("Abteilung bearbeiten");
-				Utils.standardButtonOptions(btnAbteilungBearbeiten);
+				btnAbteilungBearbeiten = new JButton("Abteilung verwalten");
+				btnAbteilungBearbeiten.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onManageAbteilungClicked(e);
+					}
+				});
+				Utils.setStandardButtonOptions(btnAbteilungBearbeiten);
 				btnAbteilungBearbeiten.setBounds(337, 262, 199, 46);
 				panel.add(btnAbteilungBearbeiten);
 				btnAbteilungBearbeiten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			}
 			{
-				btnMitarbeiterAnzeigen = new JButton("Mitarbeiter Anzeigen");
+				btnMitarbeiterAnzeigen = new JButton("Mitarbeiter anzeigen");
 				btnMitarbeiterAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				Utils.standardButtonOptions(btnMitarbeiterAnzeigen);
+				Utils.setStandardButtonOptions(btnMitarbeiterAnzeigen);
 				btnMitarbeiterAnzeigen.setBounds(43, 78, 199, 46);
 				panel.add(btnMitarbeiterAnzeigen);
 			}
@@ -128,50 +145,55 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				panel.add(labelNewLabel);
 			}
 			{
-				separator = new JSeparator();
-				separator.setBounds(0, 47, 864, 1);
-				panel.add(separator);
-				separator.setForeground(Color.CYAN);
-				separator.setBackground(Color.CYAN);
+				separator_horizontal = new JSeparator();
+				separator_horizontal.setBounds(0, 47, 864, 1);
+				panel.add(separator_horizontal);
+				separator_horizontal.setForeground(Color.BLACK);
+				separator_horizontal.setBackground(Color.CYAN);
 			}
 			{
-				separator_1 = new JSeparator();
-				separator_1.setOrientation(SwingConstants.VERTICAL);
-				separator_1.setBounds(281, 0, 1, 447);
-				panel.add(separator_1);
+				separator_vertical_left = new JSeparator();
+				separator_vertical_left.setOrientation(SwingConstants.VERTICAL);
+				separator_vertical_left.setBounds(281, 0, 1, 447);
+				panel.add(separator_vertical_left);
 			}
 			{
-				separator_2 = new JSeparator();
-				separator_2.setOrientation(SwingConstants.VERTICAL);
-				separator_2.setBounds(600, 0, 1, 447);
-				panel.add(separator_2);
+				separator_vertical_right = new JSeparator();
+				separator_vertical_right.setOrientation(SwingConstants.VERTICAL);
+				separator_vertical_right.setBounds(600, 0, 1, 447);
+				panel.add(separator_vertical_right);
 			}
 			{
-				buttonArtikelAnzeigen = new JButton("Artikel Anzeigen");
+				buttonArtikelAnzeigen = new JButton("Artikel anzeigen");
 				buttonArtikelAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonArtikelAnzeigen.setBounds(43, 169, 199, 46);
-				Utils.standardButtonOptions(buttonArtikelAnzeigen);
+				Utils.setStandardButtonOptions(buttonArtikelAnzeigen);
 				panel.add(buttonArtikelAnzeigen);
 			}
 			{
-				buttonAbteilungAnzeigen = new JButton("Abteilung Anzeigen");
+				buttonAbteilungAnzeigen = new JButton("Abteilung anzeigen");
 				buttonAbteilungAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonAbteilungAnzeigen.setBounds(43, 262, 199, 46);
-				Utils.standardButtonOptions(buttonAbteilungAnzeigen);
+				Utils.setStandardButtonOptions(buttonAbteilungAnzeigen);
 				panel.add(buttonAbteilungAnzeigen);
 			}
 			{
-				buttonArtikelVerwalten = new JButton("Artikel Verwalten");
+				buttonArtikelVerwalten = new JButton("Artikel verwalten");
 				buttonArtikelVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonArtikelVerwalten.setBounds(337, 169, 199, 46);
-				Utils.standardButtonOptions(buttonArtikelVerwalten);
+				Utils.setStandardButtonOptions(buttonArtikelVerwalten);
 				panel.add(buttonArtikelVerwalten);
 			}
 			{
-				buttonMitarbeiterVerwalten = new JButton("Mitarbeiter Verwalten");
+				buttonMitarbeiterVerwalten = new JButton("Mitarbeiter verwalten");
+				buttonMitarbeiterVerwalten.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						onManageMitarbeiterClicked(arg0);
+					}
+				});
 				buttonMitarbeiterVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonMitarbeiterVerwalten.setBounds(337, 78, 199, 46);
-				Utils.standardButtonOptions(buttonMitarbeiterVerwalten);
+				Utils.setStandardButtonOptions(buttonMitarbeiterVerwalten);
 				panel.add(buttonMitarbeiterVerwalten);
 			}
 			{
@@ -183,7 +205,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				panel.add(labelAnzeigenVerwalten);
 			}
 			{
-				labelGeschftBereich = new JLabel("Gesch\u00E4ft Verwalten");
+				labelGeschftBereich = new JLabel("Gesch\u00E4ftsdaten");
 				labelGeschftBereich.setHorizontalAlignment(SwingConstants.CENTER);
 				labelGeschftBereich.setForeground(SystemColor.textHighlight);
 				labelGeschftBereich.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -191,12 +213,56 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				panel.add(labelGeschftBereich);
 			}
 			{
-				buttonAllgemeineDatenAnzeigen = new JButton("<html>Allgemeine Daten<br/><center>Anzeigen</center></html>");
+				buttonAllgemeineDatenAnzeigen = new JButton(
+						"<html>Allgemeine Daten<br/><center>anzeigen</center></html>");
 				buttonAllgemeineDatenAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonAllgemeineDatenAnzeigen.setBounds(634, 78, 199, 72);
-				Utils.standardButtonOptions(buttonAllgemeineDatenAnzeigen);
+				Utils.setStandardButtonOptions(buttonAllgemeineDatenAnzeigen);
 				panel.add(buttonAllgemeineDatenAnzeigen);
 			}
+		}
+	}
+
+	/**
+	 * Created by Omar
+	 * 
+	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
+	 */
+	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
+
+	}
+
+	/**
+	 * Created On 04.01.2020 Created By Omar
+	 * 
+	 * @param e
+	 */
+	protected void onManageAbteilungClicked(ActionEvent e) {
+		String[] buttons = { "Abteilung hinzufügen", "Abteilungen verwalten" };
+		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.",
+				"Mehrfach Optionen zu Abteilungen verwalten", JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.DEFAULT_OPTION, null, buttons, buttons[0]);
+		switch (answer) {
+		case 0:
+			JFrameAbteilunghinzufuegen addAbteilungPage = new JFrameAbteilunghinzufuegen();
+			addAbteilungPage.setVisible(true);
+			addAbteilungPage.setAlwaysOnTop(true);
+			break;
+		case 1:
+			JFrameAbteilungVerarbeiten manageAbteilungPage = new JFrameAbteilungVerarbeiten();
+			manageAbteilungPage.setVisible(true);
+			manageAbteilungPage.setAlwaysOnTop(true);
+			break;
+		}
+	}
+
+	protected void menuItemLogoutActionPerformed(ActionEvent e) {
+		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?");
+		switch (answer) {
+			case 0:
+				JFrameStart start = new JFrameStart();
+				Utils.reviewOldJFrame(this, start);
+				break;
 		}
 	}
 }

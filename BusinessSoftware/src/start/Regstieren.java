@@ -47,6 +47,7 @@ public class Regstieren extends JFrame {
 	private JPanel panel;
 	private JLabel lblNewLabel_3;
 	private boolean textnutz=true;
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -135,7 +136,7 @@ public class Regstieren extends JFrame {
 				}
 				{
 					namedergeschaeft = new JTextField();
-					namedergeschaeft.setBounds(252, 11, 175, 25);
+					namedergeschaeft.setBounds(252, 12, 175, 25);
 					panel.add(namedergeschaeft);
 					namedergeschaeft.setColumns(10);
 				}
@@ -160,6 +161,7 @@ public class Regstieren extends JFrame {
 					textField_anschrift.setColumns(10);
 				}
 				{
+				
 					textField_pass = new JTextField();
 					textField_pass.setBounds(252, 105, 175, 25);
 					panel.add(textField_pass);
@@ -172,6 +174,15 @@ public class Regstieren extends JFrame {
 					textField_bezeichnung.setColumns(10);
 				}
 				{
+					label = new JLabel("");
+					label.setBounds(123, 323, 46, 14);
+					panel.add(label);
+				}
+				{
+					{
+					//	Utils.JLabl(textField_bezeichnung, panel,Utils.textFullen(textField_bezeichnung, panel));
+						
+					}
 					lblNewLabel_3 = new JLabel("Registration");
 					lblNewLabel_3.setForeground(SystemColor.textHighlight);
 					lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -191,12 +202,12 @@ public class Regstieren extends JFrame {
 		boolean genutzt=true;
 		textnutz=true;
 		boolean [] textBenutzung=new boolean[6];
-		textBenutzung[0]=textFullen(namedergeschaeft);
-		textBenutzung[1]=textFullen(textField_pass);
-		textBenutzung[2]=textFullen(textField_bezeichnung);
-		textBenutzung[3]=textFullen(textField_stadt);
-		textBenutzung[4]=textFullen(textField_Tel);
-		textBenutzung[5]=textFullen(textField_anschrift);
+		textBenutzung[0]=Utils.textFullen(namedergeschaeft,panel);
+		textBenutzung[1]=Utils.textFullen(textField_pass,panel);
+		textBenutzung[2]=Utils.textFullen(textField_bezeichnung,panel);
+		textBenutzung[3]=Utils.textFullen(textField_stadt,panel);
+		textBenutzung[4]=Utils.textFullen(textField_Tel,panel);
+		textBenutzung[5]=Utils.textFullen(textField_anschrift,panel);
 		genutzt=texteprüfen(textBenutzung);
 		
 		if(genutzt==false) {
@@ -220,6 +231,7 @@ public class Regstieren extends JFrame {
 	 * @return
 	 * @author Aref 
 	 */
+	/*
 	private boolean textFullen(JTextField field) {
 		boolean textnichtleher;
 		if(field.getText().equals("")) {

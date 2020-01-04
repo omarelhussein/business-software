@@ -3,7 +3,7 @@ package abteilungen;
 public class Abteilung {
 	
 	private int id;
-	private int nameAbteilung;
+	private String nameAbteilung;
 
 	public void setId(int id) {
 		this.id = id;
@@ -13,11 +13,11 @@ public class Abteilung {
 		return id;
 	}
 
-	public void setNameAbteilung(int nameAbteilung) {
+	public void setNameAbteilung(String nameAbteilung) {
 		this.nameAbteilung = nameAbteilung;
 	}
 
-	public int getNameAbteilung() {
+	public String getNameAbteilung() {
 		return nameAbteilung;
 	}
 

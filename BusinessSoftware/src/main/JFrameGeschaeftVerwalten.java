@@ -19,9 +19,12 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import abteilungen.JFrameAbteilungVerarbeiten;
+import abteilungen.JFrameAbteilunghinzufuegen;
 import general.Colors;
 import general.Fonts;
 import general.Utils;
+import start.JFrameStart;
 
 /**
  * 
@@ -85,6 +88,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				menuBar.add(menuSettings);
 				{
 					menuItemLogout = new JMenuItem("Abmelden");
+					menuItemLogout.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							menuItemLogoutActionPerformed(e);
+						}
+					});
 					menuSettings.add(menuItemLogout);
 				}
 			}
@@ -111,6 +119,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			panel.setLayout(null);
 			{
 				btnAbteilungBearbeiten = new JButton("Abteilung verwalten");
+				btnAbteilungBearbeiten.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onManageAbteilungClicked(e);
+					}
+				});
 				Utils.setStandardButtonOptions(btnAbteilungBearbeiten);
 				btnAbteilungBearbeiten.setBounds(337, 262, 199, 46);
 				panel.add(btnAbteilungBearbeiten);
@@ -216,14 +229,40 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
 	 */
 	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
-		String[] buttons = { "Left Button", "Right Button" };
-		int answer = JOptionPane.showOptionDialog(this, "Which button do you want to choose?", "Choose a button",
-				JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, buttons, buttons[0]);
-		if (answer == 0) {
-			System.out.println("Left Button Clicked");
-		} else {
-			System.out.println("Right Button Clicked");
+
+	}
+
+	/**
+	 * Created On 04.01.2020 Created By Omar
+	 * 
+	 * @param e
+	 */
+	protected void onManageAbteilungClicked(ActionEvent e) {
+		String[] buttons = { "Abteilung hinzufügen", "Abteilungen verwalten" };
+		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.",
+				"Mehrfach Optionen zu Abteilungen verwalten", JOptionPane.INFORMATION_MESSAGE,
+				JOptionPane.DEFAULT_OPTION, null, buttons, buttons[0]);
+		switch (answer) {
+		case 0:
+			JFrameAbteilunghinzufuegen addAbteilungPage = new JFrameAbteilunghinzufuegen();
+			addAbteilungPage.setVisible(true);
+			addAbteilungPage.setAlwaysOnTop(true);
+			break;
+		case 1:
+			JFrameAbteilungVerarbeiten manageAbteilungPage = new JFrameAbteilungVerarbeiten();
+			manageAbteilungPage.setVisible(true);
+			manageAbteilungPage.setAlwaysOnTop(true);
+			break;
 		}
 	}
 
+	protected void menuItemLogoutActionPerformed(ActionEvent e) {
+		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?");
+		switch (answer) {
+			case 0:
+				JFrameStart start = new JFrameStart();
+				Utils.reviewOldJFrame(this, start);
+				break;
+		}
+	}
 }

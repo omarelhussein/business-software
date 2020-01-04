@@ -47,8 +47,8 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	}
 
 	private void initGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Utils.setMainFrameOptions(this);
+		this.setBounds(0, 0, 400, 400);
+		Utils.setDefaultFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -70,27 +70,27 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 				return values[index];
 			}
 		});
-		list.setBounds(86, 110, 190, 95);
+		list.setBounds(10, 80, 163, 206);
 		contentPane.add(list);
 
 		buttonNewButton = new JButton("Artikel");
 		buttonNewButton.setFont(new Font("Century Schoolbook", Font.PLAIN, 20));
-		buttonNewButton.setBounds(398, 101, 190, 44);
+		buttonNewButton.setBounds(183, 80, 190, 44);
 		contentPane.add(buttonNewButton);
 
 		buttonNewButton_1 = new JButton("Mitarbeiter");
 		buttonNewButton_1.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
-		buttonNewButton_1.setBounds(398, 171, 190, 44);
+		buttonNewButton_1.setBounds(183, 134, 190, 44);
 		contentPane.add(buttonNewButton_1);
 
 		buttonNewButton_2 = new JButton("Fertig");
 		buttonNewButton_2.setFont(new Font("Century Schoolbook", Font.PLAIN, 18));
-		buttonNewButton_2.setBounds(656, 338, 97, 25);
+		buttonNewButton_2.setBounds(276, 261, 97, 25);
 		contentPane.add(buttonNewButton_2);
 
 		labelAbteilungBearbeitung = new JLabel("Abteilung Bearbeitung");
 		labelAbteilungBearbeitung.setFont(new Font("Century Schoolbook", Font.PLAIN, 22));
-		labelAbteilungBearbeitung.setBounds(272, 36, 271, 31);
+		labelAbteilungBearbeitung.setBounds(10, 39, 271, 31);
 		contentPane.add(labelAbteilungBearbeitung);
 	}
 

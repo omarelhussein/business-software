@@ -76,7 +76,6 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	}
 
 	private void initGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		setTitle("Abteilung hinzufügen");
 		this.setBounds(0, 0, 400, 400);
@@ -109,7 +108,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			comboBox = new JComboBox();
 			comboBox.setFocusable(false);
 			comboBox.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
-			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
+			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			comboBox.setModel(new DefaultComboBoxModel(new String[] { "Lebensmittel", "Elektronik" }));
 			comboBox.setBounds(20, 92, 257, 27);
 			contentPane.add(comboBox);

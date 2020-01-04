@@ -6,23 +6,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import general.SQLiteConnection;
 import main.Anschrift;
-import main.GeascheaftDao;
 
 public class Daomelden {
-	String s = "org.sqlite.JDBC";
-	private final String CONNECTIONSTRING = "jdbc:sqlite:Geaschgeaft.db";
+	
+	private final String SQLITE_TABLE = "Geaschgeaft.db";
 
 	public Daomelden() throws ClassNotFoundException {
-		// TODO Auto-generated constructor stub
-		Class.forName(s);
+		SQLiteConnection.getSQLiteConnectionInstance();
 	}
 
-	public void insert(Anschrift anschrift, Gescheaft gescheaft) {
+	public void insert(Object... objects) {
+		//* from here 
+		Gescheaft gescheaft = null;
+		Anschrift anschrift = null;
+		{
+			for (Object object : objects) {
+				if (object instanceof Gescheaft) {
+					gescheaft = (Gescheaft) object;
+				}
+				if (object instanceof Anschrift) {
+					anschrift = (Anschrift) object;
+				}
+			}
+		}//* until here, created by Omar
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DriverManager.getConnection(CONNECTIONSTRING);
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
 			String sa = "INSERT into Anschrift VALUES (?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sa);
 			System.out.println("dsadsadsa");
@@ -57,7 +69,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(CONNECTIONSTRING);
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
 			String an = "select Max (id) As gesamt from Geascheaft  ";
 			statmment = conn.prepareStatement(an);
 			statmment.execute();
@@ -82,7 +94,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(CONNECTIONSTRING);
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
 			String an = "select Max (id) As gesamt from Anschrift  ";
 			statmment = conn.prepareStatement(an);
 			statmment.execute();
@@ -101,4 +113,5 @@ public class Daomelden {
 		}
 		return d;
 	}
+	
 }

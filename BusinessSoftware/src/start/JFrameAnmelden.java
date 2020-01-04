@@ -25,7 +25,6 @@ import javax.swing.JPasswordField;
 @SuppressWarnings("serial")
 public class JFrameAnmelden extends JFrame {
 
-	
 	private JPanel contentPane;
 	private JLabel labelMeldenSieBitte;
 	private JLabel labelBenutzerName;
@@ -62,6 +61,7 @@ public class JFrameAnmelden extends JFrame {
 	public JFrameAnmelden() {
 		initGUI();
 	}
+
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Utils.setMainFrameOptions(this);
@@ -158,14 +158,14 @@ public class JFrameAnmelden extends JFrame {
 			}
 		});
 	}
-	
+
 	protected void onOkClick(ActionEvent e) throws ClassNotFoundException {
-		JFrameGeschaeftVerwalten JFrameOK = new JFrameGeschaeftVerwalten() ;
-		Utils.startNewJFrame(this,JFrameOK );
-		Daomelden daomelden=new Daomelden();
-		//daomelden.insert();
+		JFrameGeschaeftVerwalten JFrameOK = new JFrameGeschaeftVerwalten();
+		Utils.startNewJFrame(this, JFrameOK);
+		Daomelden daomelden = new Daomelden();
+		// daomelden.insert();
 	}
-	
+
 	protected void onBack(ActionEvent arg0) {
 		JFrameStart JFrameBack = new JFrameStart();
 		Utils.reviewOldJFrame(this, JFrameBack);

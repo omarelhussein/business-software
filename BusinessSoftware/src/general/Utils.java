@@ -59,9 +59,9 @@ public class Utils {
 	 * @param neueJFrame sets the current frame to close
 	 * @param alteJFrame sets the previous frame to reopen
 	 */
-	public static void reviewOldJFrame(JFrame neueJFrame, JFrame alteJFrame) {
-		neueJFrame.setVisible(false);
-		alteJFrame.setVisible(true);
+	public static void reviewOldJFrame(JFrame currentFrame, JFrame previousFrame) {
+		currentFrame.setVisible(false);
+		previousFrame.setVisible(true);
 	}
 	
 	/**

@@ -16,6 +16,8 @@ public class Colors {
 	public static final String SEXY_BLUE = "#0078D7";
 	//default button background color
 	public static final String LIGHT_PINK = "#FFFAFA";
+	//default inner panel color
+	public static final String LIGHT_ORANGE = "#FFFAF0";
 	
 	/**
 	 * 

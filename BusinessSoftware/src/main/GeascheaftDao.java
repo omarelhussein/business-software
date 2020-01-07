@@ -1,7 +1,6 @@
-package start;
+package main;
 
 public class GeascheaftDao {
-	
 	
 
 }

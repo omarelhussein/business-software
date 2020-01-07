@@ -1,4 +1,4 @@
-package start;
+package artikel;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -10,10 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class JFrameDatenAnzeigenBearbeiten extends JFrame {
+public class JFrameArtikelBearbeiten extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel labelDatenbearbeiten;
+	private JLabel labelArtikelBearbeiten;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -26,7 +26,7 @@ public class JFrameDatenAnzeigenBearbeiten extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					JFrameDatenAnzeigenBearbeiten frame = new JFrameDatenAnzeigenBearbeiten();
+					JFrameArtikelBearbeiten frame = new JFrameArtikelBearbeiten();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,7 +38,7 @@ public class JFrameDatenAnzeigenBearbeiten extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public JFrameDatenAnzeigenBearbeiten() {
+	public JFrameArtikelBearbeiten() {
 		initGUI();
 	}
 	private void initGUI() {
@@ -49,31 +49,31 @@ public class JFrameDatenAnzeigenBearbeiten extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
-			labelDatenbearbeiten = new JLabel("Datenbearbeiten");
-			labelDatenbearbeiten.setBounds(157, 28, 131, 28);
-			contentPane.add(labelDatenbearbeiten);
+			labelArtikelBearbeiten = new JLabel("Artikel Bearbeiten");
+			labelArtikelBearbeiten.setBounds(116, 25, 110, 22);
+			contentPane.add(labelArtikelBearbeiten);
 		}
 		{
 			textField = new JTextField();
-			textField.setBounds(157, 80, 116, 22);
+			textField.setBounds(116, 56, 116, 22);
 			contentPane.add(textField);
 			textField.setColumns(10);
 		}
 		{
 			textField_1 = new JTextField();
-			textField_1.setBounds(157, 115, 116, 22);
+			textField_1.setBounds(116, 94, 116, 22);
 			contentPane.add(textField_1);
 			textField_1.setColumns(10);
 		}
 		{
 			textField_2 = new JTextField();
-			textField_2.setBounds(157, 150, 116, 22);
+			textField_2.setBounds(116, 129, 116, 22);
 			contentPane.add(textField_2);
 			textField_2.setColumns(10);
 		}
 		{
 			buttonSpeichern = new JButton("Speichern");
-			buttonSpeichern.setBounds(157, 215, 97, 25);
+			buttonSpeichern.setBounds(116, 183, 97, 25);
 			contentPane.add(buttonSpeichern);
 		}
 	}

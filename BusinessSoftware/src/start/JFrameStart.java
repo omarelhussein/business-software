@@ -10,6 +10,7 @@ import javax.swing.border.LineBorder;
 
 import general.Colors;
 import general.Utils;
+import registrierung.JFrameRegistrieren;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -23,6 +24,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * Created on 25.11.2019
+ * 
  * @author ajab, omar
  *
  */
@@ -58,27 +60,37 @@ public class JFrameStart extends JFrame {
 	public JFrameStart() {
 		initGUI();
 	}
+
 	private void initGUI() {
 		setTitle("Business Software");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//position in center
-		Utils.setOriginalBackgroundSize(this);
+		// position in center
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.control);
+		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
 			panel = new JPanel();
-			panel.setForeground(Color.decode(Colors.LIGHT_YELLOW));
-			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel.setBackground(new Color(255, 250, 250));
-			panel.setBounds(48, 109, 800, 400);
+			Utils.setMainInternalFrameOptions(panel);
+			panel.setBounds(50, 110, 800, 400);
+			panel.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(panel);
 			panel.setLayout(null);
 			{
 				btnStartGeschaeft = new JButton("Starte dein Gesch\u00E4ft");
+				btnStartGeschaeft.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							do_btnStartGeschaeft_actionPerformed(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
 				btnStartGeschaeft.setBorder(new LineBorder(new Color(0, 0, 0)));
 				btnStartGeschaeft.setBackground(new Color(255, 228, 225));
 				btnStartGeschaeft.setFocusable(false);
@@ -137,7 +149,7 @@ public class JFrameStart extends JFrame {
 			contentPane.add(labelGeschftErstellen);
 		}
 	}
-	
+
 	/**
 	 * @author omar
 	 * @param arg0 action event
@@ -153,9 +165,15 @@ public class JFrameStart extends JFrame {
 	private void showPane(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
 	}
-	
+
 	protected void onAnmeldenClicked(ActionEvent arg0) {
 		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
 		Utils.startNewJFrame(this, jFrameAnmelden);
+	}
+
+	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+		JFrameRegistrieren regstieren = new JFrameRegistrieren();
+		regstieren.setVisible(true);
+		this.setVisible(false);
 	}
 }

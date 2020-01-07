@@ -1,4 +1,4 @@
-package start;
+package mitarbeiter;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

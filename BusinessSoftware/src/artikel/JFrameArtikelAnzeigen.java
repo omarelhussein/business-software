@@ -1,4 +1,4 @@
-package start;
+package artikel;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -49,7 +49,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Utils.setOriginalBackgroundSize(this);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

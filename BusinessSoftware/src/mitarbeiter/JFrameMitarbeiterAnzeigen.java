@@ -1,4 +1,4 @@
-package start;
+package mitarbeiter;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -6,10 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import general.Utils;
+import main.JFrameDatenAnzeigenBearbeiten;
+
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameMitarbeiterAnzeigen extends JFrame {
 
@@ -44,7 +50,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	}
 	private void initGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 581, 449);
+		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -70,11 +76,21 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		}
 		{
 			buttonAnzeigen = new JButton("Anzeigen");
+			buttonAnzeigen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onAnzeigen(arg0);
+				}
+			});
 			buttonAnzeigen.setBounds(397, 46, 97, 25);
 			contentPane.add(buttonAnzeigen);
 		}
 		{
 			buttonBearbeiten = new JButton("Bearbeiten");
+			buttonBearbeiten.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buttonBearbeitenActionPerformed(e);
+				}
+			});
 			buttonBearbeiten.setBounds(397, 129, 97, 25);
 			contentPane.add(buttonBearbeiten);
 		}
@@ -84,4 +100,15 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			contentPane.add(buttonFertig);
 		}
 	}
+	protected void onAnzeigen(ActionEvent arg0) {
+		JFrameMitarbeiterAnzeigenButtonGeklikt JFrame = new JFrameMitarbeiterAnzeigenButtonGeklikt();
+		Utils.startNewJFrame(this, JFrame);
+		
+		
+	}
+	protected void buttonBearbeitenActionPerformed(ActionEvent e) {
+		JFrameDatenAnzeigenBearbeiten JFrame = new JFrameDatenAnzeigenBearbeiten();
+		Utils.startNewJFrame(this, JFrame);
+	}
+	
 }

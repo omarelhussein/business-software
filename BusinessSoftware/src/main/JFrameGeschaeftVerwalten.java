@@ -19,11 +19,16 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import abteilungen.JFrameAbteilungAnzeigen;
 import abteilungen.JFrameAbteilungVerarbeiten;
 import abteilungen.JFrameAbteilunghinzufuegen;
+import artikel.JFrameArtikelAnzeigen;
+import artikel.JFrameArtikelBearbeiten;
 import general.Colors;
 import general.Fonts;
 import general.Utils;
+import mitarbeiter.JFrameMitarbeiterAnzeigen;
+import mitarbeiter.JFrameMitarbeiterHinzufuegen;
 import start.JFrameStart;
 
 /**
@@ -131,6 +136,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			}
 			{
 				btnMitarbeiterAnzeigen = new JButton("Mitarbeiter anzeigen");
+				btnMitarbeiterAnzeigen.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onMitarbeiterAnzeigenClicked(e);
+					}
+				});
 				btnMitarbeiterAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				Utils.setStandardButtonOptions(btnMitarbeiterAnzeigen);
 				btnMitarbeiterAnzeigen.setBounds(43, 78, 199, 46);
@@ -165,6 +175,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			}
 			{
 				buttonArtikelAnzeigen = new JButton("Artikel anzeigen");
+				buttonArtikelAnzeigen.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						buttonArtikelAnzeigenActionPerformed(e);
+					}
+				});
 				buttonArtikelAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonArtikelAnzeigen.setBounds(43, 169, 199, 46);
 				Utils.setStandardButtonOptions(buttonArtikelAnzeigen);
@@ -172,6 +187,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			}
 			{
 				buttonAbteilungAnzeigen = new JButton("Abteilung anzeigen");
+				buttonAbteilungAnzeigen.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						buttonAbteilungAnzeigenActionPerformed(e);
+					}
+				});
 				buttonAbteilungAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonAbteilungAnzeigen.setBounds(43, 262, 199, 46);
 				Utils.setStandardButtonOptions(buttonAbteilungAnzeigen);
@@ -179,6 +199,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			}
 			{
 				buttonArtikelVerwalten = new JButton("Artikel verwalten");
+				buttonArtikelVerwalten.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						buttonArtikelVerwaltenActionPerformed(e);
+					}
+				});
 				buttonArtikelVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonArtikelVerwalten.setBounds(337, 169, 199, 46);
 				Utils.setStandardButtonOptions(buttonArtikelVerwalten);
@@ -215,6 +240,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			{
 				buttonAllgemeineDatenAnzeigen = new JButton(
 						"<html>Allgemeine Daten<br/><center>anzeigen</center></html>");
+				buttonAllgemeineDatenAnzeigen.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						buttonAllgemeineDatenAnzeigenActionPerformed(e);
+					}
+				});
 				buttonAllgemeineDatenAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonAllgemeineDatenAnzeigen.setBounds(634, 78, 199, 72);
 				Utils.setStandardButtonOptions(buttonAllgemeineDatenAnzeigen);
@@ -224,11 +254,13 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	}
 
 	/**
-	 * Created by Omar
+	 * Created by Mohammad on 07.01.2020
 	 * 
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
 	 */
 	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
+		JFrameMitarbeiterHinzufuegen mitarbeiterHinzufügenSeite = new JFrameMitarbeiterHinzufuegen();
+		mitarbeiterHinzufügenSeite.setVisible(true);
 
 	}
 
@@ -259,10 +291,59 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	protected void menuItemLogoutActionPerformed(ActionEvent e) {
 		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?");
 		switch (answer) {
-			case 0:
-				JFrameStart start = new JFrameStart();
-				Utils.reviewOldJFrame(this, start);
-				break;
+		case 0:
+			JFrameStart start = new JFrameStart();
+			Utils.reviewOldJFrame(this, start);
+			break;
 		}
+	}
+
+	/**
+	 * Created by Mohammad on 07.01.2020
+	 * 
+	 * 
+	 */
+	protected void onMitarbeiterAnzeigenClicked(ActionEvent e) {
+		JFrameMitarbeiterAnzeigen mitarbeiterAnzeigenSeite = new JFrameMitarbeiterAnzeigen();
+		mitarbeiterAnzeigenSeite.setVisible(true);
+	}
+
+	/**
+	 * Created by Mohammad on 07.01.2020
+	 */
+
+	protected void buttonArtikelAnzeigenActionPerformed(ActionEvent e) {
+		JFrameArtikelAnzeigen artikelAnzeigenSeite = new JFrameArtikelAnzeigen();
+		artikelAnzeigenSeite.setVisible(true);
+	}
+
+	/**
+	 * Created by Mohammad on 07.01.2020
+	 * 
+	 */
+
+	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) {
+		JFrameAbteilungAnzeigen abteilungAnzeigenSeite = new JFrameAbteilungAnzeigen();
+		abteilungAnzeigenSeite.setVisible(true);
+
+	}
+
+	/**
+	 * Created by Mohammad on 07.01.2020
+	 */
+
+	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) {
+		JFrameArtikelBearbeiten artikelBearbeitenAnzeigen = new JFrameArtikelBearbeiten();
+		artikelBearbeitenAnzeigen.setVisible(true);
+
+	}
+
+	/**
+	 * Created by Mohammad on 07.01.2020
+	 */
+
+	protected void buttonAllgemeineDatenAnzeigenActionPerformed(ActionEvent e) {
+		JFrameAllgemeineGeschaeftsDaten geschaeftsDatenAnzeigen = new JFrameAllgemeineGeschaeftsDaten();
+		geschaeftsDatenAnzeigen.setVisible(true);
 	}
 }

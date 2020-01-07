@@ -48,7 +48,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		initGUI();
 	}
 	private void initGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

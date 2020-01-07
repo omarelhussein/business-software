@@ -21,7 +21,7 @@ public class Utils {
 	 * @param frame set frames layout options
 	 */
 	public static void setMainFrameOptions(JFrame frame) {
-		frame.setBounds(120, 100, 900, 600);
+		frame.setBounds(0, 0, 900, 600);
 		frame.setLocationRelativeTo(null);
 		frame.setTitle("Business Software");
 		frame.setResizable(false);
@@ -33,7 +33,8 @@ public class Utils {
 	 * sets default options excluding the bounds option
 	 * its location and non rezisable
 	 */
-	public static void setDefaultFrameOptions(JFrame frame) {
+	public static void setSmallFrameOptions(JFrame frame) {
+		frame.setBounds(0, 0, 400, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 	}

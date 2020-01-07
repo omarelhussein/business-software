@@ -78,8 +78,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private void initGUI() {
 		contentPane = new JPanel();
 		setTitle("Abteilung hinzufügen");
-		this.setBounds(0, 0, 400, 400);
-		Utils.setDefaultFrameOptions(this);
+		Utils.setSmallFrameOptions(this);
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

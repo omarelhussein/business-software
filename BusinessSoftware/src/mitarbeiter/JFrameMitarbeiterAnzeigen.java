@@ -49,7 +49,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		initGUI();
 	}
 	private void initGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		Utils.setMainFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -103,12 +103,12 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	protected void onAnzeigen(ActionEvent arg0) {
 		JFrameMitarbeiterAnzeigenButtonGeklikt JFrame = new JFrameMitarbeiterAnzeigenButtonGeklikt();
 		Utils.startNewJFrame(this, JFrame);
-		
-		
+
+
 	}
 	protected void buttonBearbeitenActionPerformed(ActionEvent e) {
 		JFrameDatenAnzeigenBearbeiten JFrame = new JFrameDatenAnzeigenBearbeiten();
 		Utils.startNewJFrame(this, JFrame);
 	}
-	
+
 }

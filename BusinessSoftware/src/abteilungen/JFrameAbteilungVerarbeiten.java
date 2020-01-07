@@ -56,8 +56,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	}
 
 	private void initGUI() {
-		this.setBounds(0, 0, 400, 400);
-		Utils.setDefaultFrameOptions(this);
+		Utils.setSmallFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

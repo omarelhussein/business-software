@@ -1,4 +1,4 @@
-package start;
+package mitarbeiter;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import general.Utils;
+import main.JFrameDatenAnzeigenBearbeiten;
 
 import javax.swing.JList;
 import javax.swing.JLabel;

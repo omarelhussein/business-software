@@ -1,0 +1,296 @@
+[33mcommit b4ca2a49dbf038f70dd34e9c43bffc1167eb0027[m[33m ([m[1;36mHEAD -> [m[1;32maref-v1[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/aref-v1[m[33m)[m
+Merge: b33cb81 78c6f48
+Author: omare <omarelhussein9@gmail.com>
+Date:   Sat Dec 28 18:36:59 2019 +0100
+
+    merged from omar-v1
+
+[33mcommit b33cb81bdc70f02a74b96cd62851d82ebe67258e[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Sat Dec 28 00:13:16 2019 +0100
+
+    weiter mit Regestierung
+
+[33mcommit b5f675bf8abbbc6d2bd308aa36340d20344f95a6[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Sat Dec 28 00:09:20 2019 +0100
+
+    Registierung bearbeitet
+
+[33mcommit 78c6f484056559814d72b5bbc3e32ef3aff43b63[m[33m ([m[1;31morigin/omar-v1[m[33m)[m
+Author: omare <omarelhussein9@gmail.com>
+Date:   Wed Dec 25 00:11:05 2019 +0100
+
+    updated ui + implemented more colors and methods
+
+[33mcommit 84110c2109a93eaacd0ec0f274ff6abd525557fe[m
+Author: omare <omarelhussein9@gmail.com>
+Date:   Tue Dec 24 22:05:56 2019 +0100
+
+    merged to ajabnoor-v1
+
+[33mcommit 5e540a15959547e2677f90e43469ec2273c2a6e5[m
+Merge: 8a87a8f d29a3bb
+Author: omare <omarelhussein9@gmail.com>
+Date:   Tue Dec 24 22:03:27 2019 +0100
+
+    Merge branch 'ajabnoor-v1' into omar-v1
+
+[33mcommit 8a87a8fc51e20a9f8ade6d0179a8fdc8a86ec7b4[m
+Author: omare <omarelhussein9@gmail.com>
+Date:   Tue Dec 24 20:38:05 2019 +0100
+
+    merged to aref-v1
+
+[33mcommit 50e9b7611fa9764327353c6289c547fba1fd585f[m
+Author: omare <omarelhussein9@gmail.com>
+Date:   Tue Dec 24 20:36:14 2019 +0100
+
+    merged to aref-v1
+
+[33mcommit d29a3bbbeedd3f71958c5095a46dee6b7a7d0c07[m[33m ([m[1;31morigin/ajabnoor-v1[m[33m)[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 10 15:04:30 2019 +0100
+
+    Back Button
+
+[33mcommit 308fdf54d39db21ebf1f78cc2fa85854d94fa068[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 14:51:44 2019 +0100
+
+    ordered files to packages
+
+[33mcommit a1a1164c38f8374288dbcf2c987450675f195652[m
+Merge: 1818a13 f51fc08
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 14:04:21 2019 +0100
+
+    Merge branch 'ajabnoor-v1' into aref-v1
+
+[33mcommit f51fc08bb88d9284030639215ef225d5cbe70292[m[33m ([m[1;32majabnoor-v1[m[33m)[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 14:04:06 2019 +0100
+
+    merging to aref-v1
+
+[33mcommit c663f6918ff2352c703d83e145ab98cf69c1c849[m
+Merge: 13c22ca 2eb28cc
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 10 13:51:48 2019 +0100
+
+    merged with omar-v1
+
+[33mcommit 1818a13a57a4b9d268a287eb4aa4e7ee477566c9[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 13:45:44 2019 +0100
+
+    Test raus
+
+[33mcommit dfe257162b5b2dcf1a5a1fec209a58f422f2397f[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 13:43:33 2019 +0100
+
+    merged with master
+
+[33mcommit 13c22ca1f4a32842405e8094e216a8485698f598[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 10 13:22:28 2019 +0100
+
+    Verbindung klasse
+
+[33mcommit 4becdfa8b5e8c36c4a62079b409970027b76fe08[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 13:10:53 2019 +0100
+
+    test commit
+
+[33mcommit 2eb28cc4b442e8ad5118a2b1c9d50a2cfcb83d76[m
+Author: omar27 <omar27@w208-51.szut.uni-bremen.de>
+Date:   Tue Dec 10 13:03:56 2019 +0100
+
+    changed project structure, centered all GUIs
+
+[33mcommit 29cf7f9116443fadd301a25b39e76c759db450c8[m
+Merge: 4791cd2 702e2f2
+Author: Aref <arefobaid6@gmail.com>
+Date:   Tue Dec 10 12:35:16 2019 +0100
+
+    Datebase
+
+[33mcommit e7d6326b6a9702861c5a98e415641617d12769f3[m
+Author: omar27 <omar27@w208-51.szut.uni-bremen.de>
+Date:   Mon Dec 9 14:16:26 2019 +0100
+
+    added Utils and Fonts methods
+
+[33mcommit 4791cd25fac67caaf42bf95e74a906df9762d585[m
+Merge: b5fe5c0 a12db52
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Dec 9 14:10:49 2019 +0100
+
+    work in progress (business-classes)
+
+[33mcommit 702e2f29925208139e470df92fa4c37d415fcdfe[m
+Author: marie <marie@10.105.108.120>
+Date:   Mon Dec 9 13:53:00 2019 +0100
+
+    work facking
+
+[33mcommit c9fe9522ec9e2f0e98cb3d4a7aae03a2146420ee[m
+Author: marie <marie@10.105.108.120>
+Date:   Mon Dec 9 13:35:28 2019 +0100
+
+    Datei von 9/12/19
+
+[33mcommit b5fe5c00caf364d62d73151a254b2f9710af429f[m
+Merge: 7dca738 4f936dc
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Dec 9 13:27:01 2019 +0100
+
+    Merge branch 'omar-v1' into aref-v1
+
+[33mcommit 7dca7382cd8a975a1926ea9a88facedb8a05cdf2[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Dec 9 13:26:29 2019 +0100
+
+    work in progress
+
+[33mcommit 6938c2cb19bee15399736bcfba3afc0cbe20e818[m
+Merge: 39c0888 4f936dc
+Author: marie <marie@10.105.108.120>
+Date:   Mon Dec 9 12:57:08 2019 +0100
+
+    Merge branch 'omar-v1' into ajabnoor-v1
+
+[33mcommit 39c0888f138f7fbcb6941a9895fb9072aaad0275[m
+Author: marie <marie@10.105.108.120>
+Date:   Mon Dec 9 12:56:17 2019 +0100
+
+    work in progress - GUI
+
+[33mcommit 4f936dc9eabd14bfcfa54a1ecf9202fb88921972[m[33m ([m[1;32momar-v1[m[33m)[m
+Merge: e0ad77a d035714
+Author: omar27 <omar27@w208-51.szut.uni-bremen.de>
+Date:   Mon Dec 9 12:43:27 2019 +0100
+
+    Merge remote-tracking branch 'origin/omar-v1' into omar-v1
+
+[33mcommit e0ad77a736e415e5c493918143898b073a1ce6a3[m
+Author: omar27 <omar27@w208-51.szut.uni-bremen.de>
+Date:   Mon Dec 9 12:23:25 2019 +0100
+
+    added Utils to project
+
+[33mcommit efd42e61f85ce90af959ac87e501b86f5a311385[m
+Author: omar27 <omar27@w208-51.szut.uni-bremen.de>
+Date:   Mon Dec 9 12:21:00 2019 +0100
+
+    added Utils to project
+
+[33mcommit 211b1169cc88f9b621ab37603ebe3456803e4708[m
+Author: omar27 <omar27@w208-51.szut.uni-bremen.de>
+Date:   Mon Dec 9 12:20:44 2019 +0100
+
+    added Utils to project
+
+[33mcommit de912b40ebf058b5eedfc138436155310a348981[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 3 15:05:39 2019 +0100
+
+    bis JFramme 5
+
+[33mcommit 1acc52f0edd2e6c76112d77af74460c330245f7f[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 3 15:04:06 2019 +0100
+
+    Bis nummer 5 Jframe habe ich geschafft
+
+[33mcommit 748a642d912f9f275790bed48132361c32dbe507[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 3 14:35:00 2019 +0100
+
+    GUI work in progress
+
+[33mcommit 77b98c30ee14a258f2faf03d4868f9967078d17e[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 3 11:24:04 2019 +0100
+
+    GUI work in progress
+
+[33mcommit 0941169a170f0256b3068adfef0f19e0fa96b8c0[m
+Author: marie <marie@10.105.108.120>
+Date:   Tue Dec 3 10:32:30 2019 +0100
+
+    Start page GUI finished
+
+[33mcommit 32c1e480c6e07c091c4842176809d06cae2099d7[m
+Author: marie <marie@10.105.108.120>
+Date:   Mon Nov 25 14:52:39 2019 +0100
+
+    Start page GUI created
+
+[33mcommit a12db523e436f0a50bbd0c82b358d9bb4e48c81c[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:21:38 2019 +0100
+
+    commit
+
+[33mcommit d035714dd5f68d6c29adf4481dbb04585d84c4f2[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:20:52 2019 +0100
+
+    commit
+
+[33mcommit 7fdb663eb4c107699a59e3d10636f3cf91da1233[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:19:41 2019 +0100
+
+    commit
+
+[33mcommit 43e14acc28e959d77e251f89359ee60b2d42ac7b[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:16:08 2019 +0100
+
+    test
+
+[33mcommit 98468c387c1a65ce89c33cf410752e5c8a4981b5[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:13:33 2019 +0100
+
+    test branch commit
+
+[33mcommit 722f37fa684d629974148f01b2cec97f32b6c01b[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:12:13 2019 +0100
+
+    test commit
+
+[33mcommit 87f1805a6284a733c141003ddcf485267cb9d7ac[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 14:06:08 2019 +0100
+
+    test commit
+
+[33mcommit e540ffcdd395334cee0b63d7316951a352199e20[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 13:58:44 2019 +0100
+
+    test 3
+
+[33mcommit 77f0d15f159a0c8a6a9859e31aa3625225cbbd61[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 13:40:14 2019 +0100
+
+    test 2
+
+[33mcommit 4f3af9a69916fbf7c82b4c2aaabaeb07e88a8ef1[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 13:38:12 2019 +0100
+
+    Test Commit
+
+[33mcommit 2095218194f919b2851d8acde4a5b88520130313[m
+Author: Aref <arefobaid6@gmail.com>
+Date:   Mon Nov 18 10:01:16 2019 +0100
+
+    created project

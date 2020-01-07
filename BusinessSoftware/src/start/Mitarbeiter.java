@@ -1,5 +1,10 @@
 package start;
 
+/**
+ * Created on 10.12.2019
+ * @author alkazah
+ *
+ */
 public class Mitarbeiter {
 
 	private int id;

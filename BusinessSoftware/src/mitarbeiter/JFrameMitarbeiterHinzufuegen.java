@@ -1,4 +1,4 @@
-package start;
+package mitarbeiter;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
 
@@ -56,7 +57,8 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		contentPane.setLayout(null);
 		{
 			labelNewLabel = new JLabel("Name");
-			labelNewLabel.setBounds(39, 42, 56, 16);
+			labelNewLabel.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
+			labelNewLabel.setBounds(39, 42, 97, 19);
 			contentPane.add(labelNewLabel);
 		}
 		{
@@ -67,6 +69,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		}
 		{
 			labelGeburtsdatum = new JLabel("Geburtsdatum");
+			labelGeburtsdatum.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 			labelGeburtsdatum.setBounds(33, 96, 116, 22);
 			contentPane.add(labelGeburtsdatum);
 		}
@@ -78,7 +81,8 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		}
 		{
 			labelEmail = new JLabel("E-Mail");
-			labelEmail.setBounds(39, 151, 56, 16);
+			labelEmail.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
+			labelEmail.setBounds(39, 151, 110, 19);
 			contentPane.add(labelEmail);
 		}
 		{
@@ -89,7 +93,8 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		}
 		{
 			labelGehalt = new JLabel("Gehalt");
-			labelGehalt.setBounds(39, 200, 56, 16);
+			labelGehalt.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
+			labelGehalt.setBounds(39, 186, 137, 38);
 			contentPane.add(labelGehalt);
 		}
 		{
@@ -100,6 +105,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		}
 		{
 			labelId = new JLabel("ID");
+			labelId.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 			labelId.setBounds(39, 244, 56, 16);
 			contentPane.add(labelId);
 		}
@@ -111,7 +117,8 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		}
 		{
 			buttonSpeichern = new JButton("speichern");
-			buttonSpeichern.setBounds(698, 240, 97, 25);
+			buttonSpeichern.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
+			buttonSpeichern.setBounds(692, 215, 141, 58);
 			contentPane.add(buttonSpeichern);
 		}
 	}

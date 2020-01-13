@@ -1,10 +1,13 @@
 package general;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import general.Colors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 /**
@@ -80,6 +83,16 @@ public class Utils {
 		button.setBackground(new Color(255, 228, 225));
 		button.setFocusable(false);
 		button.setRolloverEnabled(false);
+	}
+	
+	public static void setErrorBorder(ArrayList<JTextField> list) {
+		for (JTextField jTextField : list) {
+			if(jTextField.getText().trim().equals("")) {
+				jTextField.setBorder(new LineBorder(Colors.parseColor(Colors.RED)));				
+			} else {
+				jTextField.setBorder(new LineBorder(Colors.parseColor(Colors.DARK_GREY)));	
+			}
+		}
 	}
 	
 }

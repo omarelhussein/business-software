@@ -18,6 +18,8 @@ public class Colors {
 	public static final String LIGHT_PINK = "#FFFAFA";
 	//default inner panel color
 	public static final String LIGHT_ORANGE = "#FFFAF0";
+	public static final String RED = "#FF0000";
+	public static final String DARK_GREY =  "#6D7373"; 
 	
 	/**
 	 * 

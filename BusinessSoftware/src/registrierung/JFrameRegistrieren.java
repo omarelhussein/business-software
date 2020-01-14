@@ -16,11 +16,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import abteilungen.JFrameAbteilunghinzufuegen;
 import general.Colors;
 import general.Fonts;
 import general.Unicodes;
 import general.Utils;
 import main.Anschrift;
+import main.JFrameGeschaeftVerwalten;
 import start.Daomelden;
 import start.Gescheaft;
 import start.JFrameStart;
@@ -51,6 +53,7 @@ public class JFrameRegistrieren extends JFrame {
 	private boolean textnutz = true;
 	private JButton buttonNewButton;
 	private JTextField errorField;
+	public static String nameGeascheaft;
 
 	/**
 	 * Launch the application.
@@ -194,62 +197,62 @@ public class JFrameRegistrieren extends JFrame {
 				}
 				btnNewButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						do_btnNewButton_actionPerformed(arg0);
+						try {
+							do_btnNewButton_actionPerformed(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 			}
 		}
 	}
 
-	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
+	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
 		boolean genutzt;
 		boolean[] textBenutzung = new boolean[6];
-		textBenutzung[0] = textFullen(errorField);
-		textBenutzung[1] = textFullen(textField_pass);
-		textBenutzung[2] = textFullen(textField_bezeichnung);
-		textBenutzung[3] = textFullen(textField_stadt);
-		textBenutzung[4] = textFullen(textField_Tel);
-		textBenutzung[5] = textFullen(textField_anschrift);
+		textBenutzung[0] = Utils.textFullen(errorField);
+		textBenutzung[1] = Utils.textFullen(textField_pass);
+		textBenutzung[2] = Utils.textFullen(textField_bezeichnung);
+		textBenutzung[3] = Utils.textFullen(textField_stadt);
+		textBenutzung[4] = Utils.textFullen(textField_Tel);
+		textBenutzung[5] = Utils.textFullen(textField_anschrift);
 		genutzt = texteprüfen(textBenutzung);
 
 		if (genutzt == false) {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflicht Felder ausfüllen!");
 		} else if (genutzt == true) {
-			gescheaft.setNamegeascheaft(namedergeschaeft.getText());
+			gescheaft.setNamegeascheaft(errorField.getText());
 			gescheaft.setBezeichnung(textField_bezeichnung.getText());
 			gescheaft.setPass(textField_pass.getText());
 			anschrift.setStadt(textField_stadt.getText());
 			anschrift.setTel(textField_Tel.getText());
 			anschrift.setAdressse(textField_anschrift.getText());
 			System.out.println("das ist die" + gescheaft.getBezeichnung());
-
+			nameGeascheaft=errorField.getText();
 			daomelden.insert(anschrift, gescheaft);
+			JFrameGeschaeftVerwalten geschaeftVerwalten =new JFrameGeschaeftVerwalten();
+			Utils.startNewJFrame(this, geschaeftVerwalten);
 		}
 
 	}
 
-	private boolean textFullen(JTextField field) {
-		boolean textnichtleher;
-		if (field.getText().equals("")) {
-			textnichtleher = false;
-			field.setBorder(new LineBorder(Colors.parseColor("#FF0000")));
-		} else {
-			textnichtleher = true;
-		}
-		return textnichtleher;
-
-	}
+	/**
+	 * 
+	 * @param textBenutzung
+	 * @return
+	 * @author Aref
+	 */
 
 	private boolean texteprüfen(boolean[] textBenutzung) {
 
 		for (boolean b : textBenutzung) {
-			System.out.println(b);
 			if (b == false) {
 				textnutz = b;
 			} else {
 				textnutz = true;
 			}
-
 		}
 		return textnutz;
 	}

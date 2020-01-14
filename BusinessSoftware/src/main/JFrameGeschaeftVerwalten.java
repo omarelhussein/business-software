@@ -21,9 +21,11 @@ import javax.swing.border.EmptyBorder;
 
 import abteilungen.JFrameAbteilungVerarbeiten;
 import abteilungen.JFrameAbteilunghinzufuegen;
+import artikel.JFrameArtikelBearbeiten;
 import general.Colors;
 import general.Fonts;
 import general.Utils;
+import mitarbeiter.JFrameMitarbeiterHinzufuegen;
 import start.JFrameStart;
 
 /**
@@ -53,6 +55,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	private JLabel labelAnzeigenVerwalten;
 	private JLabel labelGeschftBereich;
 	private JButton buttonAllgemeineDatenAnzeigen;
+	private String [] ausgewealtAbteilung;
 
 	/**
 	 * Launch the application.
@@ -74,6 +77,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameGeschaeftVerwalten() {
+	
 		initGUI();
 	}
 
@@ -121,7 +125,12 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				btnAbteilungBearbeiten = new JButton("Abteilung verwalten");
 				btnAbteilungBearbeiten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						onManageAbteilungClicked(e);
+						try {
+							onManageAbteilungClicked(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				Utils.setStandardButtonOptions(btnAbteilungBearbeiten);
@@ -179,6 +188,16 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 			}
 			{
 				buttonArtikelVerwalten = new JButton("Artikel verwalten");
+				buttonArtikelVerwalten.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						try {
+							do_buttonArtikelVerwalten_actionPerformed(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
 				buttonArtikelVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				buttonArtikelVerwalten.setBounds(337, 169, 199, 46);
 				Utils.setStandardButtonOptions(buttonArtikelVerwalten);
@@ -188,7 +207,12 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				buttonMitarbeiterVerwalten = new JButton("Mitarbeiter verwalten");
 				buttonMitarbeiterVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						onManageMitarbeiterClicked(arg0);
+						try {
+							onManageMitarbeiterClicked(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				buttonMitarbeiterVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -227,8 +251,11 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	 * Created by Omar
 	 * 
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
+	 * @throws ClassNotFoundException 
 	 */
-	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
+	protected void onManageMitarbeiterClicked(ActionEvent arg0) throws ClassNotFoundException {
+		JFrameMitarbeiterHinzufuegen frameMitarbeiterHinzufuegen = new JFrameMitarbeiterHinzufuegen();
+		frameMitarbeiterHinzufuegen.setVisible(true);;
 
 	}
 
@@ -236,8 +263,9 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	 * Created On 04.01.2020 Created By Omar
 	 * 
 	 * @param e
+	 * @throws ClassNotFoundException 
 	 */
-	protected void onManageAbteilungClicked(ActionEvent e) {
+	protected void onManageAbteilungClicked(ActionEvent e) throws ClassNotFoundException {
 		String[] buttons = { "Abteilung hinzufügen", "Abteilungen verwalten" };
 		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.",
 				"Mehrfach Optionen zu Abteilungen verwalten", JOptionPane.INFORMATION_MESSAGE,
@@ -264,5 +292,10 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 				Utils.reviewOldJFrame(this, start);
 				break;
 		}
+	}
+	protected void do_buttonArtikelVerwalten_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+		JFrameArtikelBearbeiten artikelBearbeiten=new JFrameArtikelBearbeiten();
+		artikelBearbeiten.setVisible(true);
+		
 	}
 }

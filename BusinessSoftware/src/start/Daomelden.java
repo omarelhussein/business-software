@@ -19,6 +19,7 @@ public class Daomelden {
 
 	public void insert(Object... objects) {
 		//* from here 
+		int anzahl=0;
 		Gescheaft gescheaft = null;
 		Anschrift anschrift = null;
 		{
@@ -38,7 +39,8 @@ public class Daomelden {
 			String sa = "INSERT into Anschrift VALUES (?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sa);
 			System.out.println("dsadsadsa");
-			preparedStatement.setInt(1, anzalAnschrift() + 1);
+			
+			preparedStatement.setInt(1, anzalAnschrift() +1);
 			preparedStatement.setString(3, anschrift.getStadt());
 			preparedStatement.setString(2, anschrift.getAdressse());
 			preparedStatement.setString(4, anschrift.getTel());
@@ -49,7 +51,7 @@ public class Daomelden {
 			preparedStatement.setString(2, gescheaft.getNamegeascheaft());
 			preparedStatement.setString(3, gescheaft.getBezeichnung());
 			preparedStatement.setString(4, gescheaft.getPass());
-			preparedStatement.setInt(5, anzalAnschrift() + 1);
+			preparedStatement.setInt(5, anzalAnschrift() );
 			preparedStatement.execute();
 			System.out.println(gescheaft.getBezeichnung());
 		} catch (SQLException e) {
@@ -72,6 +74,7 @@ public class Daomelden {
 			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
 			String an = "select Max (id) As gesamt from Geascheaft  ";
 			statmment = conn.prepareStatement(an);
+			System.out.println("dsa");
 			statmment.execute();
 			ResultSet resultSet = statmment.executeQuery();
 			resultSet.next();

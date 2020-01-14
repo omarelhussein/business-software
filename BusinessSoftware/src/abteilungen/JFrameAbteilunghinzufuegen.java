@@ -16,6 +16,9 @@ import general.Colors;
 import general.Fonts;
 import general.Unicodes;
 import general.Utils;
+import main.JFrameGeschaeftVerwalten;
+import mitarbeiter.JFrameMitarbeiterHinzufuegen;
+
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -51,6 +54,8 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JList<Object> list;
 	private ArrayList<String> values;
 	private JScrollPane scrollPane;
+	private DaoAbteilung daoabteilung;
+	public static String []abteilung;
 
 	/**
 	 * Launch the application.
@@ -70,9 +75,11 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ClassNotFoundException 
 	 */
-	public JFrameAbteilunghinzufuegen() {
+	public JFrameAbteilunghinzufuegen() throws ClassNotFoundException {
 		initGUI();
+		daoabteilung=new DaoAbteilung();
 	}
 
 	private void initGUI() {
@@ -133,6 +140,16 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		}
 		{
 			btn_check_abteilung = new JButton(Unicodes.CHECK);
+			btn_check_abteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						do_btn_check_abteilung_actionPerformed(arg0);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
 			btn_check_abteilung.setBounds(285, 327, 89, 23);
 			Utils.setStandardButtonOptions(btn_check_abteilung);
 			contentPane.add(btn_check_abteilung);
@@ -228,5 +245,25 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte einen vollständingen Namen eingeben");
 		}
+	}
+	/**
+	 * @author Aref
+	 * @param arg0
+	 * @throws ClassNotFoundException 
+	 */
+	protected void do_btn_check_abteilung_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+	 String [] abteilungen=new String [values.size()];
+	 String bteilung;
+	 for (int i = 0; i < abteilungen.length; i++) {
+		abteilungen [i]=values.get(i).toString();
+		bteilung=abteilungen[i]; 
+		daoabteilung.insertAbteilung(bteilung);
+		bteilung="";
+	}
+	 abteilung=new String [abteilungen.length];
+		abteilung = abteilungen;
+		System.out.println(abteilungen[0]);
+	 this.setVisible(false);
+		
 	}
 }

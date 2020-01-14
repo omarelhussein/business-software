@@ -27,6 +27,7 @@ import general.Fonts;
 import general.Unicodes;
 import general.Utils;
 import main.Anschrift;
+import main.JFrameGeschaeftVerwalten;
 import start.Daomelden;
 import start.Gescheaft;
 import start.JFrameStart;
@@ -145,28 +146,10 @@ public class JFrameRegistrieren extends JFrame {
 		panel.add(layeredPane);
 		{
 			{
-				panel_step2 = new JPanel();
-				panel_step2.setVisible(false);
 				panel_step3 = new JPanel();
 				panel_step3.setVisible(false);
-				panel_step3.setBorder(new LineBorder(new Color(0, 0, 0)));
-				panel_step3.setBounds(0, 0, 480, 320);
-				panel_step3.setBackground(Colors.parseColor(Colors.LIGHT_ORANGE));
-				layeredPane.add(panel_step3);
-				panel_step3.setLayout(null);
-				{
-					labelNewLabel = new JLabel(
-							"<HTML>Die eingegebene Daten k\u00F6nnen aus Sicherheitsgr\u00FCnden Sp\u00E4ter nicht mehr ge\u00E4ndert werden. Wenn Sie damit einverstanden sind, clicken Sie auf den Hacken unten. Ansonsten k\u00F6nnen Sie noch zur\u00FCch gehen und die Daten \u00E4ndern.");
-					labelNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-					labelNewLabel.setBounds(10, 11, 460, 91);
-					panel_step3.add(labelNewLabel);
-				}
-				{
-					checkBoxNewCheckBox = new JCheckBox("Ich bin damit einverstanden");
-					checkBoxNewCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-					checkBoxNewCheckBox.setBounds(10, 290, 460, 23);
-					panel_step3.add(checkBoxNewCheckBox);
-				}
+				panel_step2 = new JPanel();
+				panel_step2.setVisible(false);
 				panel_step2.setBorder(new LineBorder(new Color(0, 0, 0)));
 				panel_step2.setBounds(0, 0, 480, 320);
 				panel_step2.setBackground(Colors.parseColor(Colors.LIGHT_ORANGE));
@@ -228,77 +211,95 @@ public class JFrameRegistrieren extends JFrame {
 					textField_email.setBounds(251, 230, 175, 25);
 					panel_step2.add(textField_email);
 				}
-			}
-			panel_step1 = new JPanel();
-			panel_step1.setBounds(0, 0, 480, 320);
-			layeredPane.add(panel_step1);
-			panel_step1.setLayout(null);
-			panel_step1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-			panel_step1.setBackground(new Color(255, 250, 240));
-			{
-				labelNameDesGeschfts = new JLabel("Name des Gesch\u00E4fts*");
-				labelNameDesGeschfts.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				labelNameDesGeschfts.setBounds(21, 30, 220, 25);
-				panel_step1.add(labelNameDesGeschfts);
-			}
-			{
-				labelBesttigungNameDes = new JLabel("Name des Gesch\u00E4fts wiederholen");
-				labelBesttigungNameDes.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				labelBesttigungNameDes.setBounds(21, 80, 219, 25);
-				panel_step1.add(labelBesttigungNameDes);
-			}
-			{
-				labelBezeichnung = new JLabel("Bezeichnung");
-				labelBezeichnung.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				labelBezeichnung.setBounds(21, 130, 219, 25);
-				panel_step1.add(labelBezeichnung);
-			}
-			{
-				labelPasswortWiederholen = new JLabel("Passwort*");
-				labelPasswortWiederholen.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				labelPasswortWiederholen.setBounds(21, 180, 219, 20);
-				panel_step1.add(labelPasswortWiederholen);
-			}
-			{
-				text_field_name = new JTextField();
-				text_field_name.setBounds(250, 30, 175, 25);
-				panel_step1.add(text_field_name);
-			}
-			{
-				textField_pass = new JPasswordField();
-				textField_pass.setColumns(10);
-				textField_pass.setBounds(250, 180, 177, 25);
-				panel_step1.add(textField_pass);
-			}
-			{
-				textField_Bezeichnung = new JTextField();
-				textField_Bezeichnung.setColumns(10);
-				textField_Bezeichnung.setBounds(250, 130, 175, 25);
-				panel_step1.add(textField_Bezeichnung);
-			}
-			{
-				textField_nameWiederholen = new JTextField();
-				textField_nameWiederholen.setColumns(10);
-				textField_nameWiederholen.setBounds(250, 80, 175, 25);
-				panel_step1.add(textField_nameWiederholen);
-			}
-			{
-				labelPasswortWiederholen_1 = new JLabel("Passwort wiederholen*");
-				labelPasswortWiederholen_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				labelPasswortWiederholen_1.setBounds(21, 230, 219, 25);
-				panel_step1.add(labelPasswortWiederholen_1);
-			}
-			{
-				textField_passWiederholen = new JPasswordField();
-				textField_passWiederholen.setColumns(10);
-				textField_passWiederholen.setBounds(250, 230, 177, 25);
-				panel_step1.add(textField_passWiederholen);
-			}
-			{
-				textField_1 = new JTextField();
-				textField_1.setBounds(250, 30, 175, 25);
-				panel_step1.add(textField_1);
-				textField_1.setColumns(10);
+				panel_step1 = new JPanel();
+				panel_step1.setBounds(0, 0, 480, 320);
+				layeredPane.add(panel_step1);
+				panel_step1.setLayout(null);
+				panel_step1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+				panel_step1.setBackground(new Color(255, 250, 240));
+				{
+					labelNameDesGeschfts = new JLabel("Name des Gesch\u00E4fts*");
+					labelNameDesGeschfts.setFont(new Font("Tahoma", Font.PLAIN, 15));
+					labelNameDesGeschfts.setBounds(21, 30, 220, 25);
+					panel_step1.add(labelNameDesGeschfts);
+				}
+				{
+					labelBesttigungNameDes = new JLabel("Name des Gesch\u00E4fts wiederholen");
+					labelBesttigungNameDes.setFont(new Font("Tahoma", Font.PLAIN, 15));
+					labelBesttigungNameDes.setBounds(21, 80, 219, 25);
+					panel_step1.add(labelBesttigungNameDes);
+				}
+				{
+					labelBezeichnung = new JLabel("Bezeichnung");
+					labelBezeichnung.setFont(new Font("Tahoma", Font.PLAIN, 15));
+					labelBezeichnung.setBounds(21, 130, 219, 25);
+					panel_step1.add(labelBezeichnung);
+				}
+				{
+					labelPasswortWiederholen = new JLabel("Passwort*");
+					labelPasswortWiederholen.setFont(new Font("Tahoma", Font.PLAIN, 15));
+					labelPasswortWiederholen.setBounds(21, 180, 219, 20);
+					panel_step1.add(labelPasswortWiederholen);
+				}
+				{
+					text_field_name = new JTextField();
+					text_field_name.setBounds(250, 30, 175, 25);
+					panel_step1.add(text_field_name);
+				}
+				{
+					textField_pass = new JPasswordField();
+					textField_pass.setColumns(10);
+					textField_pass.setBounds(250, 180, 177, 25);
+					panel_step1.add(textField_pass);
+				}
+				{
+					textField_Bezeichnung = new JTextField();
+					textField_Bezeichnung.setColumns(10);
+					textField_Bezeichnung.setBounds(250, 130, 175, 25);
+					panel_step1.add(textField_Bezeichnung);
+				}
+				{
+					textField_nameWiederholen = new JTextField();
+					textField_nameWiederholen.setColumns(10);
+					textField_nameWiederholen.setBounds(250, 80, 175, 25);
+					panel_step1.add(textField_nameWiederholen);
+				}
+				{
+					labelPasswortWiederholen_1 = new JLabel("Passwort wiederholen*");
+					labelPasswortWiederholen_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+					labelPasswortWiederholen_1.setBounds(21, 230, 219, 25);
+					panel_step1.add(labelPasswortWiederholen_1);
+				}
+				{
+					textField_passWiederholen = new JPasswordField();
+					textField_passWiederholen.setColumns(10);
+					textField_passWiederholen.setBounds(250, 230, 177, 25);
+					panel_step1.add(textField_passWiederholen);
+				}
+				{
+					textField_1 = new JTextField();
+					textField_1.setBounds(250, 30, 175, 25);
+					panel_step1.add(textField_1);
+					textField_1.setColumns(10);
+				}
+				panel_step3.setBorder(new LineBorder(new Color(0, 0, 0)));
+				panel_step3.setBounds(0, 0, 480, 320);
+				panel_step3.setBackground(Colors.parseColor(Colors.LIGHT_ORANGE));
+				layeredPane.add(panel_step3);
+				panel_step3.setLayout(null);
+				{
+					labelNewLabel = new JLabel(
+							"<HTML>Die eingegebene Daten k\u00F6nnen aus Sicherheitsgr\u00FCnden Sp\u00E4ter nicht mehr ge\u00E4ndert werden. Wenn Sie damit einverstanden sind, clicken Sie auf den Hacken unten. Ansonsten k\u00F6nnen Sie noch zur\u00FCch gehen und die Daten \u00E4ndern.");
+					labelNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					labelNewLabel.setBounds(10, 11, 460, 91);
+					panel_step3.add(labelNewLabel);
+				}
+				{
+					checkBoxNewCheckBox = new JCheckBox("Ich bin damit einverstanden");
+					checkBoxNewCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					checkBoxNewCheckBox.setBounds(10, 290, 460, 23);
+					panel_step3.add(checkBoxNewCheckBox);
+				}
 			}
 		}
 		{
@@ -397,6 +398,7 @@ public class JFrameRegistrieren extends JFrame {
 
 	/**
 	 * Created by Ajabnoor on 7.1.2020
+	 * 
 	 */
 	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
 
@@ -425,6 +427,8 @@ public class JFrameRegistrieren extends JFrame {
 		}
 
 		textField_Bezeichnung.getText();
+		
+		
 
 		if (String.valueOf(textField_pass.getPassword())
 				.equals(String.valueOf(textField_passWiederholen.getPassword()))) {
@@ -445,7 +449,7 @@ public class JFrameRegistrieren extends JFrame {
 		panelZwei.add(textField_plz);
 		panelZwei.add(textField_email);
 
-		System.out.println(counter);
+		
 		if (counter == 2) {
 			for (JTextField jTextField : panelZwei) {
 				if (jTextField.getText().equals("")) {
@@ -454,15 +458,24 @@ public class JFrameRegistrieren extends JFrame {
 					return;
 				}
 			}
+			if(!Utils.isEmailValid(textField_email.getText().toString())) {
+				JOptionPane.showMessageDialog(this, "Geben Sie vollständige email ein!");
+				textField_email.setBorder(new LineBorder(Colors.parseColor(Colors.RED)));
+				return;
+			} else {
+				textField_email.setBorder(new LineBorder(Colors.parseColor(Colors.DARK_GREY)));
+			}
 			manageRegisterSteps(1, 3);
 		}
 		textField_strasse.getText().toString();
 		textField_ort.getText();
 		textField_plz.getText();
-		textField_Tel.getText().toString();
-		textField_email.getText().toString();
-	if (checkBoxNewCheckBox.isSelected()) {
 		
+		
+	if (checkBoxNewCheckBox.isSelected()) {
+		JFrameGeschaeftVerwalten main = new JFrameGeschaeftVerwalten();
+		main.setVisible(true);
+		//Utils.startNewJFrame(this, main);
 	}	
 
 

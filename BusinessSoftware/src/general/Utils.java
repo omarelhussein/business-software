@@ -2,6 +2,9 @@ package general;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import general.Colors;
 
 import javax.swing.JButton;
@@ -71,6 +74,13 @@ public class Utils {
 	public static void reviewOldJFrame(JFrame currentFrame, JFrame previousFrame) {
 		previousFrame.setVisible(true);
 		currentFrame.setVisible(false);
+	}
+	
+	public static boolean isEmailValid(String email) {
+		Pattern p = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+		Matcher m = p.matcher(email);
+		
+		return m.matches();
 	}
 	
 	/**

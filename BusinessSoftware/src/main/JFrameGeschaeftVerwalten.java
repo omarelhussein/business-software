@@ -239,7 +239,7 @@ public class JFrameGeschaeftVerwalten extends JFrame {
 	 * 
 	 * @param e
 	 */
-	protected void onManageAbteilungClicked(ActionEvent e) {
+	protected void  onManageAbteilungClicked(ActionEvent e) {
 		String[] buttons = { "Abteilung hinzufügen", "Abteilungen verwalten" };
 		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.",
 				"Mehrfach Optionen zu Abteilungen verwalten", JOptionPane.INFORMATION_MESSAGE,

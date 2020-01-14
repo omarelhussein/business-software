@@ -1,6 +1,5 @@
 package main.views;
 
-
 import java.awt.Color;
 
 import java.awt.EventQueue;
@@ -25,11 +24,14 @@ import abteilungen.views.JFrameAbteilungAnzeigen;
 import abteilungen.views.JFrameAbteilungVerarbeiten;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
 import artikel.views.JFrameArtikelAnzeigen;
+import artikel.views.JFrameArtikelAnzeigenButton;
 import artikel.views.JFrameArtikelBearbeiten;
+import artikel.views.JFrameArtikelHinzufuegen;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
+import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
 import start.views.JFrameStart;
 
@@ -257,13 +259,15 @@ public class JFrameMain extends JFrame {
 
 	/**
 	 * Created by Mohammad on 07.01.2020
-	 * 
+	 * methode von Ajabnoor 14.1.2020
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
 	 */
 	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
-		JFrameMitarbeiterHinzufuegen mitarbeiterHinzufügenSeite = new JFrameMitarbeiterHinzufuegen();
-		mitarbeiterHinzufügenSeite.setVisible(true);
-
+		String title = "Mehrfach Optionen zu Mitarbeiter verwalten";
+		String[] buttons = { "Mitarbeiter hinzufügen", "Mitarbeiter verwalten" };
+		JFrameMitarbeiterHinzufuegen jFrame1 = new JFrameMitarbeiterHinzufuegen();
+		JFrameMitarbeiterBearbeiten jFrame2 = new JFrameMitarbeiterBearbeiten();
+		verwaltenDialog(title, buttons, jFrame1, jFrame2);
 	}
 
 	/**
@@ -271,23 +275,29 @@ public class JFrameMain extends JFrame {
 	 * 
 	 * @param e
 	 */
-	protected void  onManageAbteilungClicked(ActionEvent e) {
-		String[] buttons = { "Abteilung hinzufügen", "Abteilungen verwalten" };
-		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.",
-				"Mehrfach Optionen zu Abteilungen verwalten", JOptionPane.INFORMATION_MESSAGE,
-				JOptionPane.DEFAULT_OPTION, null, buttons, buttons[0]);
+	protected void onManageAbteilungClicked(ActionEvent e) {
+		String title = "Mehrfach Optionen zu Abteilung verwalten";
+		String[] buttons = { "Abteilung hinzufügen", "Abteilung verwalten" };
+		JFrameAbteilunghinzufuegen jFrame1 = new JFrameAbteilunghinzufuegen();
+		JFrameAbteilungVerarbeiten jFrame2 = new JFrameAbteilungVerarbeiten();
+		// methode wieder verwendbar als Dialog
+		verwaltenDialog(title, buttons, jFrame1, jFrame2);
+	}
+
+	private void verwaltenDialog(String title, String[] buttons, JFrame jFrame1, JFrame jFrame2) {
+		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.", title,
+				JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, buttons, buttons[0]);
 		switch (answer) {
 		case 0:
-			JFrameAbteilunghinzufuegen addAbteilungPage = new JFrameAbteilunghinzufuegen();
-			addAbteilungPage.setVisible(true);
-			addAbteilungPage.setAlwaysOnTop(true);
+			jFrame1.setVisible(true);
+			jFrame1.setAlwaysOnTop(true);
 			break;
 		case 1:
-			JFrameAbteilungVerarbeiten manageAbteilungPage = new JFrameAbteilungVerarbeiten();
-			manageAbteilungPage.setVisible(true);
-			manageAbteilungPage.setAlwaysOnTop(true);
+			jFrame2.setVisible(true);
+			jFrame2.setAlwaysOnTop(true);
 			break;
 		}
+
 	}
 
 	protected void menuItemLogoutActionPerformed(ActionEvent e) {
@@ -330,16 +340,21 @@ public class JFrameMain extends JFrame {
 
 	}
 
+
 	/**
 	 * Created by Mohammad on 07.01.2020
+	 * methoden hinzufügen von Ajabnoor 14.10.2020
 	 */
-
 	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) {
-		JFrameArtikelBearbeiten artikelBearbeitenAnzeigen = new JFrameArtikelBearbeiten();
-		artikelBearbeitenAnzeigen.setVisible(true);
-
+		String title = "Mehrfach Optionen zu Artikel verwalten"; 
+		String[] buttons = { "Artikel hinzufügen", "Artikel verwalten" };
+		
+		JFrameArtikelHinzufuegen jFrame1 = new JFrameArtikelHinzufuegen();
+		JFrameArtikelBearbeiten jFrame2 = new JFrameArtikelBearbeiten();
+		
+		verwaltenDialog(title, buttons, jFrame1, jFrame2);
 	}
-
+	
 	/**
 	 * Created by Mohammad on 07.01.2020
 	 */

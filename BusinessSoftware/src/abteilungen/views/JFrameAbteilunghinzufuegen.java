@@ -52,6 +52,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JList<Object> list;
 	private ArrayList<String> values;
 	private JScrollPane scrollPane;
+	private JButton button_Mins_abteilung;
 
 	/**
 	 * Launch the application.
@@ -168,6 +169,18 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 				list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			}
 		}
+		{
+			button_Mins_abteilung = new JButton("-");
+			button_Mins_abteilung.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
+			Utils.setStandardButtonOptions(button_Mins_abteilung);
+			button_Mins_abteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onMinsAbteilungClicked(arg0);
+				}
+			});
+			button_Mins_abteilung.setBounds(199, 234, 50, 25);
+			contentPane.add(button_Mins_abteilung);
+		}
 	}
 	
 	/**
@@ -227,6 +240,14 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			text_field_custom_abteilung.setText("");
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte einen vollständingen Namen eingeben");
+		}
+	}
+	protected void onMinsAbteilungClicked(ActionEvent arg0) {
+		if (list.isSelectedIndex(list.getSelectedIndex())) {
+			values.remove(list.getSelectedIndex());
+			updateAbteilungsList();
+		} else {
+
 		}
 	}
 }

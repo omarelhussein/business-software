@@ -205,5 +205,39 @@ public class Utils {
 		}
 		return d;
 	}
+	/**
+	 * 
+	 * @param geacheaftName
+	 * @param sqlRecorse
+	 * @return
+	 * @author Aref
+	 */
+	
+	public static String nameGeascheaft(String geacheaftName, String sqlRecorse) {
+		Connection conn = null;
+		PreparedStatement statmment = null;
+		String d = "";
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			String an = "select namegaeschaeft As gesamt from Geascheaft where namegaeschaeft = ? ";
+			statmment = conn.prepareStatement(an);
+			statmment.setString(1, geacheaftName);
 
+			statmment.execute();
+			ResultSet resultSet = statmment.executeQuery();
+			resultSet.next();
+			d = resultSet.getString("gesamt");
+		} catch (SQLException e) {
+			// TODO: handle exception
+		} finally {
+			try {
+				statmment.close();
+				conn.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return d;
+
+}
 }

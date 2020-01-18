@@ -32,19 +32,27 @@ public class DaoArtikel {
 			preparedStatement=connection.prepareStatement(katjglbefehl);
 			preparedStatement.setInt(1, Utils.anzalAnschrift("Kategorie", sql)+1);
 			preparedStatement.setString(2,katig);
-			preparedStatement.setInt(3,Utils.idBetrefendesache("Abteilung","Geascheaft","agf","namegescheaft",JFrameRegistrieren.nameGeascheaft,"nameAbteilung",abteilung,sql));
+			preparedStatement.setInt(3,Utils.idBetrefendesache("Abteilung","Geascheaft","agf","namegaeschaeft","nameAbteilung",JFrameRegistrieren.nameGeascheaft,abteilung,sql));
 			preparedStatement.execute();
 			connection.close();
+			preparedStatement.close();
+			connection=null;
+			preparedStatement=null;
+			try {
 			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
 			String artikelbefehl="insert into Artikel values (?,?,?,?)";
 			preparedStatement=connection.prepareStatement(artikelbefehl);
 			preparedStatement.setInt(1, Utils.anzalAnschrift("Artikel", sql)+1);
 			preparedStatement.setString(2,artikel.getNameArtikel());
 			preparedStatement.setString(3, artikel.getPreis());
-			preparedStatement.setInt(4, Utils.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteiling","(select Geascheaft.id from Geascheaft where Geascheaft.namegaeschaeft ="+JFrameRegistrieren.nameGeascheaft+")","namekategorie",katig,sql));
+			preparedStatement.setInt(4, Utils.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteilung","namekategorie",Utils.nameGeascheaft(JFrameRegistrieren.nameGeascheaft, sql),katig,sql));
 			preparedStatement.execute();
+			} catch (SQLException e) {
+				System.out.println("e1 :"+e);
+			}
+			
 		} catch (SQLException e) {
-			System.out.println(e);
+			System.out.println("e2: "+e);
 		}finally {
 			try {
 			preparedStatement.close();

@@ -45,8 +45,10 @@ public class DaoArtikel {
 			preparedStatement.setInt(1, Utils.anzalAnschrift("Artikel", sql)+1);
 			preparedStatement.setString(2,artikel.getNameArtikel());
 			preparedStatement.setString(3, artikel.getPreis());
-			preparedStatement.setInt(4, Utils.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteilung","namekategorie",Utils.nameGeascheaft(JFrameRegistrieren.nameGeascheaft, sql),katig,sql));
+			String nameGeascheaft=Utils.nameGeascheaft("Abteilung","Geascheaft","agf","id","nameAbteilung","namegaeschaeft",abteilung,JFrameRegistrieren.nameGeascheaft, sql);
+			preparedStatement.setInt(4, Utils.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteilung","nameKategorie",nameGeascheaft,katig,sql));
 			preparedStatement.execute();
+			nameGeascheaft="";
 			} catch (SQLException e) {
 				System.out.println("e1 :"+e);
 			}

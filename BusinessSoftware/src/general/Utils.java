@@ -148,7 +148,20 @@ public class Utils {
 		return textnichtleher;
 
 	}
-
+	/**
+	 * 
+	 * @param tableName
+	 * @param tableName2
+	 * @param colum
+	 * @param colum2
+	 * @param colum3
+	 * @param bedinungErfullung
+	 * @param bedinungErfullung2
+	 * @param sqlRecorse
+	 * @return
+	 * @author Aref
+	 */
+// diese methode helft di e
 	public static int idBetrefendesache(String tableName, String tableName2, String colum, String colum2, String colum3,
 			String bedinungErfullung, String bedinungErfullung2, String sqlRecorse) {
 		Connection conn = null;
@@ -179,7 +192,7 @@ public class Utils {
 		}
 		return d;
 	}
-
+// diese mithode helft die id von jede Tabele zu wissen
 	public static int anzalAnschrift(String tableName, String sqlRecorse) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
@@ -207,26 +220,34 @@ public class Utils {
 	}
 	/**
 	 * 
-	 * @param geacheaftName
+	 * @param bedinungErfullung
 	 * @param sqlRecorse
 	 * @return
 	 * @author Aref
 	 */
+	// dies methode helft um nameGeascheaft zu wissen 
 	
-	public static String nameGeascheaft(String geacheaftName, String sqlRecorse) {
+	public static String nameGeascheaft(String tableName,String tableName2,String colum,String colum2,String colum3,String colum4,String bedinungErfullung,String bedinungErfullung2, String sqlRecorse) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		String d = "";
 		try {
 			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
-			String an = "select namegaeschaeft As gesamt from Geascheaft where namegaeschaeft = ? ";
+			String an = "select " +tableName+ ".nameAbteilung As gesamt from " +tableName+ " inner join "+tableName2+" on "+tableName+"."+colum+" = " +tableName2+"."+colum2+" where "+tableName+"."+colum3+" = ?  and "+tableName2+"."+colum4+" = ?" ;
+			System.out.println("das ist was du"+an);
 			statmment = conn.prepareStatement(an);
-			statmment.setString(1, geacheaftName);
-
+			System.out.println("das ist was du"+an);
+			statmment.setString(1, bedinungErfullung);
+			statmment.setString(2, bedinungErfullung2);
 			statmment.execute();
 			ResultSet resultSet = statmment.executeQuery();
+			
+				d = resultSet.getString("gesamt");
+				System.out.println("dasdsa"+d);
+				
+		
 			resultSet.next();
-			d = resultSet.getString("gesamt");
+			
 		} catch (SQLException e) {
 			// TODO: handle exception
 		} finally {

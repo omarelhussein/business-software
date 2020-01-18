@@ -39,6 +39,7 @@ public class JFrameStart extends JFrame {
 	private JButton btnWeiterAlsGast;
 	private JButton buttonI;
 	private JButton btnAnmelden;
+public 	static boolean   wegRegistierung=false ;
 
 	/**
 	 * Launch the application.
@@ -176,9 +177,10 @@ public class JFrameStart extends JFrame {
 	}
 
 	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
-		JFrameRegistrieren regstieren = new JFrameRegistrieren();
-		regstieren.setVisible(true);
-		this.setVisible(false);
+	wegRegistierung=false;
+    JFrameRegistrieren regstieren = new JFrameRegistrieren();
+	regstieren.setVisible(true);
+	this.setVisible(false);
 	}
 	
 	/**

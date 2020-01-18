@@ -1,30 +1,61 @@
 package mitarbeiter.views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import abteilungen.DaoAbteilung;
+import abteilungen.views.JFrameAbteilunghinzufuegen;
+import general.code.Utils;
+import main.business_classes.Anschrift;
+import mitarbeiter.business_classes.Mitarbeiter;
+import mitarbeiter.dao.DaoMitarbeiter;
+import registrierung.JFrameRegistrieren;
+import start.views.JFrameStart;
 
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel labelNewLabel;
-	private JTextField textField;
+	private JTextField name;
 	private JLabel labelGeburtsdatum;
-	private JTextField textField_1;
+	private JTextField nachname;
 	private JLabel labelEmail;
-	private JTextField textField_2;
+	private JTextField Lohn;
 	private JLabel labelGehalt;
-	private JTextField textField_3;
-	private JLabel labelId;
-	private JTextField textField_4;
+	private JTextField pass;
 	private JButton buttonSpeichern;
+	private JTextField Stadt;
+	private JTextField Adresse;
+	private JTextField Tel;
+	private JLabel lblStadt;
+	private JLabel lblAdresse;
+	private JLabel lblTel;
+	private JButton btnNewButton;
+	private boolean textnutz;
+	Mitarbeiter mitarbeiter;
+	DaoMitarbeiter daoMitarbeiter;
+	private JComboBox comboBox;
+	JFrameRegistrieren frameRegistrieren;
+
+	DaoAbteilung abteilung;
+	Anschrift anschrift;
+	JFrameAbteilunghinzufuegen abteilunghinzufuegen;
+	private JList list;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -44,12 +75,19 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws ClassNotFoundException
 	 */
-	public JFrameMitarbeiterHinzufuegen() {
+	public JFrameMitarbeiterHinzufuegen() throws ClassNotFoundException {
+		abteilung = new DaoAbteilung();
+		frameRegistrieren = new JFrameRegistrieren();
 		initGUI();
+		anschrift = new Anschrift();
+		mitarbeiter = new Mitarbeiter();
+		daoMitarbeiter = new DaoMitarbeiter();
 	}
+
 	private void initGUI() {
-		
 		setBounds(100, 100, 863, 357);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,58 +100,46 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			contentPane.add(labelNewLabel);
 		}
 		{
-			textField = new JTextField();
-			textField.setBounds(209, 39, 116, 22);
-			contentPane.add(textField);
-			textField.setColumns(10);
+			name = new JTextField();
+			name.setBounds(209, 39, 116, 22);
+			contentPane.add(name);
+			name.setColumns(10);
 		}
 		{
-			labelGeburtsdatum = new JLabel("Geburtsdatum");
+			labelGeburtsdatum = new JLabel("nACHNAME");
 			labelGeburtsdatum.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
-			labelGeburtsdatum.setBounds(33, 96, 116, 22);
+			labelGeburtsdatum.setBounds(33, 96, 143, 22);
 			contentPane.add(labelGeburtsdatum);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setBounds(209, 96, 116, 22);
-			contentPane.add(textField_1);
-			textField_1.setColumns(10);
+			nachname = new JTextField();
+			nachname.setBounds(209, 96, 116, 22);
+			contentPane.add(nachname);
+			nachname.setColumns(10);
 		}
 		{
-			labelEmail = new JLabel("E-Mail");
+			labelEmail = new JLabel("Lohn");
 			labelEmail.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 			labelEmail.setBounds(39, 151, 110, 19);
 			contentPane.add(labelEmail);
 		}
 		{
-			textField_2 = new JTextField();
-			textField_2.setBounds(209, 148, 116, 22);
-			contentPane.add(textField_2);
-			textField_2.setColumns(10);
+			Lohn = new JTextField();
+			Lohn.setBounds(209, 148, 116, 22);
+			contentPane.add(Lohn);
+			Lohn.setColumns(10);
 		}
 		{
-			labelGehalt = new JLabel("Gehalt");
+			labelGehalt = new JLabel("pass");
 			labelGehalt.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 			labelGehalt.setBounds(39, 186, 137, 38);
 			contentPane.add(labelGehalt);
 		}
 		{
-			textField_3 = new JTextField();
-			textField_3.setBounds(209, 197, 116, 22);
-			contentPane.add(textField_3);
-			textField_3.setColumns(10);
-		}
-		{
-			labelId = new JLabel("ID");
-			labelId.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
-			labelId.setBounds(39, 244, 56, 16);
-			contentPane.add(labelId);
-		}
-		{
-			textField_4 = new JTextField();
-			textField_4.setBounds(209, 241, 116, 22);
-			contentPane.add(textField_4);
-			textField_4.setColumns(10);
+			pass = new JTextField();
+			pass.setBounds(209, 197, 116, 22);
+			contentPane.add(pass);
+			pass.setColumns(10);
 		}
 		{
 			buttonSpeichern = new JButton("speichern");
@@ -121,6 +147,109 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			buttonSpeichern.setBounds(692, 215, 141, 58);
 			contentPane.add(buttonSpeichern);
 		}
+		{
+			Stadt = new JTextField();
+			Stadt.setBounds(480, 45, 86, 20);
+			contentPane.add(Stadt);
+			Stadt.setColumns(10);
+		}
+		{
+			Adresse = new JTextField();
+			Adresse.setBounds(480, 129, 86, 20);
+			contentPane.add(Adresse);
+			Adresse.setColumns(10);
+		}
+		{
+			Tel = new JTextField();
+			Tel.setBounds(480, 215, 86, 20);
+			contentPane.add(Tel);
+			Tel.setColumns(10);
+		}
+		{
+			lblStadt = new JLabel("stadt");
+			lblStadt.setBounds(393, 48, 46, 14);
+			contentPane.add(lblStadt);
+		}
+		{
+			lblAdresse = new JLabel("Adresse");
+			lblAdresse.setBounds(393, 132, 46, 14);
+			contentPane.add(lblAdresse);
+		}
+		{
+			lblTel = new JLabel("Tel");
+			lblTel.setBounds(393, 218, 46, 14);
+			contentPane.add(lblTel);
+		}
+		{
+			btnNewButton = new JButton("New button");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					do_btnNewButton_actionPerformed(arg0);
+				}
+			});
+			btnNewButton.setBounds(420, 284, 89, 23);
+			contentPane.add(btnNewButton);
+		}
+		{
+			comboBox = new JComboBox();
+			if (!JFrameStart.wegRegistierung) {
+				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
+			}
+
+			comboBox.setBounds(197, 248, 191, 59);
+
+			contentPane.add(comboBox);
+		}
+		{
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(666, 47, 1, 1);
+			contentPane.add(scrollPane);
+		}
+
 	}
 
+	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
+		boolean[] textBenutzung = new boolean[7];
+		boolean textnutz;
+		textBenutzung[0] = Utils.textFullen(name);
+		textBenutzung[1] = Utils.textFullen(nachname);
+		textBenutzung[2] = Utils.textFullen(Lohn);
+		textBenutzung[3] = Utils.textFullen(pass);
+		textBenutzung[4] = Utils.textFullen(Stadt);
+		textBenutzung[5] = Utils.textFullen(Adresse);
+		textBenutzung[6] = Utils.textFullen(Tel);
+		textnutz = texteprüfen(textBenutzung);
+		if (textnutz == false) {
+			JOptionPane.showMessageDialog(null, "Bitte alle Pflicht Felder ausfüllen!");
+
+		} else if (textnutz == true) {
+			mitarbeiter.setNamemitarbeiter(name.getText());
+			mitarbeiter.setLohn(Lohn.getText());
+			mitarbeiter.setNachname(nachname.getText());
+			mitarbeiter.setPass(pass.getText());
+			anschrift.setStadt(Stadt.getText());
+			anschrift.setAdressse(Adresse.getText());
+			anschrift.setTel(Tel.getText());
+			daoMitarbeiter.insert(mitarbeiter, comboBox.getSelectedItem().toString(), anschrift);
+
+		}
+
+	}
+
+	private boolean texteprüfen(boolean[] textBenutzung) {
+
+		for (boolean b : textBenutzung) {
+			if (b == false) {
+				textnutz = b;
+			} else {
+				textnutz = true;
+			}
+
+		}
+		return textnutz;
+	}
+
+	protected void onBackPressed(ActionEvent arg0) {
+		Utils.reviewOldJFrame(this, new JFrameStart());
+	}
 }

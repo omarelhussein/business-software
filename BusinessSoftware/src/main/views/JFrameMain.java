@@ -58,6 +58,7 @@ public class JFrameMain extends JFrame {
 	private JLabel labelAnzeigenVerwalten;
 	private JLabel labelGeschftBereich;
 	private JButton buttonAllgemeineDatenAnzeigen;
+	private String [] ausgewealtAbteilung;
 
 	/**
 	 * Launch the application.
@@ -126,7 +127,12 @@ public class JFrameMain extends JFrame {
 				btnAbteilungBearbeiten = new JButton("Abteilung verwalten");
 				btnAbteilungBearbeiten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						onManageAbteilungClicked(e);
+						try {
+							onManageAbteilungClicked(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				Utils.setStandardButtonOptions(btnAbteilungBearbeiten);
@@ -201,7 +207,12 @@ public class JFrameMain extends JFrame {
 				buttonArtikelVerwalten = new JButton("Artikel verwalten");
 				buttonArtikelVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						buttonArtikelVerwaltenActionPerformed(e);
+						try {
+							buttonArtikelVerwaltenActionPerformed(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				buttonArtikelVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -213,7 +224,12 @@ public class JFrameMain extends JFrame {
 				buttonMitarbeiterVerwalten = new JButton("Mitarbeiter verwalten");
 				buttonMitarbeiterVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						onManageMitarbeiterClicked(arg0);
+						try {
+							onManageMitarbeiterClicked(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				buttonMitarbeiterVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -257,8 +273,9 @@ public class JFrameMain extends JFrame {
 	 * Created by Mohammad on 07.01.2020
 	 * 
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
+	 * @throws ClassNotFoundException 
 	 */
-	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
+	protected void onManageMitarbeiterClicked(ActionEvent arg0) throws ClassNotFoundException {
 		JFrameMitarbeiterHinzufuegen mitarbeiterHinzufügenSeite = new JFrameMitarbeiterHinzufuegen();
 		mitarbeiterHinzufügenSeite.setVisible(true);
 
@@ -268,8 +285,9 @@ public class JFrameMain extends JFrame {
 	 * Created On 04.01.2020 Created By Omar
 	 * 
 	 * @param e
+	 * @throws ClassNotFoundException 
 	 */
-	protected void onManageAbteilungClicked(ActionEvent e) {
+	protected void onManageAbteilungClicked(ActionEvent e) throws ClassNotFoundException {
 		String[] buttons = { "Abteilung hinzufügen", "Abteilungen verwalten" };
 		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.",
 				"Mehrfach Optionen zu Abteilungen verwalten", JOptionPane.INFORMATION_MESSAGE,
@@ -330,9 +348,10 @@ public class JFrameMain extends JFrame {
 
 	/**
 	 * Created by Mohammad on 07.01.2020
+	 * @throws ClassNotFoundException 
 	 */
 
-	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) {
+	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) throws ClassNotFoundException {
 		JFrameArtikelBearbeiten artikelBearbeitenAnzeigen = new JFrameArtikelBearbeiten();
 		artikelBearbeitenAnzeigen.setVisible(true);
 

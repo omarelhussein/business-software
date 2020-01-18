@@ -1,37 +1,35 @@
 package abteilungen.views;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
+import abteilungen.DaoAbteilung;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
-
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import java.awt.Cursor;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.AbstractListModel;
-import javax.swing.JScrollPane;
 
 /**
  * 
@@ -52,6 +50,8 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JList<Object> list;
 	private ArrayList<String> values;
 	private JScrollPane scrollPane;
+	private DaoAbteilung daoabteilung;
+	public static String []abteilung;
 
 	/**
 	 * Launch the application.
@@ -71,9 +71,11 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ClassNotFoundException 
 	 */
-	public JFrameAbteilunghinzufuegen() {
+	public JFrameAbteilunghinzufuegen() throws ClassNotFoundException {
 		initGUI();
+		daoabteilung=new DaoAbteilung();
 	}
 
 	private void initGUI() {
@@ -133,6 +135,16 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		}
 		{
 			btn_check_abteilung = new JButton(Unicodes.CHECK);
+			btn_check_abteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						do_btn_check_abteilung_actionPerformed(arg0);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
 			btn_check_abteilung.setBounds(285, 327, 89, 23);
 			Utils.setStandardButtonOptions(btn_check_abteilung);
 			contentPane.add(btn_check_abteilung);
@@ -228,5 +240,25 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte einen vollständingen Namen eingeben");
 		}
+	}
+	/**
+	 * @author Aref
+	 * @param arg0
+	 * @throws ClassNotFoundException 
+	 */
+	protected void do_btn_check_abteilung_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+	 String [] abteilungen=new String [values.size()];
+	 String bteilung;
+	 for (int i = 0; i < abteilungen.length; i++) {
+		abteilungen [i]=values.get(i).toString();
+		bteilung=abteilungen[i]; 
+		daoabteilung.insertAbteilung(bteilung);
+		bteilung="";
+	}
+	 abteilung=new String [abteilungen.length];
+		abteilung = abteilungen;
+		System.out.println(abteilungen[0]);
+	 this.setVisible(false);
+		
 	}
 }

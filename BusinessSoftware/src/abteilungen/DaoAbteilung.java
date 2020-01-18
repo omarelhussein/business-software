@@ -6,10 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import general.SQLiteConnection;
-import general.Utils;
-import start.Daoanmelden;
-import start.Daomelden;
+import general.code.SQLiteConnection;
+import general.code.Utils;
+import start.register.dao.Daomelden;
 
 public class DaoAbteilung {
 	private Daomelden daoanmelden;

@@ -77,15 +77,13 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		scrollPane.setViewportView(list);
 		list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		list.setFont(new Font("Century Schoolbook", Font.PLAIN, 20));
-		list.setModel(new AbstractListModel<String>() {
-			ArrayList<String> values = new ArrayList<String>();
-
+		list.setModel(new AbstractListModel() {
+			String[] values = new String[] {"Lebensmittel", "Elektronik"};
 			public int getSize() {
-				return values.size();
+				return values.length;
 			}
-
-			public String getElementAt(int index) {
-				return values.get(index);
+			public Object getElementAt(int index) {
+				return values[index];
 			}
 		});
 

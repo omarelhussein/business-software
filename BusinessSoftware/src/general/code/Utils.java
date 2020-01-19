@@ -3,11 +3,17 @@ package general.code;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+=======
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+>>>>>>> ajabnoor-v1
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -83,7 +89,18 @@ public class Utils {
 		previousFrame.setVisible(true);
 		currentFrame.setVisible(false);
 	}
+<<<<<<< HEAD
 
+=======
+	
+	public static boolean isEmailValid(String email) {
+		Pattern p = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+		Matcher m = p.matcher(email);
+		
+		return m.matches();
+	}
+	
+>>>>>>> ajabnoor-v1
 	/**
 	 * Created by Omar
 	 * 
@@ -95,6 +112,7 @@ public class Utils {
 		button.setFocusable(false);
 		button.setRolloverEnabled(false);
 	}
+<<<<<<< HEAD
 
 	/**
 	 * 
@@ -270,4 +288,17 @@ public class Utils {
 		return d;
 
 	}
+=======
+	
+	public static void setErrorBorder(ArrayList<JTextField> list) {
+		for (JTextField jTextField : list) {
+			if(jTextField.getText().trim().equals("")) {
+				jTextField.setBorder(new LineBorder(Colors.parseColor(Colors.RED)));				
+			} else {
+				jTextField.setBorder(new LineBorder(Colors.parseColor(Colors.DARK_GREY)));	
+			}
+		}
+	}
+	
+>>>>>>> ajabnoor-v1
 }

@@ -53,6 +53,9 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private ArrayList<String> values;
 	private JScrollPane scrollPane;
 	private JButton button_Mins_abteilung;
+	private JTextField textFieldSuchen;
+	private JButton buttonSuchen;
+	private JTextField textFieldeingeben;
 
 	/**
 	 * Launch the application.
@@ -181,11 +184,34 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			button_Mins_abteilung.setBounds(199, 234, 50, 25);
 			contentPane.add(button_Mins_abteilung);
 		}
+		{
+			textFieldSuchen = new JTextField();
+			textFieldSuchen.setToolTipText("Aus der Liste Suchen");
+			textFieldSuchen.setBounds(197, 272, 116, 22);
+			contentPane.add(textFieldSuchen);
+			textFieldSuchen.setColumns(10);
+		}
+		{
+			buttonSuchen = new JButton("Suchen");
+			buttonSuchen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					buttonSuchenActionPerformed(arg0);
+				}
+			});
+			buttonSuchen.setBounds(254, 203, 97, 25);
+			contentPane.add(buttonSuchen);
+		}
+		{
+			textFieldeingeben = new JTextField();
+			textFieldeingeben.setBounds(197, 299, 116, 27);
+			contentPane.add(textFieldeingeben);
+			textFieldeingeben.setColumns(10);
+		}
 	}
-	
+
 	/**
-	 * Created On 04.01.2020
-	 * Created By Omar
+	 * Created On 04.01.2020 Created By Omar
+	 * 
 	 * @param arg0
 	 */
 	protected void onActivateCustomAbteilungClicked(ActionEvent arg0) {
@@ -193,10 +219,10 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		button_add_custom_abteilung.setVisible(true);
 		text_field_custom_abteilung.requestFocus();
 	}
-	
+
 	/**
-	 * Created On 04.01.2020
-	 * Created By Omar
+	 * Created On 04.01.2020 Created By Omar
+	 * 
 	 * @param arg0
 	 */
 	protected void onAddAbteilungClicked(ActionEvent arg0) {
@@ -217,9 +243,9 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 				return values.size();
 			}
 		});
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				JScrollBar verticalScroll = scrollPane.getVerticalScrollBar();
@@ -227,14 +253,14 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
-	 * Created On 04.01.2020
-	 * Created By Omar
+	 * Created On 04.01.2020 Created By Omar
+	 * 
 	 * @param arg0
 	 */
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
-		if(text_field_custom_abteilung.getText() != null) {
+		if (text_field_custom_abteilung.getText() != null) {
 			values.add(text_field_custom_abteilung.getText().toString());
 			updateAbteilungsList();
 			text_field_custom_abteilung.setText("");
@@ -242,6 +268,12 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			JOptionPane.showMessageDialog(this, "Bitte einen vollständingen Namen eingeben");
 		}
 	}
+
+	/**
+	 * 15.1.2020 Ajabnoor
+	 * 
+	 * @param arg0
+	 */
 	protected void onMinsAbteilungClicked(ActionEvent arg0) {
 		if (list.isSelectedIndex(list.getSelectedIndex())) {
 			values.remove(list.getSelectedIndex());
@@ -249,5 +281,18 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		} else {
 
 		}
+	}
+
+	protected void buttonSuchenActionPerformed(ActionEvent arg0) {
+
+		for (String string : values) {
+			if (textFieldSuchen.getText().equals(string)) {
+				list.setSelectionInterval(values.indexOf(string), values.lastIndexOf(string));
+				return;
+			}
+
+		}
+		JOptionPane.showMessageDialog(this, "nicht gefunden");
+
 	}
 }

@@ -10,11 +10,16 @@ import javax.swing.border.LineBorder;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Unicodes;
+import main.business_classes.Geschaeft;
 import main.views.JFrameMain;
+import mitarbeiter.dao.DaoMitarbeiter;
+import start.login.dao.Daoanmelden;
 import start.register.dao.Daomelden;
 import start.views.JFrameStart;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -23,6 +28,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 @SuppressWarnings("serial")
 public class JFrameAnmelden extends JFrame {
@@ -30,15 +37,18 @@ public class JFrameAnmelden extends JFrame {
 	private JPanel contentPane;
 	private JLabel labelMeldenSieBitte;
 	private JLabel labelBenutzerName;
-	private JTextField textField;
+	private JTextField textFieldNameInput;
 	private JLabel labelPasswort;
 	private JButton buttonOk;
 	private JButton buttonZurck;
 	private JPanel panel;
-	private JPasswordField passwordField;
+	private JPasswordField textFieldPasswordInput;
 	private JLabel labelNewLabel;
 	private JLabel label;
 	private JButton buttonForgotPassword;
+	private JRadioButton radioButtonMitarbeiter;
+	private JRadioButton radioButtonGeschftfhrer;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -100,19 +110,19 @@ public class JFrameAnmelden extends JFrame {
 				labelPasswort.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 			}
 			{
-				textField = new JTextField();
-				textField.setBounds(267, 70, 497, 41);
-				panel.add(textField);
-				textField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-				textField.setColumns(10);
+				textFieldNameInput = new JTextField();
+				textFieldNameInput.setBounds(268, 70, 497, 41);
+				panel.add(textFieldNameInput);
+				textFieldNameInput.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				textFieldNameInput.setColumns(10);
 			}
 			{
 				{
 					{
-						passwordField = new JPasswordField();
-						passwordField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-						passwordField.setBounds(267, 183, 497, 41);
-						panel.add(passwordField);
+						textFieldPasswordInput = new JPasswordField();
+						textFieldPasswordInput.setFont(new Font("Tahoma", Font.PLAIN, 18));
+						textFieldPasswordInput.setBounds(267, 183, 497, 41);
+						panel.add(textFieldPasswordInput);
 					}
 				}
 			}
@@ -134,6 +144,20 @@ public class JFrameAnmelden extends JFrame {
 				buttonForgotPassword.setBackground(Colors.parseColor("#00FFFFFF"));
 				buttonForgotPassword.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 				panel.add(buttonForgotPassword);
+			}
+			{
+				radioButtonMitarbeiter = new JRadioButton("Mitarbeiter");
+				radioButtonMitarbeiter.setContentAreaFilled(false);
+				buttonGroup.add(radioButtonMitarbeiter);
+				radioButtonMitarbeiter.setBounds(267, 28, 199, 25);
+				panel.add(radioButtonMitarbeiter);
+			}
+			{
+				radioButtonGeschftfhrer = new JRadioButton("Gesch\u00E4ftsf\u00FChrer");
+				radioButtonGeschftfhrer.setContentAreaFilled(false);
+				buttonGroup.add(radioButtonGeschftfhrer);
+				radioButtonGeschftfhrer.setBounds(560, 28, 127, 25);
+				panel.add(radioButtonGeschftfhrer);
 			}
 		}
 		buttonZurck = new JButton(Unicodes.BACK_ARROW);
@@ -161,15 +185,50 @@ public class JFrameAnmelden extends JFrame {
 		});
 	}
 
+	/**
+	 * Ajabnoor 20.1.2020
+	 * 
+	 * @param e
+	 * @throws ClassNotFoundException
+	 */
 	protected void onOkClick(ActionEvent e) throws ClassNotFoundException {
-		JFrameMain JFrameOK = new JFrameMain();
-		Utils.startNewJFrame(this, JFrameOK);
-		Daomelden daomelden = new Daomelden();
-		// daomelden.insert();
+
+		Daoanmelden login = new Daoanmelden();
+
+		if (textFieldNameInput.getText().trim().equals("")
+				&& String.valueOf(textFieldPasswordInput.getPassword()).equals("")) {
+			JOptionPane.showMessageDialog(this, "Bitte fühlen Sie die Felder ein");
+			return;
+		}
+		if (!radioButtonGeschftfhrer.isSelected() && !radioButtonMitarbeiter.isSelected()) {
+			JOptionPane.showMessageDialog(this, "Bitte einen von den Oberen Knöpfe auswählen");
+			return;
+
+		}
+		System.out.println(textFieldNameInput.getText());
+		System.out.println(String.valueOf(textFieldPasswordInput.getPassword()));
+
+		if (login.loginBoss(textFieldNameInput.getText(), String.valueOf(textFieldPasswordInput.getPassword()))
+				&& radioButtonGeschftfhrer.isSelected()) {
+			JFrameMain JFrameOK = new JFrameMain();
+			Utils.startNewJFrame(this, JFrameOK);
+			return;
+		}
+
+		DaoMitarbeiter mitarbeiterEinlogen = new DaoMitarbeiter();
+
+		if (mitarbeiterEinlogen.mitarbeitereinlogen(textFieldNameInput.getText(),
+				String.valueOf(textFieldPasswordInput.getPassword())) && radioButtonMitarbeiter.isSelected()) {
+			JFrameMain JFrameOK = new JFrameMain();
+			Utils.startNewJFrame(this, JFrameOK);
+		} else {
+			JOptionPane.showMessageDialog(this, "Bitte geben Sie den richtigen Name und Password ein");
+		}
 	}
 
 	protected void onBack(ActionEvent arg0) {
 		JFrameStart JFrameBack = new JFrameStart();
 		Utils.reviewOldJFrame(this, JFrameBack);
 	}
+
 }

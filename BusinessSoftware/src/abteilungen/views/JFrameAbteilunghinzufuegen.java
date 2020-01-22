@@ -1,37 +1,34 @@
 package abteilungen.views;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
-
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-
-import java.awt.Cursor;
-import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.AbstractListModel;
-import javax.swing.JScrollPane;
 
 /**
  * 
@@ -55,7 +52,6 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JButton button_Mins_abteilung;
 	private JTextField textFieldSuchen;
 	private JButton buttonSuchen;
-	private JTextField textFieldeingeben;
 
 	/**
 	 * Launch the application.
@@ -181,31 +177,26 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 					onMinsAbteilungClicked(arg0);
 				}
 			});
-			button_Mins_abteilung.setBounds(199, 234, 50, 25);
+			button_Mins_abteilung.setBounds(200, 235, 50, 25);
 			contentPane.add(button_Mins_abteilung);
 		}
 		{
 			textFieldSuchen = new JTextField();
 			textFieldSuchen.setToolTipText("Aus der Liste Suchen");
-			textFieldSuchen.setBounds(197, 272, 116, 22);
+			textFieldSuchen.setBounds(197, 270, 177, 27);
 			contentPane.add(textFieldSuchen);
 			textFieldSuchen.setColumns(10);
 		}
 		{
 			buttonSuchen = new JButton("Suchen");
+			Utils.setStandardButtonOptions(buttonSuchen);
 			buttonSuchen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					buttonSuchenActionPerformed(arg0);
 				}
 			});
-			buttonSuchen.setBounds(254, 203, 97, 25);
+			buttonSuchen.setBounds(255, 235, 115, 25);
 			contentPane.add(buttonSuchen);
-		}
-		{
-			textFieldeingeben = new JTextField();
-			textFieldeingeben.setBounds(197, 299, 116, 27);
-			contentPane.add(textFieldeingeben);
-			textFieldeingeben.setColumns(10);
 		}
 	}
 
@@ -256,7 +247,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 
 	/**
 	 * Created On 04.01.2020 Created By Omar
-	 * 
+	 * adds a custom abteilung after the button was clicked
 	 * @param arg0
 	 */
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
@@ -270,8 +261,8 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	}
 
 	/**
-	 * 15.1.2020 Ajabnoor
-	 * 
+	 * 15.01.2020 Ajabnoor
+	 * removes the selected abteilung
 	 * @param arg0
 	 */
 	protected void onMinsAbteilungClicked(ActionEvent arg0) {
@@ -283,6 +274,11 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		}
 	}
 
+	/**
+	 * 15.01.2020 Ajabnoor
+	 * searches the abteilung
+	 * @param arg0
+	 */
 	protected void buttonSuchenActionPerformed(ActionEvent arg0) {
 
 		for (String string : values) {
@@ -292,7 +288,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			}
 
 		}
-		JOptionPane.showMessageDialog(this, "nicht gefunden");
+		JOptionPane.showMessageDialog(this, "Suchwort wurde nicht gefunden");
 
 	}
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -121,7 +122,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			btn_activate_custom_abteilung = new JButton("Custom Abteilung hinzuf\u00FCgen");
 			btn_activate_custom_abteilung.addActionListener(new ActionListener() {
 
-	public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent arg0) {
 					onActivateCustomAbteilungClicked(arg0);
 				}
 			});
@@ -153,49 +154,49 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			contentPane.add(btn_check_abteilung);
 		}
 
-	{
-		text_field_custom_abteilung = new JTextField();
-		text_field_custom_abteilung.setVisible(false);
-		text_field_custom_abteilung.setBounds(20, 177, 167, 26);
-		contentPane.add(text_field_custom_abteilung);
-		text_field_custom_abteilung.setColumns(10);
-	}
-	{
-		button_add_custom_abteilung = new JButton("+");
-		button_add_custom_abteilung.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				onAddCustomAbteilungClicked(arg0);
-			}
-		});
-		button_add_custom_abteilung.setVisible(false);
-		button_add_custom_abteilung.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
-		button_add_custom_abteilung.setBounds(197, 177, 52, 26);
-		Utils.setStandardButtonOptions(button_add_custom_abteilung);
-		contentPane.add(button_add_custom_abteilung);
-	}
-	{
-		values = new ArrayList<String>();
 		{
-			scrollPane = new JScrollPane();
-			scrollPane.setBounds(20, 229, 167, 121);
-			contentPane.add(scrollPane);
-			list = new JList();
-			scrollPane.setViewportView(list);
-			list.setBorder(new LineBorder(Color.LIGHT_GRAY));
+			text_field_custom_abteilung = new JTextField();
+			text_field_custom_abteilung.setVisible(false);
+			text_field_custom_abteilung.setBounds(20, 177, 167, 26);
+			contentPane.add(text_field_custom_abteilung);
+			text_field_custom_abteilung.setColumns(10);
 		}
-	}
-	{
-		button_Mins_abteilung = new JButton("-");
-		button_Mins_abteilung.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
-		Utils.setStandardButtonOptions(button_Mins_abteilung);
-		button_Mins_abteilung.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				onMinsAbteilungClicked(arg0);
+		{
+			button_add_custom_abteilung = new JButton("+");
+			button_add_custom_abteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onAddCustomAbteilungClicked(arg0);
+				}
+			});
+			button_add_custom_abteilung.setVisible(false);
+			button_add_custom_abteilung.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
+			button_add_custom_abteilung.setBounds(197, 177, 52, 26);
+			Utils.setStandardButtonOptions(button_add_custom_abteilung);
+			contentPane.add(button_add_custom_abteilung);
+		}
+		{
+			values = new ArrayList<String>();
+			{
+				scrollPane = new JScrollPane();
+				scrollPane.setBounds(20, 229, 167, 121);
+				contentPane.add(scrollPane);
+				list = new JList();
+				scrollPane.setViewportView(list);
+				list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			}
-		});
-		button_Mins_abteilung.setBounds(199, 234, 50, 25);
-		contentPane.add(button_Mins_abteilung);
-	}
+		}
+		{
+			button_Mins_abteilung = new JButton("-");
+			button_Mins_abteilung.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
+			Utils.setStandardButtonOptions(button_Mins_abteilung);
+			button_Mins_abteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onMinsAbteilungClicked(arg0);
+				}
+			});
+			button_Mins_abteilung.setBounds(199, 234, 50, 25);
+			contentPane.add(button_Mins_abteilung);
+		}
 	}
 
 	/**
@@ -216,31 +217,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	 */
 	protected void onAddAbteilungClicked(ActionEvent arg0) {
 		values.add(comboBox.getSelectedItem().toString());
-		updateAbteilungsList();
-	}
-
-	private void updateAbteilungsList() {
-		list.setModel(new AbstractListModel<Object>() {
-
-			@Override
-			public Object getElementAt(int index) {
-				return values.get(index);
-			}
-
-			@Override
-			public int getSize() {
-				return values.size();
-			}
-		});
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JScrollBar verticalScroll = scrollPane.getVerticalScrollBar();
-				verticalScroll.setValue(verticalScroll.getMaximum());
-			}
-		});
+		Utils.updateList(list, true, scrollPane, values);
 	}
 
 	/**
@@ -251,7 +228,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
 		if (text_field_custom_abteilung.getText() != null) {
 			values.add(text_field_custom_abteilung.getText().toString());
-			updateAbteilungsList();
+			Utils.updateList(list, true, scrollPane, values);
 			text_field_custom_abteilung.setText("");
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte einen vollständingen Namen eingeben");
@@ -280,9 +257,12 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 
 	protected void onMinsAbteilungClicked(ActionEvent arg0) {
 		if (list.isSelectedIndex(list.getSelectedIndex())) {
+			String abteilung = list.getSelectedValue().toString();
+			// daoabteilung.AbteilungDelet(abteilung);
 			values.remove(list.getSelectedIndex());
-			updateAbteilungsList();
+			Utils.updateList(list, true, scrollPane, values);
 		} else {
+			System.out.println("sad");
 
 		}
 	}

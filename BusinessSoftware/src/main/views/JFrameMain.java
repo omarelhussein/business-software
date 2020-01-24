@@ -33,6 +33,7 @@ import general.design.Fonts;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
 import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
+import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
 /**
@@ -113,7 +114,7 @@ public class JFrameMain extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
-			labelMainTitle = new JLabel("Real.-");
+			labelMainTitle = new JLabel(" Hallo  "+JFrameRegistrieren.nameGeascheaft);
 			labelMainTitle.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			labelMainTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			Fonts.setCenturySchoolbookFont(labelMainTitle, 42);
@@ -199,7 +200,12 @@ public class JFrameMain extends JFrame {
 				buttonAbteilungAnzeigen = new JButton("Abteilung anzeigen");
 				buttonAbteilungAnzeigen.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						buttonAbteilungAnzeigenActionPerformed(e);
+						try {
+							buttonAbteilungAnzeigenActionPerformed(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				buttonAbteilungAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -349,10 +355,11 @@ public class JFrameMain extends JFrame {
 
 	/**
 	 * Created by Mohammad on 07.01.2020
+	 * @throws ClassNotFoundException 
 	 * 
 	 */
 
-	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) {
+	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) throws ClassNotFoundException {
 		JFrameAbteilungAnzeigen abteilungAnzeigenSeite = new JFrameAbteilungAnzeigen();
 		abteilungAnzeigenSeite.setVisible(true);
 

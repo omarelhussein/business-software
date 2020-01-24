@@ -39,7 +39,7 @@ public class JFrameStart extends JFrame {
 	private JButton btnWeiterAlsGast;
 	private JButton buttonI;
 	private JButton btnAnmelden;
-public 	static boolean   wegRegistierung=false ;
+	public static boolean wegRegistierung = false;
 
 	/**
 	 * Launch the application.
@@ -177,18 +177,20 @@ public 	static boolean   wegRegistierung=false ;
 	}
 
 	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
-	wegRegistierung=false;
-    JFrameRegistrieren regstieren = new JFrameRegistrieren();
-	regstieren.setVisible(true);
-	this.setVisible(false);
+		wegRegistierung = false;
+		JFrameRegistrieren regstieren = new JFrameRegistrieren();
+		regstieren.setVisible(true);
+		this.setVisible(false);
 	}
-	
+
 	/**
 	 * created by Omar on 12.01.2020
+	 * 
 	 * @param arg0
 	 */
 	protected void onInfoClicked(ActionEvent arg0) {
-		showPane("Falls Sie noch kein eigenes Geschäft erstellt haben, können Sie auf \"Starte dein Geschäft\" klicken und den Prozess durchführen, "
-				+ "\num Ihre Organisation zu erstellen. Ansonsten melden Sie sich an");
+		showPane(
+				"Falls Sie noch kein eigenes Geschäft erstellt haben, können Sie auf \"Starte dein Geschäft\" klicken und den Prozess durchführen, "
+						+ "\num Ihre Organisation zu erstellen. Ansonsten melden Sie sich an");
 	}
 }

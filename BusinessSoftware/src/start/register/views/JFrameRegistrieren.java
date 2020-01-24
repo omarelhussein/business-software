@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -23,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -42,7 +44,7 @@ public class JFrameRegistrieren extends JFrame {
 	private JButton btnCheck;
 	private Daomelden daomelden;
 	private Anschrift anschrift;
-	private Geschaeft gescheaft;
+	private Geschaeft gescheaft = new Geschaeft();
 	private JLabel label_register;
 	private boolean textnutz = true;
 	private JButton buttonNewButton;
@@ -84,6 +86,7 @@ public class JFrameRegistrieren extends JFrame {
 	private JPanel panel_step3;
 	private JLabel labelNewLabel;
 	private JCheckBox checkBoxNewCheckBox;
+	public static String nameGeascheaft;
 
 	/**
 	 * Launch the application.
@@ -107,10 +110,10 @@ public class JFrameRegistrieren extends JFrame {
 	 * @throws ClassNotFoundException
 	 */
 	public JFrameRegistrieren() throws ClassNotFoundException {
-		initGUI();
 		daomelden = new Daomelden();
 		gescheaft = new Geschaeft();
 		anschrift = new Anschrift();
+		initGUI();
 	}
 
 	private void initGUI() {
@@ -395,6 +398,8 @@ public class JFrameRegistrieren extends JFrame {
 	 */
 	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
 
+		System.out.println("counter = " + counter);
+
 		ArrayList<JTextField> textFieldList = new ArrayList<>();
 		textFieldList.add(text_field_name);
 		textFieldList.add(textField_nameWiederholen);
@@ -409,8 +414,6 @@ public class JFrameRegistrieren extends JFrame {
 			}
 		}
 
-		text_field_name.getText();
-
 		if (text_field_name.getText().equals(textField_nameWiederholen.getText())) {
 
 		} else {
@@ -418,10 +421,6 @@ public class JFrameRegistrieren extends JFrame {
 			textField_nameWiederholen.setBorder(new LineBorder(Colors.parseColor(Colors.RED)));
 			return;
 		}
-
-		textField_Bezeichnung.getText();
-		
-		
 
 		if (String.valueOf(textField_pass.getPassword())
 				.equals(String.valueOf(textField_passWiederholen.getPassword()))) {
@@ -432,8 +431,15 @@ public class JFrameRegistrieren extends JFrame {
 			return;
 		}
 
-		if (counter == 1 || counter == 0) {
+		if (counter == 0) {
+			
+			gescheaft.setNamegeascheaft(text_field_name.getText());
+			
+			gescheaft.setBezeichnung(textField_Bezeichnung.getText());
+			gescheaft.setPass(String.valueOf(textField_pass.getPassword()));
+			
 			manageRegisterSteps(0, 3);
+			return;
 		}
 
 		ArrayList<JTextField> panelZwei = new ArrayList<JTextField>();
@@ -442,65 +448,43 @@ public class JFrameRegistrieren extends JFrame {
 		panelZwei.add(textField_plz);
 		panelZwei.add(textField_email);
 
-		
-		if (counter == 2) {
+		if (counter == 1) {
 			for (JTextField jTextField : panelZwei) {
 				if (jTextField.getText().equals("")) {
-					JOptionPane.showMessageDialog(this, "Bitte fühlen Sie die Felder ein!");
+					JOptionPane.showMessageDialog(this, "Bitte fÃ¼hlen Sie die Felder ein!");
 					Utils.setErrorBorder(panelZwei);
 					return;
 				}
 			}
-			if(!Utils.isEmailValid(textField_email.getText().toString())) {
-				JOptionPane.showMessageDialog(this, "Geben Sie vollständige email ein!");
+			if (!Utils.isEmailValid(textField_email.getText().toString())) {
+				JOptionPane.showMessageDialog(this, "Geben Sie vollstÃ¤ndige email ein!");
 				textField_email.setBorder(new LineBorder(Colors.parseColor(Colors.RED)));
 				return;
 			} else {
 				textField_email.setBorder(new LineBorder(Colors.parseColor(Colors.DARK_GREY)));
 			}
+		}
+		if (counter == 1) {
+
+			anschrift.setTel(textField_Tel.getText());
+			anschrift.setAdressse(textField_strasse.getText());
+			
+			gescheaft.setEmail(textField_email.getText());
+			gescheaft.setTel(textField_Tel.getText());
+			anschrift.setStadt(textField_ort.getText());
+			anschrift.setPlz(textField_plz.getText());
+			
 			manageRegisterSteps(1, 3);
 		}
-		textField_strasse.getText().toString();
-		textField_ort.getText();
-		textField_plz.getText();
-		
-		
-	if (checkBoxNewCheckBox.isSelected()) {
-		JFrameMain main = new JFrameMain();
-		main.setVisible(true);
-		//Utils.startNewJFrame(this, main);
-	}	
 
+		if (checkBoxNewCheckBox.isSelected() && counter == 3&& daomelden.insert(anschrift,gescheaft)==true) {
+			nameGeascheaft=gescheaft.getNamegeascheaft();
+			JFrameMain main = new JFrameMain();
+			Utils.startNewJFrame(this, main);
+			
+			
+		}
 
-		// for (int i = 0; i < radioButtonsGroup.size(); i++) {
-		// if (radioButtonsGroup.get(i).isSelected()) {
-		// manageRegisterSteps(i, radioButtonsGroup.size());
-		// break;
-		// }
-		// }
-		// boolean genutzt;
-		// boolean[] textBenutzung = new boolean[6];
-		// textBenutzung[0] = textFullen(text_field_name);
-		// textBenutzung[1] = textFullen(textField_Bezeichnung);
-		// textBenutzung[2] = textFullen(textField_nameWiederholen);
-		// textBenutzung[3] = textFullen(textField_pass);
-		// textBenutzung[4] = textFullen(textField_Tel);
-		// textBenutzung[5] = textFullen(textField_strasse);
-		// genutzt = texteprüfen(textBenutzung);
-		//
-		// if (genutzt == false) {
-		// JOptionPane.showMessageDialog(null, "Bitte alle Pflicht Felder ausfüllen!");
-		// } else if (genutzt == true) {
-		// gescheaft.setNamegeascheaft(namedergeschaeft.getText());
-		// gescheaft.setBezeichnung(textField_nameWiederholen.getText());
-		// gescheaft.setPass(String.valueOf(textField_pass.getPassword()));
-		// anschrift.setStadt(String.valueOf(textField_pass.getPassword()));
-		// anschrift.setTel(textField_Tel.getText());
-		// anschrift.setAdressse(textField_strasse.getText());
-		// System.out.println("das ist die" + gescheaft.getBezeichnung());
-		//
-		// daomelden.insert(anschrift, gescheaft);
-		// }
 	}
 
 	private boolean textFullen(JTextField field) {
@@ -515,7 +499,7 @@ public class JFrameRegistrieren extends JFrame {
 
 	}
 
-	private boolean texteprüfen(boolean[] textBenutzung) {
+	private boolean texteprÃ¼fen(boolean[] textBenutzung) {
 
 		for (boolean b : textBenutzung) {
 			System.out.println(b);
@@ -530,9 +514,8 @@ public class JFrameRegistrieren extends JFrame {
 	}
 
 	/**
-	 * Created On 04.01.2020 by Omar
-	 * Manage onBackPressed in case it was in the middle of
-	 * the registration or at the end
+	 * Created On 04.01.2020 by Omar Manage onBackPressed in case it was in the
+	 * middle of the registration or at the end
 	 * 
 	 * @param arg0
 	 */
@@ -550,7 +533,8 @@ public class JFrameRegistrieren extends JFrame {
 				}
 			}
 		}
-		counter--;
+
+		System.out.println("counter = " + counter);
 	}
 
 	/**
@@ -572,15 +556,19 @@ public class JFrameRegistrieren extends JFrame {
 			case 1:
 				panel_step1.setVisible(false);
 				panel_step2.setVisible(true);
+				counter = 1;
+
 				break;
 			case 2:
 				panel_step2.setVisible(false);
 				panel_step3.setVisible(true);
+				counter = 3;
+
 				break;
 			}
 			label_steps_counter.setText("Schritt " + (currentPosition + 2) + " von " + size);
 		}
-		counter++;
+
 	}
 
 	/**
@@ -595,13 +583,16 @@ public class JFrameRegistrieren extends JFrame {
 		case 1:
 			panel_step3.setVisible(false);
 			panel_step2.setVisible(true);
+
 			break;
 		case 0:
 			panel_step2.setVisible(false);
 			panel_step1.setVisible(true);
+			counter = 0;
+			checkBoxNewCheckBox.setSelected(false);
 			break;
 		}
+
 		label_steps_counter.setText("Schritt " + (currentPosition + 1) + " von " + radioButtonsGroup.size());
-		counter--;
 	}
 }

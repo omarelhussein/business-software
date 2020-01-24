@@ -9,7 +9,8 @@ import java.sql.SQLException;
 import artikel.business_classes.Artikel;
 import general.code.SQLiteConnection;
 import general.code.Utils;
-import registrierung.JFrameRegistrieren;
+import start.register.views.JFrameRegistrieren;
+
 
 public class DaoArtikel {
 	final String sql ="Geaschgeaft.db";
@@ -31,9 +32,9 @@ public class DaoArtikel {
 			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
 			String katjglbefehl="insert into Kategorie values (?,?,?)";
 			preparedStatement=connection.prepareStatement(katjglbefehl);
-			preparedStatement.setInt(1, Utils.anzalAnschrift("Kategorie", sql)+1);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie", sql)+1);
 			preparedStatement.setString(2,katig);
-			preparedStatement.setInt(3,Utils.idBetrefendesache("Abteilung","Geascheaft","agf","namegaeschaeft","nameAbteilung",JFrameRegistrieren.nameGeascheaft,abteilung,sql));
+			preparedStatement.setInt(3,SQLiteConnection.idBetrefendesache("Abteilung","Geascheaft","agf","namegaeschaeft","nameAbteilung",JFrameRegistrieren.nameGeascheaft,abteilung,sql));
 			preparedStatement.execute();
 			connection.close();
 			preparedStatement.close();
@@ -43,11 +44,11 @@ public class DaoArtikel {
 			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
 			String artikelbefehl="insert into Artikel values (?,?,?,?)";
 			preparedStatement=connection.prepareStatement(artikelbefehl);
-			preparedStatement.setInt(1, Utils.anzalAnschrift("Artikel", sql)+1);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel", sql)+1);
 			preparedStatement.setString(2,artikel.getNameArtikel());
 			preparedStatement.setString(3, artikel.getPreis());
-			String nameGeascheaft=Utils.nameGeascheaft("Abteilung","Geascheaft","agf","id","nameAbteilung","namegaeschaeft",abteilung,JFrameRegistrieren.nameGeascheaft, sql);
-			preparedStatement.setInt(4, Utils.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteilung","nameKategorie",nameGeascheaft,katig,sql));
+			String nameGeascheaft=SQLiteConnection.nameGeascheaft("Abteilung","Geascheaft","agf","id","nameAbteilung","namegaeschaeft",abteilung,JFrameRegistrieren.nameGeascheaft, sql);
+			preparedStatement.setInt(4, SQLiteConnection.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteilung","nameKategorie",nameGeascheaft,katig,sql));
 			preparedStatement.execute();
 			nameGeascheaft="";
 			} catch (SQLException e) {

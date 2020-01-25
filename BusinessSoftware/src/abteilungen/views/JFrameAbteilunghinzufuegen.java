@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -54,6 +53,8 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private DaoAbteilung daoabteilung;
 	public static String[] abteilung;
 	private JButton button_Mins_abteilung;
+	private JTextField textFieldSuchen;
+	private JButton buttonSuchen;
 
 	/**
 	 * Launch the application.
@@ -194,8 +195,26 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 					onMinsAbteilungClicked(arg0);
 				}
 			});
-			button_Mins_abteilung.setBounds(199, 234, 50, 25);
+			button_Mins_abteilung.setBounds(200, 235, 50, 25);
 			contentPane.add(button_Mins_abteilung);
+		}
+		{
+			textFieldSuchen = new JTextField();
+			textFieldSuchen.setToolTipText("Aus der Liste Suchen");
+			textFieldSuchen.setBounds(197, 270, 177, 27);
+			contentPane.add(textFieldSuchen);
+			textFieldSuchen.setColumns(10);
+		}
+		{
+			buttonSuchen = new JButton("Suchen");
+			Utils.setStandardButtonOptions(buttonSuchen);
+			buttonSuchen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					buttonSuchenActionPerformed(arg0);
+				}
+			});
+			buttonSuchen.setBounds(255, 235, 115, 25);
+			contentPane.add(buttonSuchen);
 		}
 	}
 
@@ -223,6 +242,34 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	/**
 	 * Created On 04.01.2020 Created By Omar
 	 * 
+	 */
+	private void updateAbteilungsList() {
+		list.setModel(new AbstractListModel<Object>() {
+
+			@Override
+			public Object getElementAt(int index) {
+				return values.get(index);
+			}
+
+			@Override
+			public int getSize() {
+				return values.size();
+			}
+		});
+
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				JScrollBar verticalScroll = scrollPane.getVerticalScrollBar();
+				verticalScroll.setValue(verticalScroll.getMaximum());
+			}
+		});
+	}
+
+	/**
+	 * Created On 04.01.2020 Created By Omar
+	 * adds a custom abteilung after the button was clicked
 	 * @param arg0
 	 */
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
@@ -255,6 +302,11 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		this.setVisible(false);
 	}
 
+	/**
+	 * 15.01.2020 Ajabnoor
+	 * removes the selected abteilung
+	 * @param arg0
+	 */
 	protected void onMinsAbteilungClicked(ActionEvent arg0) {
 		if (list.isSelectedIndex(list.getSelectedIndex())) {
 			String abteilung = list.getSelectedValue().toString();
@@ -265,5 +317,23 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			System.out.println("sad");
 
 		}
+	}
+
+	/**
+	 * 15.01.2020 Ajabnoor
+	 * searches the abteilung
+	 * @param arg0
+	 */
+	protected void buttonSuchenActionPerformed(ActionEvent arg0) {
+
+		for (String string : values) {
+			if (textFieldSuchen.getText().equals(string)) {
+				list.setSelectionInterval(values.indexOf(string), values.lastIndexOf(string));
+				return;
+			}
+
+		}
+		JOptionPane.showMessageDialog(this, "Suchwort wurde nicht gefunden");
+
 	}
 }

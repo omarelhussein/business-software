@@ -44,6 +44,13 @@ public class Utils {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(frame.getClass().getResource("/media/shop.png")));
 	}
 	
+	public static void setMiddleFrameOptions(JFrame frame) {
+		frame.setBounds(0, 0, 650, 650);
+		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(frame.getClass().getResource("/media/shop.png")));
+	}
+	
 	/**
 	 * Created by Omar
 	 * 

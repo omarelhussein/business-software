@@ -18,6 +18,9 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractListModel;
 
 public class JFrameAbteilungAnzeigen extends JFrame {
 
@@ -50,6 +53,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	public JFrameAbteilungAnzeigen() {
 		initGUI();
 	}
+
 	private void initGUI() {
 		Utils.setSmallFrameOptions(this);
 		contentPane = new JPanel();
@@ -62,6 +66,15 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 			contentPane.add(scrollPane);
 			{
 				list = new JList();
+				list.setModel(new AbstractListModel() {
+					String[] values = new String[] {"Lebensmittel", "Elektronik", "Kleidung"};
+					public int getSize() {
+						return values.length;
+					}
+					public Object getElementAt(int index) {
+						return values[index];
+					}
+				});
 				scrollPane.setViewportView(list);
 			}
 		}
@@ -80,9 +93,20 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 		}
 		{
 			btn_abteilung_anzeigen = new JButton("Anzeigen");
+			btn_abteilung_anzeigen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					btn_abteilung_anzeigenActionPerformed(e);
+				}
+			});
 			btn_abteilung_anzeigen.setBounds(285, 293, 89, 23);
 			Utils.setStandardButtonOptions(btn_abteilung_anzeigen);
 			contentPane.add(btn_abteilung_anzeigen);
 		}
+	}
+
+	protected void btn_abteilung_anzeigenActionPerformed(ActionEvent e) {
+		
+		int selectindex = list.getSelectedIndex();
+	
 	}
 }

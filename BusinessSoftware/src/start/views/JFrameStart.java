@@ -1,11 +1,19 @@
 package start.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import general.code.Utils;
@@ -13,16 +21,6 @@ import general.design.Colors;
 import general.design.Fonts;
 import start.login.views.JFrameAnmelden;
 import start.register.views.JFrameRegistrieren;
-
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 /**
  * Created on 25.11.2019
@@ -39,6 +37,7 @@ public class JFrameStart extends JFrame {
 	private JButton btnWeiterAlsGast;
 	private JButton buttonI;
 	private JButton btnAnmelden;
+	public static boolean wegRegistierung = false;
 
 	/**
 	 * Launch the application.
@@ -176,17 +175,20 @@ public class JFrameStart extends JFrame {
 	}
 
 	protected void do_btnStartGeschaeft_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+		wegRegistierung = false;
 		JFrameRegistrieren regstieren = new JFrameRegistrieren();
 		regstieren.setVisible(true);
 		this.setVisible(false);
 	}
-	
+
 	/**
 	 * created by Omar on 12.01.2020
+	 * 
 	 * @param arg0
 	 */
 	protected void onInfoClicked(ActionEvent arg0) {
-		showPane("Falls Sie noch kein eigenes Geschäft erstellt haben, können Sie auf \"Starte dein Geschäft\" klicken und den Prozess durchführen, "
-				+ "\num Ihre Organisation zu erstellen. Ansonsten melden Sie sich an");
+		showPane(
+				"Falls Sie noch kein eigenes Geschäft erstellt haben, können Sie auf \"Starte dein Geschäft\" klicken und den Prozess durchführen, "
+						+ "\num Ihre Organisation zu erstellen. Ansonsten melden Sie sich an");
 	}
 }

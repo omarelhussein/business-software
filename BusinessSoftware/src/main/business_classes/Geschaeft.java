@@ -9,6 +9,8 @@ public class Geschaeft {
 	private String namegeascheaft;
 	private String bezeichnung;
 	private String pass;
+	private String tel;
+	private String email;
 	private int gaf;
 
 	public void setBezeichnung(String bezeichnung) {
@@ -49,6 +51,18 @@ public class Geschaeft {
 
 	public String getNamegeascheaft() {
 		return namegeascheaft;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 }

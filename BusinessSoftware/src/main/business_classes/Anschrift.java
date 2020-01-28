@@ -10,6 +10,8 @@ public class Anschrift {
 	private String adressse;
 	private String tel;
 	private String stadt;
+	private String ort;
+	private String plz;
 
 	public void setAdressse(String adressse) {
 		this.adressse = adressse;
@@ -41,5 +43,17 @@ public class Anschrift {
 
 	public String getTel() {
 		return tel;
+	}
+	public String getOrt() {
+		return ort;
+	}
+	public void setOrt(String ort) {
+		this.ort = ort;
+	}
+	public String getPlz() {
+		return plz;
+	}
+	public void setPlz(String plz) {
+		this.plz = plz;
 	}
 }

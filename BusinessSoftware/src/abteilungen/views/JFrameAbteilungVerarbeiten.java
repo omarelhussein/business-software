@@ -16,25 +16,34 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import start.register.views.JFrameRegistrieren;
 
 import javax.swing.border.LineBorder;
+
+import abteilungen.DaoAbteilung;
+
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class JFrameAbteilungVerarbeiten extends JFrame {
 
 	private JPanel contentPane;
-	private JList<String> list;
+	private JList<Object> list;
 	private JTextField textField_abteilungVerwalten_name;
 	private JTextField textField_abteilungVerarbeiten_kategorie;
 	private JLabel labelAbteilungBearbeitung;
 	private JScrollPane scrollPane;
 	private JButton button_abteilung_verarbeiten_check;
+	private JButton btnNewButton;
+	private DaoAbteilung  abteilung;
+	ArrayList<String> values ;
 
 	/**
 	 * Launch the application.
@@ -54,8 +63,10 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ClassNotFoundException 
 	 */
-	public JFrameAbteilungVerarbeiten() {
+	public JFrameAbteilungVerarbeiten() throws ClassNotFoundException {
+		abteilung=new DaoAbteilung();
 		initGUI();
 	}
 
@@ -74,17 +85,17 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		contentPane.add(scrollPane);
 
 		list = new JList();
+		values = new ArrayList<String>();
 		scrollPane.setViewportView(list);
 		list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		list.setFont(new Font("Century Schoolbook", Font.PLAIN, 20));
-		list.setModel(new AbstractListModel<String>() {
-			ArrayList<String> values = new ArrayList<String>();
-
+		String[] arrayValues = abteilung.Abteilungen(JFrameRegistrieren.nameGeascheaft);
+		arrayToArrayList(arrayValues);
+		list.setModel(new AbstractListModel() {
 			public int getSize() {
 				return values.size();
 			}
-
-			public String getElementAt(int index) {
+			public Object getElementAt(int index) {
 				return values.get(index);
 			}
 		});
@@ -130,6 +141,22 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		button_abteilung_verarbeiten_check.setBounds(284, 327, 89, 23);
 		Utils.setStandardButtonOptions(button_abteilung_verarbeiten_check);
 		contentPane.add(button_abteilung_verarbeiten_check);
+		{
+			btnNewButton = new JButton("-");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					do_btnNewButton_actionPerformed(arg0);
+				}
+			});
+			btnNewButton.setBounds(247, 217, 89, 23);
+			contentPane.add(btnNewButton);
+		}
+	}
+	
+	private void arrayToArrayList(String[] values) {
+		for (int i = 0; i < values.length; i++) {
+			this.values.add(values[i]);
+		}
 	}
 
 	protected void onNameVerarbeitenFocused(FocusEvent arg0) {
@@ -150,5 +177,13 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		if(textField_abteilungVerarbeiten_kategorie.getText().isEmpty()) {
 			textField_abteilungVerarbeiten_kategorie.setText("Kategorie");
 		}
+	}
+	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
+		if(list.isSelectedIndex(list.getSelectedIndex())) {
+			abteilung.AbteilungDelete(values.get(list.getSelectedIndex()));
+			values.remove(list.getSelectedIndex());
+			Utils.updateList(list, false, null, values);
+		}
+		
 	}
 }

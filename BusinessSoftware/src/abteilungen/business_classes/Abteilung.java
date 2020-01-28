@@ -8,6 +8,7 @@ public class Abteilung {
 	
 	private int id;
 	private String nameAbteilung;
+	private String agf;
 
 	public void setId(int id) {
 		this.id = id;
@@ -23,6 +24,12 @@ public class Abteilung {
 
 	public String getNameAbteilung() {
 		return nameAbteilung;
+	}
+	public void setAgf(String agf) {
+		this.agf = agf;
+	}
+	public String getAgf() {
+		return agf;
 	}
 
 }

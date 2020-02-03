@@ -7,17 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import artikel.business_classes.Artikel;
+import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import general.code.Utils;
 import start.register.views.JFrameRegistrieren;
 
-
 public class DaoArtikel {
-	final String sql ="Geaschgeaft.db";
-	
+	final String sql = "Geaschgeaft.db";
+
 	public DaoArtikel() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
 	}
+
 	/**
 	 * 
 	 * @param artikel
@@ -25,47 +26,52 @@ public class DaoArtikel {
 	 * @param abteilung
 	 * @author Aref
 	 */
-	public void insertArtkel(Artikel artikel,String katig,String abteilung) {
-		Connection connection=null;
-		PreparedStatement preparedStatement=null;
+	public void insertArtkel(Artikel artikel, String katig, String abteilung) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		try {
-			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
-			String katjglbefehl="insert into Kategorie values (?,?,?)";
-			preparedStatement=connection.prepareStatement(katjglbefehl);
-			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie", sql)+1);
-			preparedStatement.setString(2,katig);
-			preparedStatement.setInt(3,SQLiteConnection.idBetrefendesache("Abteilung","Geascheaft","agf","namegaeschaeft","nameAbteilung",JFrameRegistrieren.nameGeascheaft,abteilung,sql));
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
+			String katjglbefehl = "insert into Kategorie values (?,?,?)";
+			preparedStatement = connection.prepareStatement(katjglbefehl);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie", sql) + 1);
+			preparedStatement.setString(2, katig);
+			preparedStatement.setInt(3,
+					SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft",
+							"nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung, sql));
 			preparedStatement.execute();
 			connection.close();
 			preparedStatement.close();
-			connection=null;
-			preparedStatement=null;
+			connection = null;
+			preparedStatement = null;
 			try {
-			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
-			String artikelbefehl="insert into Artikel values (?,?,?,?)";
-			preparedStatement=connection.prepareStatement(artikelbefehl);
-			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel", sql)+1);
-			preparedStatement.setString(2,artikel.getNameArtikel());
-			preparedStatement.setString(3, artikel.getPreis());
-			String nameGeascheaft=SQLiteConnection.nameGeascheaft("Abteilung","Geascheaft","agf","id","nameAbteilung","namegaeschaeft",abteilung,JFrameRegistrieren.nameGeascheaft, sql);
-			preparedStatement.setInt(4, SQLiteConnection.idBetrefendesache("Kategorie","Abteilung","kaf","nameAbteilung","nameKategorie",nameGeascheaft,katig,sql));
-			preparedStatement.execute();
-			nameGeascheaft="";
+				connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
+				String artikelbefehl = "insert into Artikel values (?,?,?,?)";
+				preparedStatement = connection.prepareStatement(artikelbefehl);
+				preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel", sql) + 1);
+				preparedStatement.setString(2, artikel.getNameArtikel());
+				preparedStatement.setString(3, artikel.getPreis());
+				String nameGeascheaft = SQLiteConnection.nameGeascheaft("Abteilung", "Geascheaft", "agf", "id",
+						"nameAbteilung", "namegaeschaeft", abteilung, GeschaeftDB.getInstance().getCurrentAccountName(), sql);
+				preparedStatement.setInt(4, SQLiteConnection.idBetrefendesache("Kategorie", "Abteilung", "kaf",
+						"nameAbteilung", "nameKategorie", nameGeascheaft, katig, sql));
+				preparedStatement.execute();
+				nameGeascheaft = "";
 			} catch (SQLException e) {
-				System.out.println("e1 :"+e);
+				System.out.println("e1 :" + e);
 			}
-			
+
 		} catch (SQLException e) {
-			System.out.println("e2: "+e);
-		}finally {
+			System.out.println("e2: " + e);
+		} finally {
 			try {
-			preparedStatement.close();
+				preparedStatement.close();
 				connection.close();
 			} catch (Exception e2) {
 				// TODO: handle exception
 			}
 		}
 	}
+
 	/**
 	 * 
 	 * @param bedinung1
@@ -74,13 +80,13 @@ public class DaoArtikel {
 	 * @return
 	 * @author Aref
 	 */
-	public int anzalAnschrift(String bedinung1,String name,String tableName) {
+	public int anzalAnschrift(String bedinung1, String name, String tableName) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
 			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
-			String an = "select  id  from "+tableName+" where "+name+" = ?";
+			String an = "select  id  from " + tableName + " where " + name + " = ?";
 			statmment = conn.prepareStatement(an);
 			statmment.setString(1, bedinung1);
 			statmment.execute();
@@ -88,7 +94,7 @@ public class DaoArtikel {
 			resultSet.next();
 			d = resultSet.getInt("id");
 		} catch (SQLException e) {
-			System.out.println("hier ist die "+e);
+			System.out.println("hier ist die " + e);
 			System.out.println(d);
 		} finally {
 			try {

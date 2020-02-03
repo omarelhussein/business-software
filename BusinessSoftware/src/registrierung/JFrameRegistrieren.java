@@ -52,6 +52,7 @@ public class JFrameRegistrieren extends JFrame {
 	private boolean textnutz = true;
 	private JButton buttonNewButton;
 	private JTextField errorField;
+	//account primary-key
 	public static String nameGeascheaft;
 
 	/**

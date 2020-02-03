@@ -51,16 +51,18 @@ public class JFrameArtikelBearbeiten extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws ClassNotFoundException
 	 */
 	public JFrameArtikelBearbeiten() throws ClassNotFoundException {
-		abteilung=new DaoAbteilung();
-		artikel=new Artikel();
-		daoArtikel=new DaoArtikel();
-		frameRegistrieren=new JFrameRegistrieren();
+		abteilung = new DaoAbteilung();
+		artikel = new Artikel();
+		daoArtikel = new DaoArtikel();
+		frameRegistrieren = new JFrameRegistrieren();
 		initGUI();
-		
+
 	}
+
 	private void initGUI() {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -103,21 +105,21 @@ public class JFrameArtikelBearbeiten extends JFrame {
 		{
 			comboBox = new JComboBox();
 			comboBox.setBounds(418, 151, 127, 20);
-			if(!JFrameStart.wegRegistierung) {
+			if (!JFrameStart.wegRegistierung) {
 				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
 				System.out.println(frameRegistrieren.nameGeascheaft);
 			}
-			
+
 			contentPane.add(comboBox);
 		}
 	}
+
 	protected void do_buttonSpeichern_actionPerformed(ActionEvent e) {
 		String katihor;
 		artikel.setNameArtikel(nameArtikel.getText());
 		artikel.setPreis(preisArtikel.getText());
-		katihor=nameKatigore.getText();
+		katihor = nameKatigore.getText();
 		daoArtikel.insertArtkel(artikel, katihor, comboBox.getSelectedItem().toString());
-		
-		
+
 	}
 }

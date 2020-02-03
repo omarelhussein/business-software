@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
@@ -86,7 +87,6 @@ public class JFrameRegistrieren extends JFrame {
 	private JPanel panel_step3;
 	private JLabel labelNewLabel;
 	private JCheckBox checkBoxNewCheckBox;
-	public static String nameGeascheaft;
 
 	/**
 	 * Launch the application.
@@ -432,12 +432,12 @@ public class JFrameRegistrieren extends JFrame {
 		}
 
 		if (counter == 0) {
-			
+
 			gescheaft.setNamegeascheaft(text_field_name.getText());
-			
+
 			gescheaft.setBezeichnung(textField_Bezeichnung.getText());
 			gescheaft.setPass(String.valueOf(textField_pass.getPassword()));
-			
+
 			manageRegisterSteps(0, 3);
 			return;
 		}
@@ -468,21 +468,20 @@ public class JFrameRegistrieren extends JFrame {
 
 			anschrift.setTel(textField_Tel.getText());
 			anschrift.setAdressse(textField_strasse.getText());
-			
+
 			gescheaft.setEmail(textField_email.getText());
 			gescheaft.setTel(textField_Tel.getText());
 			anschrift.setStadt(textField_ort.getText());
 			anschrift.setPlz(textField_plz.getText());
-			
+
 			manageRegisterSteps(1, 3);
 		}
 
-		if (checkBoxNewCheckBox.isSelected() && counter == 3&& daomelden.insert(anschrift,gescheaft)==true) {
-			nameGeascheaft=gescheaft.getNamegeascheaft();
+		if (checkBoxNewCheckBox.isSelected() && counter == 3 && daomelden.insert(anschrift, gescheaft) == true) {
+			GeschaeftDB.getInstance().setCurrentAccountName(gescheaft.getNamegeascheaft());
 			JFrameMain main = new JFrameMain();
 			Utils.startNewJFrame(this, main);
-			
-			
+
 		}
 
 	}

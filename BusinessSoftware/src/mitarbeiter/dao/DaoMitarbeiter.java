@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
@@ -54,7 +55,7 @@ public class DaoMitarbeiter {
 			preparedStatement.setString(3, mitarbeiter.getNachname());
 			preparedStatement.setString(4, mitarbeiter.getLohn());
 			preparedStatement.setInt(6, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", JFrameRegistrieren.nameGeascheaft, aNmae, sqlresors));
+					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), aNmae, sqlresors));
 
 			preparedStatement.setInt(7, SQLiteConnection.anzalAnschrift("Anschrift", sqlresors));
 			preparedStatement.execute();
@@ -99,7 +100,14 @@ public class DaoMitarbeiter {
 				return false;
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+				preparedStatment.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}

@@ -19,12 +19,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Unicodes;
+import main.business_classes.Geschaeft;
 import main.views.JFrameMain;
 import mitarbeiter.dao.DaoMitarbeiter;
 import start.login.dao.Daoanmelden;
+import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
 @SuppressWarnings("serial")
@@ -206,8 +209,10 @@ public class JFrameAnmelden extends JFrame {
 
 		if (login.loginBoss(textFieldNameInput.getText(), String.valueOf(textFieldPasswordInput.getPassword()))
 				&& radioButtonGeschftfhrer.isSelected()) {
+			GeschaeftDB.getInstance().setCurrentAccountName(textFieldNameInput.getText());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
+			System.out.println("" + textFieldNameInput.getText());
 			return;
 		}
 

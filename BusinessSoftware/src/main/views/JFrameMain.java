@@ -27,9 +27,11 @@ import artikel.views.JFrameArtikelAnzeigen;
 import artikel.views.JFrameArtikelAnzeigenButton;
 import artikel.views.JFrameArtikelBearbeiten;
 import artikel.views.JFrameArtikelHinzufuegen;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
+import main.business_classes.Geschaeft;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
 import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
@@ -114,7 +116,8 @@ public class JFrameMain extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
-			labelMainTitle = new JLabel(JFrameRegistrieren.nameGeascheaft);
+			labelMainTitle = new JLabel(GeschaeftDB.getInstance().getCurrentAccountName());
+			System.out.println("\n\nfrom main: " + GeschaeftDB.getInstance().getCurrentAccountName());
 			labelMainTitle.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			labelMainTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			Fonts.setCenturySchoolbookFont(labelMainTitle, 42);

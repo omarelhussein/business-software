@@ -12,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -89,7 +90,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		scrollPane.setViewportView(list);
 		list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		list.setFont(new Font("Century Schoolbook", Font.PLAIN, 20));
-		String[] arrayValues = abteilung.Abteilungen(JFrameRegistrieren.nameGeascheaft);
+		String[] arrayValues = abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
 		arrayToArrayList(arrayValues);
 		list.setModel(new AbstractListModel() {
 			public int getSize() {

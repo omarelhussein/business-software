@@ -16,9 +16,11 @@ import javax.swing.border.EmptyBorder;
 import abteilungen.DaoAbteilung;
 import artikel.DaoArtikel;
 import artikel.business_classes.Artikel;
+import general.code.GeschaeftDB;
 import registrierung.JFrameRegistrieren;
 import start.views.JFrameStart;
 
+@SuppressWarnings("serial")
 public class JFrameArtikelBearbeiten extends JFrame {
 
 	private JPanel contentPane;
@@ -27,7 +29,7 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	private JTextField preisArtikel;
 	private JButton buttonSpeichern;
 	private JTextField nameKatigore;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	DaoAbteilung abteilung;
 	Artikel artikel;
 	DaoArtikel daoArtikel;
@@ -103,11 +105,10 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			nameKatigore.setColumns(10);
 		}
 		{
-			comboBox = new JComboBox();
+			comboBox = new JComboBox<String>();
 			comboBox.setBounds(418, 151, 127, 20);
 			if (!JFrameStart.wegRegistierung) {
-				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
-				System.out.println(frameRegistrieren.nameGeascheaft);
+				comboBox.setModel(new DefaultComboBoxModel<String>(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			}
 
 			contentPane.add(comboBox);

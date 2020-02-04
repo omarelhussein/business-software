@@ -1,5 +1,8 @@
 package main.business_classes;
 
+/**
+ Created by Mohammad 10.12.2019
+ */
 public class Geschaeft {
 	
 	private int id;

@@ -1,5 +1,9 @@
 package abteilungen.business_classes;
 
+/**
+ * 
+ *
+ */
 public class Abteilung {
 	
 	private int id;

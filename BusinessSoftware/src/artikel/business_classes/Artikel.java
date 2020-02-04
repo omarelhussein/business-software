@@ -1,5 +1,8 @@
 package artikel.business_classes;
 
+/**
+ * Created by Mohammad on 10.12.2019
+ */
 public class Artikel {
 	
 	private int id;

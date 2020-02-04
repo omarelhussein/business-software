@@ -178,6 +178,11 @@ public class JFrameStart extends JFrame {
 	private void showPane(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
 	}
+	/**
+	 * created by Omar on 12.01.2020
+	 * teil davon aref
+	 * @param arg0
+	 */
 
 	protected void onAnmeldenClicked(ActionEvent arg0) throws ClassNotFoundException {
 		if(daoanmelden.nameGeascheaft()[0].equals("")) {

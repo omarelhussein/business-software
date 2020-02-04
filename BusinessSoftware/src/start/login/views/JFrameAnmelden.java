@@ -29,6 +29,8 @@ import mitarbeiter.dao.DaoMitarbeiter;
 import start.login.dao.Daoanmelden;
 import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 @SuppressWarnings("serial")
 public class JFrameAnmelden extends JFrame {
@@ -48,6 +50,9 @@ public class JFrameAnmelden extends JFrame {
 	private JRadioButton radioButtonMitarbeiter;
 	private JRadioButton radioButtonGeschftfhrer;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private JComboBox comboBox;
+	DaoMitarbeiter mitarbeiterEinlogen;
+	Daoanmelden daoanmelden;
 
 	/**
 	 * Launch the application.
@@ -68,8 +73,11 @@ public class JFrameAnmelden extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ClassNotFoundException 
 	 */
-	public JFrameAnmelden() {
+	public JFrameAnmelden() throws ClassNotFoundException {
+		 mitarbeiterEinlogen = new DaoMitarbeiter();
+		 daoanmelden=new Daoanmelden();
 		initGUI();
 	}
 
@@ -158,6 +166,12 @@ public class JFrameAnmelden extends JFrame {
 				radioButtonGeschftfhrer.setBounds(560, 28, 127, 25);
 				panel.add(radioButtonGeschftfhrer);
 			}
+			{
+				comboBox = new JComboBox();
+				comboBox.setModel(new DefaultComboBoxModel(daoanmelden.nameGeascheaft()));
+				comboBox.setBounds(385, 272, 144, 20);
+				panel.add(comboBox);
+			}
 		}
 		buttonZurck = new JButton(Unicodes.BACK_ARROW);
 		buttonZurck.setBounds(24, 484, 246, 46);
@@ -165,7 +179,12 @@ public class JFrameAnmelden extends JFrame {
 		contentPane.add(buttonZurck);
 		buttonZurck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				onBack(arg0);
+				try {
+					onBack(arg0);
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		buttonOk = new JButton(Unicodes.CHECK);
@@ -207,8 +226,8 @@ public class JFrameAnmelden extends JFrame {
 		System.out.println(textFieldNameInput.getText());
 		System.out.println(String.valueOf(textFieldPasswordInput.getPassword()));
 
-		if (login.loginBoss(textFieldNameInput.getText(), String.valueOf(textFieldPasswordInput.getPassword()))
-				&& radioButtonGeschftfhrer.isSelected()) {
+		if (radioButtonGeschftfhrer.isSelected()&&login.loginBoss(textFieldNameInput.getText(), String.valueOf(textFieldPasswordInput.getPassword()))
+				 ) {
 			GeschaeftDB.getInstance().setCurrentAccountName(textFieldNameInput.getText());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
@@ -216,20 +235,22 @@ public class JFrameAnmelden extends JFrame {
 			return;
 		}
 
-		DaoMitarbeiter mitarbeiterEinlogen = new DaoMitarbeiter();
+		
 
-		if (mitarbeiterEinlogen.mitarbeitereinlogen(textFieldNameInput.getText(),
-				String.valueOf(textFieldPasswordInput.getPassword())) && radioButtonMitarbeiter.isSelected()) {
+		if (radioButtonMitarbeiter.isSelected()&&mitarbeiterEinlogen.mitarbeitereinlogen(textFieldNameInput.getText(),
+				String.valueOf(textFieldPasswordInput.getPassword()),comboBox.getSelectedItem().toString()) ) {
+			GeschaeftDB.getInstance().setCurrentAccountName(comboBox.getSelectedItem().toString());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
+			
+		
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte geben Sie den richtigen Name und Password ein");
 		}
 	}
 
-	protected void onBack(ActionEvent arg0) {
+	protected void onBack(ActionEvent arg0) throws ClassNotFoundException {
 		JFrameStart JFrameBack = new JFrameStart();
 		Utils.reviewOldJFrame(this, JFrameBack);
 	}
-
 }

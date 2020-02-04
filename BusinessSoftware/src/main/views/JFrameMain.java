@@ -103,7 +103,12 @@ public class JFrameMain extends JFrame {
 					menuItemLogout = new JMenuItem("Abmelden");
 					menuItemLogout.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							menuItemLogoutActionPerformed(e);
+							try {
+								menuItemLogoutActionPerformed(e);
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 					});
 					menuSettings.add(menuItemLogout);
@@ -339,8 +344,9 @@ public class JFrameMain extends JFrame {
 	 * Created by Omar on 24.12.2019
 	 * 
 	 * @param e
+	 * @throws ClassNotFoundException 
 	 */
-	protected void menuItemLogoutActionPerformed(ActionEvent e) {
+	protected void menuItemLogoutActionPerformed(ActionEvent e) throws ClassNotFoundException {
 		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?", "Abmelden", 2);
 		switch (answer) {
 		case 0:

@@ -188,7 +188,12 @@ public class JFrameRegistrieren extends JFrame {
 					buttonNewButton = new JButton(Unicodes.BACK_ARROW);
 					buttonNewButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							onBackPressed(arg0);
+							try {
+								onBackPressed(arg0);
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					});
 					buttonNewButton.setBounds(10, 509, 178, 41);
@@ -257,7 +262,7 @@ public class JFrameRegistrieren extends JFrame {
 		return textnutz;
 	}
 
-	protected void onBackPressed(ActionEvent arg0) {
+	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		Utils.reviewOldJFrame(this, new JFrameStart());
 	}
 }

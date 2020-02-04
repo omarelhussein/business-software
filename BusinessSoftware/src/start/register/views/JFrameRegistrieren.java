@@ -368,7 +368,12 @@ public class JFrameRegistrieren extends JFrame {
 					buttonNewButton = new JButton(Unicodes.BACK_ARROW);
 					buttonNewButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							onBackPressed(arg0);
+							try {
+								onBackPressed(arg0);
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					});
 					buttonNewButton.setBounds(10, 520, 178, 41);
@@ -517,8 +522,9 @@ public class JFrameRegistrieren extends JFrame {
 	 * middle of the registration or at the end
 	 * 
 	 * @param arg0
+	 * @throws ClassNotFoundException 
 	 */
-	protected void onBackPressed(ActionEvent arg0) {
+	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		for (int i = 0; i < radioButtonsGroup.size(); i++) {
 			if (radioButtonsGroup.get(0).isSelected()) {
 				Utils.reviewOldJFrame(this, new JFrameStart());

@@ -263,7 +263,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		return textnutz;
 	}
 
-	protected void onBackPressed(ActionEvent arg0) {
+	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		Utils.reviewOldJFrame(this, new JFrameStart());
 	}
 }

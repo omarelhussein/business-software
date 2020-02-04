@@ -23,7 +23,7 @@ import general.code.Utils;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
 import mitarbeiter.dao.DaoMitarbeiter;
-import registrierung.JFrameRegistrieren;
+import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
@@ -50,12 +50,13 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	DaoMitarbeiter daoMitarbeiter;
 	private JComboBox comboBox;
 	JFrameRegistrieren frameRegistrieren;
-
 	DaoAbteilung abteilung;
 	Anschrift anschrift;
 	JFrameAbteilunghinzufuegen abteilunghinzufuegen;
 	private JList list;
 	private JScrollPane scrollPane;
+	private JTextField plz;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -205,6 +206,17 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			scrollPane.setBounds(666, 47, 1, 1);
 			contentPane.add(scrollPane);
 		}
+		{
+			plz = new JTextField();
+			plz.setBounds(480, 160, 86, 20);
+			contentPane.add(plz);
+			plz.setColumns(10);
+		}
+		{
+			lblNewLabel = new JLabel("plz");
+			lblNewLabel.setBounds(393, 166, 46, 14);
+			contentPane.add(lblNewLabel);
+		}
 
 	}
 
@@ -230,6 +242,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			anschrift.setStadt(Stadt.getText());
 			anschrift.setAdressse(Adresse.getText());
 			anschrift.setTel(Tel.getText());
+			anschrift.setPlz(plz.getText());
 			daoMitarbeiter.insert(mitarbeiter, comboBox.getSelectedItem().toString(), anschrift);
 
 		}

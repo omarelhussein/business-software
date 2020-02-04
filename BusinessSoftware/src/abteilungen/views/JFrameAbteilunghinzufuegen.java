@@ -51,7 +51,10 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private ArrayList<String> values;
 	private JScrollPane scrollPane;
 	private DaoAbteilung daoabteilung;
-	public static String []abteilung;
+	public static String[] abteilung;
+	private JButton button_Mins_abteilung;
+	private JTextField textFieldSuchen;
+	private JButton buttonSuchen;
 
 	/**
 	 * Launch the application.
@@ -71,11 +74,12 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws ClassNotFoundException
 	 */
 	public JFrameAbteilunghinzufuegen() throws ClassNotFoundException {
 		initGUI();
-		daoabteilung=new DaoAbteilung();
+		daoabteilung = new DaoAbteilung();
 	}
 
 	private void initGUI() {
@@ -118,6 +122,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		{
 			btn_activate_custom_abteilung = new JButton("Custom Abteilung hinzuf\u00FCgen");
 			btn_activate_custom_abteilung.addActionListener(new ActionListener() {
+
 				public void actionPerformed(ActionEvent arg0) {
 					onActivateCustomAbteilungClicked(arg0);
 				}
@@ -149,6 +154,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			Utils.setStandardButtonOptions(btn_check_abteilung);
 			contentPane.add(btn_check_abteilung);
 		}
+
 		{
 			text_field_custom_abteilung = new JTextField();
 			text_field_custom_abteilung.setVisible(false);
@@ -180,11 +186,41 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 				list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			}
 		}
+		{
+			button_Mins_abteilung = new JButton("-");
+			button_Mins_abteilung.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
+			Utils.setStandardButtonOptions(button_Mins_abteilung);
+			button_Mins_abteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onMinsAbteilungClicked(arg0);
+				}
+			});
+			button_Mins_abteilung.setBounds(200, 235, 50, 25);
+			contentPane.add(button_Mins_abteilung);
+		}
+		{
+			textFieldSuchen = new JTextField();
+			textFieldSuchen.setToolTipText("Aus der Liste Suchen");
+			textFieldSuchen.setBounds(197, 270, 177, 27);
+			contentPane.add(textFieldSuchen);
+			textFieldSuchen.setColumns(10);
+		}
+		{
+			buttonSuchen = new JButton("Suchen");
+			Utils.setStandardButtonOptions(buttonSuchen);
+			buttonSuchen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					buttonSuchenActionPerformed(arg0);
+				}
+			});
+			buttonSuchen.setBounds(255, 235, 115, 25);
+			contentPane.add(buttonSuchen);
+		}
 	}
-	
+
 	/**
-	 * Created On 04.01.2020
-	 * Created By Omar
+	 * Created On 04.01.2020 Created By Omar
+	 * 
 	 * @param arg0
 	 */
 	protected void onActivateCustomAbteilungClicked(ActionEvent arg0) {
@@ -192,17 +228,21 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		button_add_custom_abteilung.setVisible(true);
 		text_field_custom_abteilung.requestFocus();
 	}
-	
+
 	/**
-	 * Created On 04.01.2020
-	 * Created By Omar
+	 * Created On 04.01.2020 Created By Omar
+	 * 
 	 * @param arg0
 	 */
 	protected void onAddAbteilungClicked(ActionEvent arg0) {
 		values.add(comboBox.getSelectedItem().toString());
-		updateAbteilungsList();
+		Utils.updateList(list, true, scrollPane, values);
 	}
 
+	/**
+	 * Created On 04.01.2020 Created By Omar
+	 * 
+	 */
 	private void updateAbteilungsList() {
 		list.setModel(new AbstractListModel<Object>() {
 
@@ -216,9 +256,9 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 				return values.size();
 			}
 		});
-		
+
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				JScrollBar verticalScroll = scrollPane.getVerticalScrollBar();
@@ -226,39 +266,74 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
-	 * Created On 04.01.2020
-	 * Created By Omar
+	 * Created On 04.01.2020 Created By Omar
+	 * adds a custom abteilung after the button was clicked
 	 * @param arg0
 	 */
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
-		if(text_field_custom_abteilung.getText() != null) {
+		if (text_field_custom_abteilung.getText() != null) {
 			values.add(text_field_custom_abteilung.getText().toString());
-			updateAbteilungsList();
+			Utils.updateList(list, true, scrollPane, values);
 			text_field_custom_abteilung.setText("");
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte einen vollständingen Namen eingeben");
 		}
 	}
+
 	/**
 	 * @author Aref
 	 * @param arg0
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException
 	 */
 	protected void do_btn_check_abteilung_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
-	 String [] abteilungen=new String [values.size()];
-	 String bteilung;
-	 for (int i = 0; i < abteilungen.length; i++) {
-		abteilungen [i]=values.get(i).toString();
-		bteilung=abteilungen[i]; 
-		daoabteilung.insertAbteilung(bteilung);
-		bteilung="";
-	}
-	 abteilung=new String [abteilungen.length];
+		String[] abteilungen = new String[values.size()];
+		String bteilung;
+		for (int i = 0; i < abteilungen.length; i++) {
+			abteilungen[i] = values.get(i).toString();
+			bteilung = abteilungen[i];
+			daoabteilung.insertAbteilung(bteilung);
+			bteilung = "";
+		}
+		abteilung = new String[abteilungen.length];
 		abteilung = abteilungen;
 		System.out.println(abteilungen[0]);
-	 this.setVisible(false);
-		
+		this.setVisible(false);
+	}
+
+	/**
+	 * 15.01.2020 Ajabnoor
+	 * removes the selected abteilung
+	 * @param arg0
+	 */
+	protected void onMinsAbteilungClicked(ActionEvent arg0) {
+		if (list.isSelectedIndex(list.getSelectedIndex())) {
+			String abteilung = list.getSelectedValue().toString();
+			// daoabteilung.AbteilungDelet(abteilung);
+			values.remove(list.getSelectedIndex());
+			Utils.updateList(list, true, scrollPane, values);
+		} else {
+			System.out.println("sad");
+
+		}
+	}
+
+	/**
+	 * 15.01.2020 Ajabnoor
+	 * searches the abteilung
+	 * @param arg0
+	 */
+	protected void buttonSuchenActionPerformed(ActionEvent arg0) {
+
+		for (String string : values) {
+			if (textFieldSuchen.getText().equals(string)) {
+				list.setSelectionInterval(values.indexOf(string), values.lastIndexOf(string));
+				return;
+			}
+
+		}
+		JOptionPane.showMessageDialog(this, "Suchwort wurde nicht gefunden");
+
 	}
 }

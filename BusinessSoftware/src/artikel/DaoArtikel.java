@@ -31,7 +31,7 @@ public class DaoArtikel {
 		PreparedStatement preparedStatement = null;
 		try {
 
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String katjglbefehl = "insert into Kategorie values (?,?,?)";
 			preparedStatement = connection.prepareStatement(katjglbefehl);
 			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie") + 1);
@@ -44,7 +44,7 @@ public class DaoArtikel {
 			connection = null;
 			preparedStatement = null;
 			try {
-				connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+				connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 				String artikelbefehl = "insert into Artikel values (?,?,?,?)";
 				preparedStatement = connection.prepareStatement(artikelbefehl);
 				preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel") + 1);
@@ -86,7 +86,7 @@ public class DaoArtikel {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select  id  from " + tableName + " where " + name + " = ?";
 			statmment = conn.prepareStatement(an);
 			statmment.setString(1, bedinung1);

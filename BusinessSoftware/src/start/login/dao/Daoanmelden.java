@@ -10,9 +10,6 @@ import general.code.SQLiteConnection;
 
 public class Daoanmelden {
 
-	private final String DATEI = "Geaschgeaft.db";
-	
-
 	public Daoanmelden() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
 	}
@@ -31,7 +28,7 @@ public class Daoanmelden {
 		Connection rabita = null;
 
 		try {
-			rabita = DriverManager.getConnection(DATEI);
+			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
@@ -66,7 +63,7 @@ public class Daoanmelden {
 		String abteilunge = "";
 		String[] abteilungen = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "select namegaeschaeft from Geascheaft";
 			
 			preparedStatement = connection.prepareStatement(sql);

@@ -29,7 +29,7 @@ public class DaoAbteilung {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "INSERT into Abteilung VALUES(?,?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Abteilung") + 1);
@@ -63,7 +63,7 @@ public class DaoAbteilung {
 		String abteilunge = "";
 		String[] abteilungen = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "select nameAbteilung from Abteilung inner join Geascheaft on Abteilung.agf=Geascheaft.id where namegaeschaeft =?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, nameGeascheaft);

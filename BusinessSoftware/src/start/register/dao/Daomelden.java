@@ -38,7 +38,7 @@ public class Daomelden {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			if(SQLiteConnection.uberBrufname("Geascheaft", "namegaeschaeft", "namegaeschaeft", gescheaft.getNamegeascheaft()).equals(gescheaft.getNamegeascheaft())) {
 				// show inputDialog return eine String
 				String newnamegeascheft=JOptionPane.showInputDialog(null, "diese Geascheaft ist schon vorhanden Bitte neu ein geben *_*");
@@ -86,7 +86,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select Max (id) As gesamt from Geascheaft  ";
 			statmment = conn.prepareStatement(an);
 			System.out.println("dsa");
@@ -112,7 +112,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select Max (id) As gesamt from Anschrift  ";
 			statmment = conn.prepareStatement(an);
 			statmment.execute();

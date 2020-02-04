@@ -37,7 +37,7 @@ public class DaoMitarbeiter {
 		PreparedStatement preparedStatement = null;
 		try {
 
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sqlAnschrift = "insert into Anschrift values(?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sqlAnschrift);
 			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Anschrift") + 1);
@@ -85,7 +85,7 @@ public class DaoMitarbeiter {
 		Connection connection = null;
 
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT * FROM  Mitarbeiter inner join Abteilung on Mitarbeiter.maf = Abteilung.id WHERE Abteilung.agf = ? and namemitarbeiter = ? AND pass = ?";
 			System.out.println(sql);
 			preparedStatment = connection.prepareStatement(sql);

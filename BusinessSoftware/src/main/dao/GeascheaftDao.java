@@ -26,7 +26,7 @@ public class GeascheaftDao {
 		Connection conn = null;
 
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 
 			String sql = "SELECT namegaeschaeft from Geascheaft";
 

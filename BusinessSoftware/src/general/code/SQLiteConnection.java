@@ -12,7 +12,7 @@ public class SQLiteConnection {
 	private static final String SQLITE_LIBRARY_CONNECTION = "org.sqlite.JDBC";
 	private static final String DB_FILE = "Geaschgeaft.db";
 
-	public static String getSQLiteConnectionString() {
+	public static String getSQLiteConnection() {
 		return CONNECTION_STRING + DB_FILE;
 	}
 
@@ -40,7 +40,7 @@ public class SQLiteConnection {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select " + tableName + ".id from " + tableName + " inner join " + tableName2 + " on "
 					+ tableName + "." + colum + "=" + tableName2 + ".id where " + tableName2 + "." + colum2
 					+ " = ?  and " + tableName + "." + colum3 + " = ?";
@@ -78,7 +78,7 @@ public class SQLiteConnection {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select Max (id) As gesamt from " + tableName;
 			statmment = conn.prepareStatement(an);
 
@@ -115,7 +115,7 @@ public class SQLiteConnection {
 		PreparedStatement statmment = null;
 		String d = "";
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select " + tableName + ".nameAbteilung As gesamt from " + tableName + " inner join "
 					+ tableName2 + " on " + tableName + "." + colum + " = " + tableName2 + "." + colum2 + " where "
 					+ tableName + "." + colum3 + " = ?  and " + tableName2 + "." + colum4 + " = ?";
@@ -151,7 +151,7 @@ public class SQLiteConnection {
 		PreparedStatement preparedStatement = null;
 		try {
 
-			connection = DriverManager.getConnection(getSQLiteConnectionString());
+			connection = DriverManager.getConnection(getSQLiteConnection());
 			String sqlBefehl = "Delete from " + tabelName + " where " + tabelName + "." + colum1 + " = ? and "
 					+ tabelName + "." + colum2 + " = " + i;
 			System.out.println(sqlBefehl);
@@ -177,7 +177,7 @@ public class SQLiteConnection {
 		PreparedStatement preparedStatement = null;
 		int id = 0;
 		try {
-			connection = DriverManager.getConnection(getSQLiteConnectionString());
+			connection = DriverManager.getConnection(getSQLiteConnection());
 			String sqlbefehl = "select id from " + tabelleName + " where  " + tabelleName + "." + colum + " = ?";
 			preparedStatement = connection.prepareStatement(sqlbefehl);
 			preparedStatement.setString(1, bedinungErfullen);
@@ -203,7 +203,7 @@ public class SQLiteConnection {
 		PreparedStatement preparedStatement = null;
 		String name = "";
 		try {
-			connection = DriverManager.getConnection(getSQLiteConnectionString());
+			connection = DriverManager.getConnection(getSQLiteConnection());
 			String sqlBefehl = " select " + colum + " from " + tabeleName + " where  " + colum2 + " = ? ";
 			preparedStatement = connection.prepareStatement(sqlBefehl);
 			preparedStatement.setString(1, bedinung);

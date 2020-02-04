@@ -10,10 +10,10 @@ import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import general.code.Utils;
+import main.dao.GeascheaftDao;
 import start.register.views.JFrameRegistrieren;
 
 public class DaoArtikel {
-	final String sql = "Geaschgeaft.db";
 
 	public DaoArtikel() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
@@ -30,30 +30,31 @@ public class DaoArtikel {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
+
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
 			String katjglbefehl = "insert into Kategorie values (?,?,?)";
 			preparedStatement = connection.prepareStatement(katjglbefehl);
-			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie", sql) + 1);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie") + 1);
 			preparedStatement.setString(2, katig);
-			preparedStatement.setInt(3,
-					SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft",
-							"nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung, sql));
+			preparedStatement.setInt(3, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
+					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
 			preparedStatement.execute();
 			connection.close();
 			preparedStatement.close();
 			connection = null;
 			preparedStatement = null;
 			try {
-				connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
+				connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
 				String artikelbefehl = "insert into Artikel values (?,?,?,?)";
 				preparedStatement = connection.prepareStatement(artikelbefehl);
-				preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel", sql) + 1);
+				preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel") + 1);
 				preparedStatement.setString(2, artikel.getNameArtikel());
 				preparedStatement.setString(3, artikel.getPreis());
 				String nameGeascheaft = SQLiteConnection.nameGeascheaft("Abteilung", "Geascheaft", "agf", "id",
-						"nameAbteilung", "namegaeschaeft", abteilung, GeschaeftDB.getInstance().getCurrentAccountName(), sql);
+						"nameAbteilung", "namegaeschaeft", abteilung,
+						GeschaeftDB.getInstance().getCurrentAccountName());
 				preparedStatement.setInt(4, SQLiteConnection.idBetrefendesache("Kategorie", "Abteilung", "kaf",
-						"nameAbteilung", "nameKategorie", nameGeascheaft, katig, sql));
+						"nameAbteilung", "nameKategorie", nameGeascheaft, katig));
 				preparedStatement.execute();
 				nameGeascheaft = "";
 			} catch (SQLException e) {
@@ -85,7 +86,7 @@ public class DaoArtikel {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sql));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
 			String an = "select  id  from " + tableName + " where " + name + " = ?";
 			statmment = conn.prepareStatement(an);
 			statmment.setString(1, bedinung1);

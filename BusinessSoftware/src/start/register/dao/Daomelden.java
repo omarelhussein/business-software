@@ -14,7 +14,6 @@ import main.business_classes.Geschaeft;
 
 public class Daomelden {
 
-	private final String SQLITE_TABLE = "Geaschgeaft.db";
 
 	public Daomelden() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
@@ -39,8 +38,8 @@ public class Daomelden {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
-			if(SQLiteConnection.uberBrufname("Geascheaft", "namegaeschaeft", "namegaeschaeft", gescheaft.getNamegeascheaft(), SQLITE_TABLE).equals(gescheaft.getNamegeascheaft())) {
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
+			if(SQLiteConnection.uberBrufname("Geascheaft", "namegaeschaeft", "namegaeschaeft", gescheaft.getNamegeascheaft()).equals(gescheaft.getNamegeascheaft())) {
 				// show inputDialog return eine String
 				String newnamegeascheft=JOptionPane.showInputDialog(null, "diese Geascheaft ist schon vorhanden Bitte neu ein geben *_*");
 				gescheaft.setNamegeascheaft(newnamegeascheft);
@@ -87,7 +86,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
 			String an = "select Max (id) As gesamt from Geascheaft  ";
 			statmment = conn.prepareStatement(an);
 			System.out.println("dsa");
@@ -113,7 +112,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
 			String an = "select Max (id) As gesamt from Anschrift  ";
 			statmment = conn.prepareStatement(an);
 			statmment.execute();

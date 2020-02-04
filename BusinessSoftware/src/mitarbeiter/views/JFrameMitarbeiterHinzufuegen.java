@@ -27,6 +27,7 @@ import mitarbeiter.dao.DaoMitarbeiter;
 import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
+@SuppressWarnings("serial")
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
 
 	private JPanel contentPane;
@@ -49,12 +50,12 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private boolean textnutz;
 	Mitarbeiter mitarbeiter;
 	DaoMitarbeiter daoMitarbeiter;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	JFrameRegistrieren frameRegistrieren;
 	DaoAbteilung abteilung;
 	Anschrift anschrift;
 	JFrameAbteilunghinzufuegen abteilunghinzufuegen;
-	private JList list;
+	private JList<String> list;
 	private JScrollPane scrollPane;
 	private JTextField plz;
 	private JLabel lblNewLabel;
@@ -193,9 +194,9 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			contentPane.add(btnNewButton);
 		}
 		{
-			comboBox = new JComboBox();
+			comboBox = new JComboBox<String>();
 			if (!JFrameStart.wegRegistierung) {
-				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+				comboBox.setModel(new DefaultComboBoxModel<String>(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			}
 
 			comboBox.setBounds(197, 248, 191, 59);

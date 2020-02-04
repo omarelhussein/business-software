@@ -123,6 +123,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	private void arraytoArrayList() {
 		for (int i = 0; i < abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length; i++) {
 			value.add(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i]);
+
 		}
 	}
 }

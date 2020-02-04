@@ -25,7 +25,7 @@ public class Daoanmelden {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public boolean loginBoss(String name, String password) throws ClassNotFoundException {
+	public boolean loginBoss(String name, String password) {
 
 		PreparedStatement vorbereitungAussage = null;
 		Connection rabita = null;
@@ -66,7 +66,7 @@ public class Daoanmelden {
 		String abteilunge = "";
 		String[] abteilungen = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(DATEI));
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString());
 			String sql = "select namegaeschaeft from Geascheaft";
 			
 			preparedStatement = connection.prepareStatement(sql);

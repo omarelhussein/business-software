@@ -11,6 +11,7 @@ import javax.swing.JList;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -34,8 +35,8 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	private JButton btn_abteilung_check;
 	private JScrollPane scrollPane;
 	private JButton btn_abteilung_anzeigen;
-    DaoAbteilung abteilung=null;
-    ArrayList< String> value ;
+	DaoAbteilung abteilung = null;
+	ArrayList<String> value;
 
 	/**
 	 * Launch the application.
@@ -55,13 +56,15 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws ClassNotFoundException
 	 */
 	public JFrameAbteilungAnzeigen() throws ClassNotFoundException {
-		abteilung=new DaoAbteilung();
-		value=new ArrayList<String>();
+		abteilung = new DaoAbteilung();
+		value = new ArrayList<String>();
 		initGUI();
 	}
+
 	private void initGUI() {
 		Utils.setSmallFrameOptions(this);
 		contentPane = new JPanel();
@@ -102,21 +105,24 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 			contentPane.add(btn_abteilung_anzeigen);
 		}
 	}
+
 	protected void do_btn_abteilung_anzeigen_actionPerformed(ActionEvent arg0) {
-		arretoArray();
-		
+		arraytoArrayList();
+
 		list.setModel(new AbstractListModel() {
 			public int getSize() {
 				return value.size();
 			}
+
 			public Object getElementAt(int index) {
 				return value.get(index);
 			}
 		});
 	}
-	private void arretoArray() {
-		for (int i = 0; i < abteilung.Abteilungen(JFrameRegistrieren.nameGeascheaft).length; i++) {
-			value.add( abteilung.Abteilungen(JFrameRegistrieren.nameGeascheaft)[i]);
+
+	private void arraytoArrayList() {
+		for (int i = 0; i < abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length; i++) {
+			value.add(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i]);
 		}
 	}
 }

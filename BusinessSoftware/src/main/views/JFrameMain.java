@@ -27,9 +27,11 @@ import artikel.views.JFrameArtikelAnzeigen;
 import artikel.views.JFrameArtikelAnzeigenButton;
 import artikel.views.JFrameArtikelBearbeiten;
 import artikel.views.JFrameArtikelHinzufuegen;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
+import main.business_classes.Geschaeft;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
 import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
@@ -101,7 +103,12 @@ public class JFrameMain extends JFrame {
 					menuItemLogout = new JMenuItem("Abmelden");
 					menuItemLogout.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							menuItemLogoutActionPerformed(e);
+							try {
+								menuItemLogoutActionPerformed(e);
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 					});
 					menuSettings.add(menuItemLogout);
@@ -114,7 +121,8 @@ public class JFrameMain extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
-			labelMainTitle = new JLabel(JFrameRegistrieren.nameGeascheaft);
+			labelMainTitle = new JLabel(GeschaeftDB.getInstance().getCurrentAccountName());
+			System.out.println("\n\nfrom main: " + GeschaeftDB.getInstance().getCurrentAccountName());
 			labelMainTitle.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			labelMainTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			Fonts.setCenturySchoolbookFont(labelMainTitle, 42);
@@ -336,8 +344,9 @@ public class JFrameMain extends JFrame {
 	 * Created by Omar on 24.12.2019
 	 * 
 	 * @param e
+	 * @throws ClassNotFoundException 
 	 */
-	protected void menuItemLogoutActionPerformed(ActionEvent e) {
+	protected void menuItemLogoutActionPerformed(ActionEvent e) throws ClassNotFoundException {
 		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?", "Abmelden", 2);
 		switch (answer) {
 		case 0:

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
@@ -53,8 +54,9 @@ public class DaoMitarbeiter {
 			preparedStatement.setString(2, mitarbeiter.getNamemitarbeiter());
 			preparedStatement.setString(3, mitarbeiter.getNachname());
 			preparedStatement.setString(4, mitarbeiter.getLohn());
+			preparedStatement.setString(5, mitarbeiter.getPass());
 			preparedStatement.setInt(6, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", JFrameRegistrieren.nameGeascheaft, aNmae, sqlresors));
+					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), aNmae, sqlresors));
 
 			preparedStatement.setInt(7, SQLiteConnection.anzalAnschrift("Anschrift", sqlresors));
 			preparedStatement.execute();
@@ -77,21 +79,22 @@ public class DaoMitarbeiter {
 	 * @author ajab
 	 *
 	 */
-	private final String DATEI = "Geaschgeaft.db";
-	private final String URL = "jdbc:sqlite:" + DATEI;
 
-	public boolean mitarbeitereinlogen(String name, String password) throws ClassNotFoundException {
+
+	public boolean mitarbeitereinlogen(String name, String password,String nameGeascheaft) throws ClassNotFoundException {
 
 		PreparedStatement preparedStatment = null;
 		Connection connection = null;
 
 		try {
-			connection = DriverManager.getConnection(URL);
-			String sql = "SELECT * FROM  Mitarbeiter WHERE namemitarbeiter = ? AND pass = ?";
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlresors));
+			String sql = "SELECT * FROM  Mitarbeiter inner join Abteilung on Mitarbeiter.maf = Abteilung.id WHERE Abteilung.agf = ? and namemitarbeiter = ? AND pass = ?";
+			System.out.println(sql);
 			preparedStatment = connection.prepareStatement(sql);
-			preparedStatment.setString(1, name);
-			preparedStatment.setString(2, password);
-
+			preparedStatment.setInt(1, SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", nameGeascheaft,sqlresors));
+			preparedStatment.setString(2, name);
+			preparedStatment.setString(3, password);
+			
 			ResultSet result = preparedStatment.executeQuery();
 			if (result.next()) {
 				return true;
@@ -99,7 +102,14 @@ public class DaoMitarbeiter {
 				return false;
 			}
 		} catch (Exception e) {
-
+			System.out.println("von mit :"+e);
+		} finally {
+			try {
+				connection.close();
+				preparedStatment.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return false;
 	}

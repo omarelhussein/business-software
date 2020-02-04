@@ -172,7 +172,7 @@ public class SQLiteConnection {
 	}
 
 	// die helft die id von die sache zu holen
-	public static int idTabelle(String tabelleName, String colum, String nameSache, String sql) {
+	public static int idTabelle(String tabelleName, String colum, String bedinungErfullen, String sql) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		int id = 0;
@@ -180,7 +180,7 @@ public class SQLiteConnection {
 			connection = DriverManager.getConnection(getSQLiteConnectionString(sql));
 			String sqlbefehl = "select id from " + tabelleName + " where  " + tabelleName + "." + colum + " = ?";
 			preparedStatement = connection.prepareStatement(sqlbefehl);
-			preparedStatement.setString(1, nameSache);
+			preparedStatement.setString(1, bedinungErfullen);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			id = resultSet.getInt("id");
 		} catch (Exception e) {

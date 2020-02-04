@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
@@ -194,7 +195,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		{
 			comboBox = new JComboBox();
 			if (!JFrameStart.wegRegistierung) {
-				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
+				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			}
 
 			comboBox.setBounds(197, 248, 191, 59);
@@ -262,7 +263,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		return textnutz;
 	}
 
-	protected void onBackPressed(ActionEvent arg0) {
+	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		Utils.reviewOldJFrame(this, new JFrameStart());
 	}
 }

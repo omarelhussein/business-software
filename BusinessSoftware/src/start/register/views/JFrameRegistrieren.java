@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
@@ -86,7 +87,6 @@ public class JFrameRegistrieren extends JFrame {
 	private JPanel panel_step3;
 	private JLabel labelNewLabel;
 	private JCheckBox checkBoxNewCheckBox;
-	public static String nameGeascheaft;
 
 	/**
 	 * Launch the application.
@@ -368,7 +368,12 @@ public class JFrameRegistrieren extends JFrame {
 					buttonNewButton = new JButton(Unicodes.BACK_ARROW);
 					buttonNewButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							onBackPressed(arg0);
+							try {
+								onBackPressed(arg0);
+							} catch (ClassNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
 					});
 					buttonNewButton.setBounds(10, 520, 178, 41);
@@ -432,12 +437,12 @@ public class JFrameRegistrieren extends JFrame {
 		}
 
 		if (counter == 0) {
-			
+
 			gescheaft.setNamegeascheaft(text_field_name.getText());
-			
+
 			gescheaft.setBezeichnung(textField_Bezeichnung.getText());
 			gescheaft.setPass(String.valueOf(textField_pass.getPassword()));
-			
+
 			manageRegisterSteps(0, 3);
 			return;
 		}
@@ -468,21 +473,20 @@ public class JFrameRegistrieren extends JFrame {
 
 			anschrift.setTel(textField_Tel.getText());
 			anschrift.setAdressse(textField_strasse.getText());
-			
+
 			gescheaft.setEmail(textField_email.getText());
 			gescheaft.setTel(textField_Tel.getText());
 			anschrift.setStadt(textField_ort.getText());
 			anschrift.setPlz(textField_plz.getText());
-			
+
 			manageRegisterSteps(1, 3);
 		}
 
-		if (checkBoxNewCheckBox.isSelected() && counter == 3&& daomelden.insert(anschrift,gescheaft)==true) {
-			nameGeascheaft=gescheaft.getNamegeascheaft();
+		if (checkBoxNewCheckBox.isSelected() && counter == 3 && daomelden.insert(anschrift, gescheaft) == true) {
+			GeschaeftDB.getInstance().setCurrentAccountName(gescheaft.getNamegeascheaft());
 			JFrameMain main = new JFrameMain();
 			Utils.startNewJFrame(this, main);
-			
-			
+
 		}
 
 	}
@@ -518,8 +522,9 @@ public class JFrameRegistrieren extends JFrame {
 	 * middle of the registration or at the end
 	 * 
 	 * @param arg0
+	 * @throws ClassNotFoundException 
 	 */
-	protected void onBackPressed(ActionEvent arg0) {
+	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		for (int i = 0; i < radioButtonsGroup.size(); i++) {
 			if (radioButtonsGroup.get(0).isSelected()) {
 				Utils.reviewOldJFrame(this, new JFrameStart());

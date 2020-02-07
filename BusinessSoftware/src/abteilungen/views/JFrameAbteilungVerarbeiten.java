@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -38,13 +39,14 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	private JPanel contentPane;
 	private JList<Object> list;
 	private JTextField textField_abteilungVerwalten_name;
-	private JTextField textField_abteilungVerarbeiten_kategorie;
+	private JTextField txtNeu;
 	private JLabel labelAbteilungBearbeitung;
 	private JScrollPane scrollPane;
 	private JButton button_abteilung_verarbeiten_check;
 	private JButton btnNewButton;
 	private DaoAbteilung  abteilung;
 	ArrayList<String> values ;
+	private JButton btnndern;
 
 	/**
 	 * Launch the application.
@@ -116,8 +118,8 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		textField_abteilungVerwalten_name.setBounds(230, 66, 143, 44);
 		contentPane.add(textField_abteilungVerwalten_name);
 
-		textField_abteilungVerarbeiten_kategorie = new JTextField("Kategorie");
-		textField_abteilungVerarbeiten_kategorie.addFocusListener(new FocusAdapter() {
+		txtNeu = new JTextField("neu");
+		txtNeu.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
 				onKategorieVerarbeitenFocused(e);
@@ -127,9 +129,9 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 				onKategorieVerarbeitenFocusLost(e);
 			}
 		});
-		Fonts.setCenturySchoolbookFont(textField_abteilungVerarbeiten_kategorie, 14);
-		textField_abteilungVerarbeiten_kategorie.setBounds(230, 132, 143, 44);
-		contentPane.add(textField_abteilungVerarbeiten_kategorie);
+		Fonts.setCenturySchoolbookFont(txtNeu, 14);
+		txtNeu.setBounds(230, 132, 143, 44);
+		contentPane.add(txtNeu);
 
 		labelAbteilungBearbeitung = new JLabel("Abteilung bearbeiten");
 		labelAbteilungBearbeitung.setHorizontalAlignment(SwingConstants.CENTER);
@@ -146,11 +148,31 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 			btnNewButton = new JButton("-");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					do_btnNewButton_actionPerformed(arg0);
+					try {
+						do_btnNewButton_actionPerformed(arg0);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			});
 			btnNewButton.setBounds(247, 217, 89, 23);
 			contentPane.add(btnNewButton);
+		}
+		{
+			btnndern = new JButton("ändern");
+			btnndern.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						do_btnndern_actionPerformed(arg0);
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			btnndern.setBounds(247, 259, 89, 23);
+			contentPane.add(btnndern);
 		}
 	}
 	
@@ -165,7 +187,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	}
 	
 	protected void onKategorieVerarbeitenFocused(FocusEvent e) {
-		textField_abteilungVerarbeiten_kategorie.setText("");
+		txtNeu.setText("");
 	}
 	
 	protected void onNameVerarbeitenFocusLost(FocusEvent e) {
@@ -175,15 +197,35 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	}
 	
 	protected void onKategorieVerarbeitenFocusLost(FocusEvent e) {
-		if(textField_abteilungVerarbeiten_kategorie.getText().isEmpty()) {
-			textField_abteilungVerarbeiten_kategorie.setText("Kategorie");
+		if(txtNeu.getText().isEmpty()) {
+			txtNeu.setText("Kategorie");
 		}
 	}
-	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
-		if(list.isSelectedIndex(list.getSelectedIndex())) {
-			abteilung.AbteilungDelete(values.get(list.getSelectedIndex()));
+	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+	
+		if(!abteilung.AbteilungDelete(values.get(list.getSelectedIndex()), GeschaeftDB.getInstance().getCurrentAccountName()).equals("")) {
+			//this.setVisible(false);
+			JOptionPane.showMessageDialog(this, "dazu sind folgende Mitarbeiter zu geordnet :\n"+ abteilung.AbteilungDelete(values.get(list.getSelectedIndex()), GeschaeftDB.getInstance().getCurrentAccountName()) );
+			//JOptionPane.showConfirmDialog(null,abteilung.AbteilungDelete(values.get(list.getSelectedIndex()), GeschaeftDB.getInstance().getCurrentAccountName()) ,"fur diese Abteilung sind schon Mitarbeiter ", 1);
+			
+		}else {
+			if(list.isSelectedIndex(list.getSelectedIndex())) {
+			abteilung.AbteilungDelete(values.get(list.getSelectedIndex()),GeschaeftDB.getInstance().getCurrentAccountName());
 			values.remove(list.getSelectedIndex());
 			Utils.updateList(list, false, null, values);
+		}
+		
+		}
+		
+	}
+	protected void do_btnndern_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+		
+		if(list.isSelectedIndex(list.getSelectedIndex())) {
+			abteilung.updet(txtNeu.getText(),values.get(list.getSelectedIndex()));
+			values.remove(list.getSelectedIndex());
+			Utils.updateList(list, false, null, values);
+		}else {
+			JOptionPane.showConfirmDialog(this, "Bitte eine Abteilung merken");
 		}
 		
 	}

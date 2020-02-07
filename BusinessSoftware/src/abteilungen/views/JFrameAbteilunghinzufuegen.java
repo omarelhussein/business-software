@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -55,6 +56,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JButton button_Mins_abteilung;
 	private JTextField textFieldSuchen;
 	private JButton buttonSuchen;
+	String nameabteilung;
 
 	/**
 	 * Launch the application.
@@ -326,11 +328,14 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	 */
 	protected void buttonSuchenActionPerformed(ActionEvent arg0) {
 
-		for (String string : values) {
+		for (String  string : values) {
 			if (textFieldSuchen.getText().equals(string)) {
 				list.setSelectionInterval(values.indexOf(string), values.lastIndexOf(string));
+				nameabteilung=string;
 				return;
+				
 			}
+
 
 		}
 		JOptionPane.showMessageDialog(this, "Suchwort wurde nicht gefunden");

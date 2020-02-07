@@ -3,6 +3,7 @@ package mitarbeiter.views;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -26,6 +27,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JButton buttonAnzeigen;
 	private JScrollPane scrollPane;
 	private JButton button;
+	private String[] values = new String[]{ "Ajab", "Omri", "Arefi", "Muhammadi" };
 
 	/**
 	 * Launch the application.
@@ -65,9 +67,8 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			{
 				list = new JList();
 				scrollPane.setViewportView(list);
+				
 				list.setModel(new AbstractListModel() {
-					String[] values = new String[] { "Ajab", "Omri", "Arefi", "Muhammadi" };
-
 					public int getSize() {
 						return values.length;
 					}
@@ -103,8 +104,15 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			contentPane.add(button);
 		}
 	}
+	
+	/**
+	 Created by Mohammad 18.01.2020
+	 */
 
 	protected void onAnzeigen(ActionEvent arg0) {
-		//TODO
+		int selectedindex = list.getSelectedIndex();
+		String name = values [selectedindex];
+		JFrameMitarbeiterProfile mitarbeiterProfil = new JFrameMitarbeiterProfile(name);
+		mitarbeiterProfil.setVisible(true);
 	}
 }

@@ -6,21 +6,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import general.code.SQLiteConnection;
 import main.business_classes.Anschrift;
 import main.business_classes.Geschaeft;
 
 public class Daomelden {
-	
 
-	private final String SQLITE_TABLE = "Geaschgeaft.db";
 
 	public Daomelden() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
 	}
 
-	public void insert(Object... objects) {
-		//* from here 
+	public boolean insert(Object... objects) {
+		// * from here
+		int anzahl = 0;
 		Geschaeft gescheaft = null;
 		Anschrift anschrift = null;
 		{
@@ -33,26 +34,38 @@ public class Daomelden {
 					anschrift = (Anschrift) object;
 				}
 			}
-		}//* until here, created by Omar
+		} // * until here, created by Omar
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
-			String sa = "INSERT into Anschrift VALUES (?,?,?,?)";
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			if(SQLiteConnection.uberBrufname("Geascheaft", "namegaeschaeft", "namegaeschaeft", gescheaft.getNamegeascheaft()).equals(gescheaft.getNamegeascheaft())) {
+				// show inputDialog return eine String
+				String newnamegeascheft=JOptionPane.showInputDialog(null, "diese Geascheaft ist schon vorhanden Bitte neu ein geben *_*");
+				gescheaft.setNamegeascheaft(newnamegeascheft);
+				return false;
+			}
+			String sa = "INSERT into Anschrift VALUES (?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sa);
-			System.out.println("dsadsadsa");
+			System.out.println("d sadsadsa");
+
 			preparedStatement.setInt(1, anzalAnschrift() + 1);
 			preparedStatement.setString(3, anschrift.getStadt());
 			preparedStatement.setString(2, anschrift.getAdressse());
 			preparedStatement.setString(4, anschrift.getTel());
+			preparedStatement.setString(5, anschrift.getPlz());
+			System.out.println(anschrift.getPlz());
+			System.out.println("dsa");
 			preparedStatement.execute();
-			String s = "INSERT into Geascheaft VALUES (?,?,?,?,?)";
+			String s = "INSERT into Geascheaft VALUES (?,?,?,?,?,?)";
+			
 			preparedStatement = connection.prepareStatement(s);
 			preparedStatement.setInt(1, anzalGeascheaft() + 1);
 			preparedStatement.setString(2, gescheaft.getNamegeascheaft());
 			preparedStatement.setString(3, gescheaft.getBezeichnung());
 			preparedStatement.setString(4, gescheaft.getPass());
-			preparedStatement.setInt(5, anzalAnschrift() + 1);
+			preparedStatement.setInt(5, anzalAnschrift());
+			preparedStatement.setString(6, gescheaft.getEmail());
 			preparedStatement.execute();
 			System.out.println(gescheaft.getBezeichnung());
 		} catch (SQLException e) {
@@ -65,16 +78,18 @@ public class Daomelden {
 				// TODO: handle exception
 			}
 		}
+		return true;
 	}
-
+        // diese mithode helft die max id von tabelle zu holen
 	public int anzalGeascheaft() {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select Max (id) As gesamt from Geascheaft  ";
 			statmment = conn.prepareStatement(an);
+			System.out.println("dsa");
 			statmment.execute();
 			ResultSet resultSet = statmment.executeQuery();
 			resultSet.next();
@@ -97,7 +112,7 @@ public class Daomelden {
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select Max (id) As gesamt from Anschrift  ";
 			statmment = conn.prepareStatement(an);
 			statmment.execute();
@@ -116,5 +131,5 @@ public class Daomelden {
 		}
 		return d;
 	}
-	
+
 }

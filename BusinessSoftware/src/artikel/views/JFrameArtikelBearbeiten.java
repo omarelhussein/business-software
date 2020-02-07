@@ -1,23 +1,39 @@
 package artikel.views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
+import abteilungen.DaoAbteilung;
+import artikel.DaoArtikel;
+import artikel.business_classes.Artikel;
+import general.code.GeschaeftDB;
+import registrierung.JFrameRegistrieren;
+import start.views.JFrameStart;
+
+@SuppressWarnings("serial")
 public class JFrameArtikelBearbeiten extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel labelArtikelBearbeiten;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField nameArtikel;
+	private JTextField preisArtikel;
 	private JButton buttonSpeichern;
+	private JTextField nameKatigore;
+	private JComboBox<String> comboBox;
+	DaoAbteilung abteilung;
+	Artikel artikel;
+	DaoArtikel daoArtikel;
+	JFrameRegistrieren frameRegistrieren;
 
 	/**
 	 * Launch the application.
@@ -37,12 +53,19 @@ public class JFrameArtikelBearbeiten extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws ClassNotFoundException
 	 */
-	public JFrameArtikelBearbeiten() {
+	public JFrameArtikelBearbeiten() throws ClassNotFoundException {
+		abteilung = new DaoAbteilung();
+		artikel = new Artikel();
+		daoArtikel = new DaoArtikel();
+		frameRegistrieren = new JFrameRegistrieren();
 		initGUI();
-	}
-	private void initGUI() {
 
+	}
+
+	private void initGUI() {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,28 +77,50 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			contentPane.add(labelArtikelBearbeiten);
 		}
 		{
-			textField = new JTextField();
-			textField.setBounds(116, 56, 116, 22);
-			contentPane.add(textField);
-			textField.setColumns(10);
+			nameArtikel = new JTextField();
+			nameArtikel.setBounds(116, 176, 116, 22);
+			contentPane.add(nameArtikel);
+			nameArtikel.setColumns(10);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setBounds(116, 94, 116, 22);
-			contentPane.add(textField_1);
-			textField_1.setColumns(10);
-		}
-		{
-			textField_2 = new JTextField();
-			textField_2.setBounds(116, 129, 116, 22);
-			contentPane.add(textField_2);
-			textField_2.setColumns(10);
+			preisArtikel = new JTextField();
+			preisArtikel.setBounds(116, 228, 116, 22);
+			contentPane.add(preisArtikel);
+			preisArtikel.setColumns(10);
 		}
 		{
 			buttonSpeichern = new JButton("Speichern");
-			buttonSpeichern.setBounds(116, 183, 97, 25);
+			buttonSpeichern.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					do_buttonSpeichern_actionPerformed(e);
+				}
+			});
+			buttonSpeichern.setBounds(93, 411, 97, 25);
 			contentPane.add(buttonSpeichern);
+		}
+		{
+			nameKatigore = new JTextField();
+			nameKatigore.setBounds(77, 114, 184, 20);
+			contentPane.add(nameKatigore);
+			nameKatigore.setColumns(10);
+		}
+		{
+			comboBox = new JComboBox<String>();
+			comboBox.setBounds(418, 151, 127, 20);
+			if (!JFrameStart.wegRegistierung) {
+				comboBox.setModel(new DefaultComboBoxModel<String>(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+			}
+
+			contentPane.add(comboBox);
 		}
 	}
 
+	protected void do_buttonSpeichern_actionPerformed(ActionEvent e) {
+		String katihor;
+		artikel.setNameArtikel(nameArtikel.getText());
+		artikel.setPreis(preisArtikel.getText());
+		katihor = nameKatigore.getText();
+		daoArtikel.insertArtkel(artikel, katihor, comboBox.getSelectedItem().toString());
+
+	}
 }

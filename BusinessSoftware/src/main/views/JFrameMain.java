@@ -27,12 +27,15 @@ import artikel.views.JFrameArtikelAnzeigen;
 import artikel.views.JFrameArtikelAnzeigenButton;
 import artikel.views.JFrameArtikelBearbeiten;
 import artikel.views.JFrameArtikelHinzufuegen;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
+import main.business_classes.Geschaeft;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
 import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
+import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
 /**
@@ -62,6 +65,7 @@ public class JFrameMain extends JFrame {
 	private JLabel labelAnzeigenVerwalten;
 	private JLabel labelGeschftBereich;
 	private JButton buttonAllgemeineDatenAnzeigen;
+	private String[] ausgewealtAbteilung;
 
 	/**
 	 * Launch the application.
@@ -99,7 +103,12 @@ public class JFrameMain extends JFrame {
 					menuItemLogout = new JMenuItem("Abmelden");
 					menuItemLogout.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							menuItemLogoutActionPerformed(e);
+							try {
+								menuItemLogoutActionPerformed(e);
+							} catch (ClassNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 						}
 					});
 					menuSettings.add(menuItemLogout);
@@ -112,7 +121,8 @@ public class JFrameMain extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
-			labelMainTitle = new JLabel("Real.-");
+			labelMainTitle = new JLabel(GeschaeftDB.getInstance().getCurrentAccountName());
+			System.out.println("\n\nfrom main: " + GeschaeftDB.getInstance().getCurrentAccountName());
 			labelMainTitle.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			labelMainTitle.setHorizontalAlignment(SwingConstants.CENTER);
 			Fonts.setCenturySchoolbookFont(labelMainTitle, 42);
@@ -130,7 +140,12 @@ public class JFrameMain extends JFrame {
 				btnAbteilungBearbeiten = new JButton("Abteilung verwalten");
 				btnAbteilungBearbeiten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						onManageAbteilungClicked(e);
+						try {
+							onManageAbteilungClicked(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				Utils.setStandardButtonOptions(btnAbteilungBearbeiten);
@@ -193,7 +208,12 @@ public class JFrameMain extends JFrame {
 				buttonAbteilungAnzeigen = new JButton("Abteilung anzeigen");
 				buttonAbteilungAnzeigen.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						buttonAbteilungAnzeigenActionPerformed(e);
+						try {
+							buttonAbteilungAnzeigenActionPerformed(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				buttonAbteilungAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -205,7 +225,12 @@ public class JFrameMain extends JFrame {
 				buttonArtikelVerwalten = new JButton("Artikel verwalten");
 				buttonArtikelVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						buttonArtikelVerwaltenActionPerformed(e);
+						try {
+							buttonArtikelVerwaltenActionPerformed(e);
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				buttonArtikelVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -217,7 +242,12 @@ public class JFrameMain extends JFrame {
 				buttonMitarbeiterVerwalten = new JButton("Mitarbeiter verwalten");
 				buttonMitarbeiterVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						onManageMitarbeiterClicked(arg0);
+						try {
+							onManageMitarbeiterClicked(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				buttonMitarbeiterVerwalten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -258,11 +288,12 @@ public class JFrameMain extends JFrame {
 	}
 
 	/**
-	 * Created by Mohammad on 07.01.2020
-	 * methode von Ajabnoor 14.1.2020
+	 * Created by Mohammad on 07.01.2020 methode von Ajabnoor 14.1.2020
+	 * 
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
+	 * @throws ClassNotFoundException
 	 */
-	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
+	protected void onManageMitarbeiterClicked(ActionEvent arg0) throws ClassNotFoundException {
 		String title = "Mehrfach Optionen zu Mitarbeiter verwalten";
 		String[] buttons = { "Mitarbeiter hinzufügen", "Mitarbeiter verwalten" };
 		JFrameMitarbeiterHinzufuegen jFrame1 = new JFrameMitarbeiterHinzufuegen();
@@ -274,8 +305,9 @@ public class JFrameMain extends JFrame {
 	 * Created On 04.01.2020 Created By Omar
 	 * 
 	 * @param e
+	 * @throws ClassNotFoundException
 	 */
-	protected void onManageAbteilungClicked(ActionEvent e) {
+	protected void onManageAbteilungClicked(ActionEvent e) throws ClassNotFoundException {
 		String title = "Mehrfach Optionen zu Abteilung verwalten";
 		String[] buttons = { "Abteilung hinzufügen", "Abteilung verwalten" };
 		JFrameAbteilunghinzufuegen jFrame1 = new JFrameAbteilunghinzufuegen();
@@ -284,6 +316,14 @@ public class JFrameMain extends JFrame {
 		verwaltenDialog(title, buttons, jFrame1, jFrame2);
 	}
 
+	/**
+	 * created by Ajabnoor on 11.01.2020
+	 * 
+	 * @param title   is the title of the dialog
+	 * @param buttons the buttons to show in the dialog
+	 * @param jFrame1 the jframe to open on click
+	 * @param jFrame2 the jframe to open on other click
+	 */
 	private void verwaltenDialog(String title, String[] buttons, JFrame jFrame1, JFrame jFrame2) {
 		int answer = JOptionPane.showOptionDialog(this, "Wählen Sie eins von den beiden Optionen aus.", title,
 				JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, buttons, buttons[0]);
@@ -300,7 +340,13 @@ public class JFrameMain extends JFrame {
 
 	}
 
-	protected void menuItemLogoutActionPerformed(ActionEvent e) {
+	/**
+	 * Created by Omar on 24.12.2019
+	 * 
+	 * @param e
+	 * @throws ClassNotFoundException 
+	 */
+	protected void menuItemLogoutActionPerformed(ActionEvent e) throws ClassNotFoundException {
 		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?", "Abmelden", 2);
 		switch (answer) {
 		case 0:
@@ -332,29 +378,32 @@ public class JFrameMain extends JFrame {
 	/**
 	 * Created by Mohammad on 07.01.2020
 	 * 
+	 * @throws ClassNotFoundException
+	 * 
 	 */
 
-	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) {
+	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) throws ClassNotFoundException {
 		JFrameAbteilungAnzeigen abteilungAnzeigenSeite = new JFrameAbteilungAnzeigen();
 		abteilungAnzeigenSeite.setVisible(true);
 
 	}
 
-
 	/**
 	 * Created by Mohammad on 07.01.2020
-	 * methoden hinzufügen von Ajabnoor 14.10.2020
+	 * 
+	 * @throws ClassNotFoundException edited: methoden hinzufügen von Ajabnoor
+	 *                                14.10.2020
 	 */
-	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) {
-		String title = "Mehrfach Optionen zu Artikel verwalten"; 
+	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) throws ClassNotFoundException {
+		String title = "Mehrfach Optionen zu Artikel verwalten";
 		String[] buttons = { "Artikel hinzufügen", "Artikel verwalten" };
-		
+
 		JFrameArtikelHinzufuegen jFrame1 = new JFrameArtikelHinzufuegen();
 		JFrameArtikelBearbeiten jFrame2 = new JFrameArtikelBearbeiten();
-		
+
 		verwaltenDialog(title, buttons, jFrame1, jFrame2);
 	}
-	
+
 	/**
 	 * Created by Mohammad on 07.01.2020
 	 */

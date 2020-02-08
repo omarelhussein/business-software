@@ -28,6 +28,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton button;
 	private String[] values = new String[]{ "Ajab", "Omri", "Arefi", "Muhammadi" };
+	private JPanel panel;
 
 	/**
 	 * Launch the application.
@@ -102,6 +103,11 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			button.setBounds(275, 320, 100, 25);
 			Utils.setStandardButtonOptions(button);
 			contentPane.add(button);
+		}
+		{
+			panel = new JPanel();
+			panel.setBounds(277, 49, 129, 200);
+			contentPane.add(panel);
 		}
 	}
 	

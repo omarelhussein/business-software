@@ -24,7 +24,7 @@ import abteilungen.views.JFrameAbteilungAnzeigen;
 import abteilungen.views.JFrameAbteilungVerarbeiten;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
 import artikel.views.JFrameArtikelAnzeigen;
-import artikel.views.JFrameArtikelAnzeigenButton;
+
 import artikel.views.JFrameArtikelBearbeiten;
 import artikel.views.JFrameArtikelHinzufuegen;
 import general.code.Utils;

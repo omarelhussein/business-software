@@ -23,7 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 
 /**
- * Created by Mohammad 20.01.2020
+ * 
  */
 public class JFrameMitarbeiterProfile extends JFrame {
 
@@ -66,7 +66,7 @@ public class JFrameMitarbeiterProfile extends JFrame {
 	}
 
 	/**
-	 * Launch the application.
+	 * Created by Mohammad 20.01.2020
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

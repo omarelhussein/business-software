@@ -18,6 +18,9 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class JFrameMitarbeiterAnzeigen extends JFrame {
 
@@ -30,7 +33,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private String[] values = new String[]{ "Ajab", "Omri", "Arefi", "Muhammadi" };
 
 	/**
-	 * Launch the application.
+	 * 
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -44,17 +47,21 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
+
 	public JFrameMitarbeiterAnzeigen() {
 		initGUI();
+	
 	}
-
+/**
+ * Created by Mohammad on 28.01.2020
+ */
 	private void initGUI() {
 
-		Utils.setSmallFrameOptions(this);
+		Utils.setMiddleFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,10 +69,11 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		{
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 49, 257, 301);
+			scrollPane.setBounds(15, 50, 450, 550);
 			contentPane.add(scrollPane);
 			{
 				list = new JList();
+				list.setBorder(new LineBorder(new Color(0, 0, 0)));
 				scrollPane.setViewportView(list);
 				
 				list.setModel(new AbstractListModel() {
@@ -81,9 +89,10 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		}
 		{
 			labelListeMitarbeiter = new JLabel("Liste Mitarbeiter");
-			labelListeMitarbeiter.setBounds(10, 11, 255, 33);
+			labelListeMitarbeiter.setHorizontalAlignment(SwingConstants.CENTER);
+			labelListeMitarbeiter.setBounds(114, 11, 255, 33);
 			Fonts.setCenturySchoolbookFont(labelListeMitarbeiter, 18);
-			labelListeMitarbeiter.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
+			labelListeMitarbeiter.setForeground(Colors.parseColor(Colors.RED));
 			contentPane.add(labelListeMitarbeiter);
 		}
 		{
@@ -94,12 +103,12 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 					onAnzeigen(arg0);
 				}
 			});
-			buttonAnzeigen.setBounds(275, 280, 100, 25);
+			buttonAnzeigen.setBounds(475, 524, 100, 25);
 			contentPane.add(buttonAnzeigen);
 		}
 		{
 			button = new JButton(Unicodes.CHECK);
-			button.setBounds(275, 320, 100, 25);
+			button.setBounds(475, 575, 100, 25);
 			Utils.setStandardButtonOptions(button);
 			contentPane.add(button);
 		}

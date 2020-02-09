@@ -68,7 +68,7 @@ public class Utils {
 	
 
 
-S
+
 	/**
 	 * Created by Omar
 	 * 
@@ -76,6 +76,7 @@ S
 	 */
 	public static void setMainInternalFrameOptions(JPanel panel) {
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+	
 //		panel.setBounds(50, 110, 800, 400);
 	}
 

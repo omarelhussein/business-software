@@ -6,9 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.sound.midi.MidiDevice.Info;
+import javax.swing.JOptionPane;
+
+import abteilungen.views.JFrameAbteilungVerarbeiten;
 import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import general.code.Utils;
+import mitarbeiter.dao.DaoMitarbeiter;
 import start.register.dao.Daomelden;
 import start.register.views.JFrameRegistrieren;
 
@@ -86,14 +91,64 @@ public class DaoAbteilung {
 		}
 		return abteilungen;
 	}
+	/**
+	 * @author Aref
+	 * @param bedinungErfullen
+	 * @param nameGeascheaft
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
 
-	public void AbteilungDelete(String bedinungErfullen) {
+	public String  AbteilungDelete(String bedinungErfullen,String nameGeascheaft) throws ClassNotFoundException {
+		DaoMitarbeiter daomit=new DaoMitarbeiter();
+		JFrameAbteilungVerarbeiten frame =new JFrameAbteilungVerarbeiten();
+		String mitarbeiter="";
 		try {
-			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen,
-					SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+			if(SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",bedinungErfullen,SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", nameGeascheaft
+					, bedinungErfullen))!=0) {
+				for (int i = 0; i <daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen) .length; i++) {
+					mitarbeiter+=" < "+daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen)[i]+" >";
+				}
+				System.out.println("hallo"+ mitarbeiter);
+				//JOptionPane.showConfirmDialog(frame, mitarbeiter,"fur diese Abteilung sind schon Mitarbeiter ", 1);
+				return mitarbeiter;
+				
+				
+			}
+			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection.idTabelle(
+					"Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return "";
 
 	}
+	public  void updet(String nameNeu,String nameAlte) {
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		try {
+			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql ="UPDATE Abteilung set nameAbteilung=? where Abteilung.id =(SELECT Abteilung.id from Abteilung INNER join Geascheaft on Abteilung.agf=Geascheaft.id where Abteilung.nameAbteilung=? )";
+			
+			
+			preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setString(1, nameNeu);
+			preparedStatement.setString(2, nameAlte);
+		    System.out.println(sql);
+			
+			preparedStatement.execute();
+			
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+		}finally {
+			try {
+				preparedStatement.close();
+				connection.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+	}
+
 }

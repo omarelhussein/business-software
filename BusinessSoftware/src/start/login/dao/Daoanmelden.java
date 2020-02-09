@@ -35,14 +35,14 @@ public class Daoanmelden {
 			vorbereitungAussage = rabita.prepareStatement(sql);
 			vorbereitungAussage.setString(1, name);
 			vorbereitungAussage.setString(2, password);
-			
+
 			ResultSet ergebniss = vorbereitungAussage.executeQuery();
 
-				if (ergebniss.next()) {
-					return true;					
-				} else {
-					return false;
-				}
+			if (ergebniss.next()) {
+				return true;
+			} else {
+				return false;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -57,6 +57,11 @@ public class Daoanmelden {
 		}
 
 	}
+
+	/**
+	 * @author Aref
+	 * @return
+	 */
 	public String[] nameGeascheaft() {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -65,7 +70,7 @@ public class Daoanmelden {
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "select namegaeschaeft from Geascheaft";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 			System.out.println("SDa");
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -75,7 +80,7 @@ public class Daoanmelden {
 			}
 			abteilungen = abteilunge.split("_");
 		} catch (SQLException e) {
-			System.out.println("von an :"+e);
+			System.out.println("von an :" + e);
 		} finally {
 			try {
 				connection.close();
@@ -87,6 +92,5 @@ public class Daoanmelden {
 		}
 		return abteilungen;
 	}
-	
 
 }

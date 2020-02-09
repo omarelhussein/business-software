@@ -10,7 +10,6 @@ import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
-import start.register.views.JFrameRegistrieren;
 
 /**
  * @author ajab
@@ -75,7 +74,7 @@ public class DaoMitarbeiter {
 	 * Created On 21.01.2020
 	 * 
 	 * @author ajab
-	 *
+	 *teil davon aref
 	 */
 
 	public boolean mitarbeitereinlogen(String name, String password, String nameGeascheaft)
@@ -111,5 +110,45 @@ public class DaoMitarbeiter {
 			}
 		}
 		return false;
+	}
+	/**
+	 * @author Aref
+	 * @param nameGeascheaft
+	 * @param nameabtei
+	 * @return
+	 * @
+	 */
+	public String[] nameMitarbeiter(String nameGeascheaft,String nameabtei) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String abteilunge = "";
+		String[] abteilungen = null;
+		try {
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "select namemitarbeiter from Mitarbeiter inner join Abteilung on Mitarbeiter.maf=Abteilung.id where  Mitarbeiter.maf =?";
+			preparedStatement = connection.prepareStatement(sql);
+			//preparedStatement.setString(1, nameabtei);
+			System.out.println("Result >");
+			System.out.println("ich bin hier von Daomitarb klasse vor");
+			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", nameGeascheaft, nameabtei));
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				abteilunge += resultSet.getString("nameMitarbeiter") + "_";
+				System.out.println("ich bin hier von Daomitarb klasse nach");
+			}
+			abteilungen = abteilunge.split("_");
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				connection.close();
+				preparedStatement.close();
+
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return abteilungen;
 	}
 }

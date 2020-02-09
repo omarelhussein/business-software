@@ -225,7 +225,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 			values.remove(list.getSelectedIndex());
 			Utils.updateList(list, false, null, values);
 		}else {
-			JOptionPane.showConfirmDialog(this, "Bitte eine Abteilung merken");
+			JOptionPane.showMessageDialog(null, "Bitte eine Abteilung wählen");
 		}
 		
 	}

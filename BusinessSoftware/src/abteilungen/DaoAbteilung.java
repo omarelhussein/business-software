@@ -127,6 +127,11 @@ public class DaoAbteilung {
 		return "";
 
 	}
+	/**
+	 * @author Aref
+	 * @param nameNeu
+	 * @param nameAlte
+	 */
 	public  void updet(String nameNeu,String nameAlte) {
 		Connection connection=null;
 		PreparedStatement preparedStatement=null;

@@ -10,7 +10,7 @@ import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import general.code.Utils;
-import main.dao.GeascheaftDao;
+import main.dao.DaoGescheaft;
 import start.register.views.JFrameRegistrieren;
 
 public class DaoArtikel {

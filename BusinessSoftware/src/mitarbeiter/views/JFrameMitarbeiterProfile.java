@@ -11,9 +11,14 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import main.business_classes.Anschrift;
+import main.dao.DaoAnschrift;
+import mitarbeiter.business_classes.Mitarbeiter;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
@@ -21,6 +26,8 @@ import java.awt.Color;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by Mohammad 20.01.2020
@@ -28,27 +35,24 @@ import javax.swing.JPasswordField;
 public class JFrameMitarbeiterProfile extends JFrame {
 
 	private JPanel contentPane;
-	private String name;
+	private Mitarbeiter mitarbeiter;
 	private JPanel panel;
 	private JTextField textFieldName;
 	private JLabel label;
 	private JLabel label_1;
 	private JLabel label_2;
-	private JLabel label_3;
 	private JTextField textFieldNachname;
 	private JTextField textFieldLohn;
-	private JButton button;
 	private JSeparator separator;
 	private JButton zurueck;
 	private JLabel lblNewLabel;
-	private JLabel lblPassWied;
 	private JLabel lblEmail;
 	private JTextField textFieldEmail;
 	private JLabel lblNewLabelAnschrift;
 	private JLabel lblNewLabelOrt;
 	private JLabel lblNewLabelPLZ;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldOrt;
+	private JTextField textFieldPlz;
 	private JTextField textField_2;
 	private JLabel lblNewLabel_1;
 	private JTextField textFieldStrasse;
@@ -56,12 +60,10 @@ public class JFrameMitarbeiterProfile extends JFrame {
 	private JTextField textFieldHausNr;
 	private JLabel lblNewLabelTelefonnummer;
 	private JTextField textFieldTelefonnummer;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
 	private JLabel lblNewLabelMAProfil;
 
-	public JFrameMitarbeiterProfile(String name) {
-		this.name = name;
+	public JFrameMitarbeiterProfile(Mitarbeiter mitarbeiter) {
+		this.mitarbeiter = mitarbeiter;
 		initGUI();
 	}
 
@@ -105,45 +107,45 @@ public class JFrameMitarbeiterProfile extends JFrame {
 			panel.setLayout(null);
 			{
 				textFieldName = new JTextField();
+				textFieldName.setBackground(Color.WHITE);
+				textFieldName.setEditable(false);
 				textFieldName.setText((String) null);
 				textFieldName.setColumns(10);
-				textFieldName.setBounds(106, 90, 155, 27);
+				textFieldName.setBounds(106, 102, 155, 27);
 				panel.add(textFieldName);
 			}
 			{
 				label = new JLabel("Name");
 				label.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				label.setBounds(10, 90, 106, 27);
+				label.setBounds(10, 101, 106, 27);
 				panel.add(label);
 			}
 			{
 				label_1 = new JLabel("Nachname");
 				label_1.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				label_1.setBounds(10, 140, 70, 27);
+				label_1.setBounds(10, 170, 70, 27);
 				panel.add(label_1);
 			}
 			{
 				label_2 = new JLabel("Lohn");
 				label_2.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				label_2.setBounds(10, 408, 70, 27);
+				label_2.setBounds(10, 396, 70, 27);
 				panel.add(label_2);
 			}
 			{
-				label_3 = new JLabel("Pass");
-				label_3.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				label_3.setBounds(10, 244, 70, 27);
-				panel.add(label_3);
-			}
-			{
 				textFieldNachname = new JTextField();
+				textFieldNachname.setBackground(Color.WHITE);
+				textFieldNachname.setEditable(false);
 				textFieldNachname.setColumns(10);
-				textFieldNachname.setBounds(106, 141, 155, 27);
+				textFieldNachname.setBounds(106, 171, 155, 27);
 				panel.add(textFieldNachname);
 			}
 			{
 				textFieldLohn = new JTextField();
+				textFieldLohn.setBackground(Color.WHITE);
+				textFieldLohn.setEditable(false);
 				textFieldLohn.setColumns(10);
-				textFieldLohn.setBounds(106, 409, 155, 27);
+				textFieldLohn.setBounds(106, 397, 155, 27);
 				panel.add(textFieldLohn);
 			}
 			{
@@ -162,23 +164,19 @@ public class JFrameMitarbeiterProfile extends JFrame {
 				panel.add(lblNewLabel);
 			}
 			{
-				lblPassWied = new JLabel("Pass Wied.");
-				lblPassWied.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				lblPassWied.setBounds(10, 299, 70, 27);
-				panel.add(lblPassWied);
-			}
-			{
 				lblEmail = new JLabel("E-Mail");
 				lblEmail.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				lblEmail.setBounds(10, 194, 70, 27);
+				lblEmail.setBounds(10, 244, 70, 27);
 				panel.add(lblEmail);
 			}
 			
 			{
 				
 				textFieldEmail = new JTextField();
+				textFieldEmail.setBackground(Color.WHITE);
+				textFieldEmail.setEditable(false);
 				textFieldEmail.setColumns(10);
-				textFieldEmail.setBounds(106, 195, 155, 27);
+				textFieldEmail.setBounds(106, 245, 155, 27);
 				panel.add(textFieldEmail);
 			}
 			
@@ -209,24 +207,30 @@ public class JFrameMitarbeiterProfile extends JFrame {
 			{
 				JLabel lblNewLabelGeburtsatg = new JLabel("Geb.");
 				lblNewLabelGeburtsatg.setFont(new Font("Trebuchet MS", Font.BOLD | Font.ITALIC, 13));
-				lblNewLabelGeburtsatg.setBounds(10, 354, 98, 26);
+				lblNewLabelGeburtsatg.setBounds(10, 315, 98, 26);
 				panel.add(lblNewLabelGeburtsatg);
 			}
 			{
-				textField = new JTextField();
-				textField.setBounds(380, 233, 163, 38);
-				panel.add(textField);
-				textField.setColumns(10);
+				textFieldOrt = new JTextField();
+				textFieldOrt.setBackground(Color.WHITE);
+				textFieldOrt.setEditable(false);
+				textFieldOrt.setBounds(380, 245, 163, 27);
+				panel.add(textFieldOrt);
+				textFieldOrt.setColumns(10);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setBounds(380, 310, 82, 38);
-				panel.add(textField_1);
-				textField_1.setColumns(10);
+				textFieldPlz = new JTextField();
+				textFieldPlz.setBackground(Color.WHITE);
+				textFieldPlz.setEditable(false);
+				textFieldPlz.setBounds(380, 316, 82, 27);
+				panel.add(textFieldPlz);
+				textFieldPlz.setColumns(10);
 			}
 			{
 				textField_2 = new JTextField();
-				textField_2.setBounds(106, 355, 155, 27);
+				textField_2.setBackground(Color.WHITE);
+				textField_2.setEditable(false);
+				textField_2.setBounds(106, 316, 155, 27);
 				panel.add(textField_2);
 				textField_2.setColumns(10);
 			}
@@ -238,7 +242,9 @@ public class JFrameMitarbeiterProfile extends JFrame {
 			}
 			{
 				textFieldStrasse = new JTextField();
-				textFieldStrasse.setBounds(380, 96, 165, 38);
+				textFieldStrasse.setBackground(Color.WHITE);
+				textFieldStrasse.setEditable(false);
+				textFieldStrasse.setBounds(380, 102, 165, 27);
 				panel.add(textFieldStrasse);
 				textFieldStrasse.setColumns(10);
 			}
@@ -250,6 +256,8 @@ public class JFrameMitarbeiterProfile extends JFrame {
 			}
 			{
 				textFieldHausNr = new JTextField();
+				textFieldHausNr.setBackground(Color.WHITE);
+				textFieldHausNr.setEditable(false);
 				textFieldHausNr.setBounds(380, 165, 45, 38);
 				panel.add(textFieldHausNr);
 				textFieldHausNr.setColumns(10);
@@ -262,29 +270,20 @@ public class JFrameMitarbeiterProfile extends JFrame {
 			}
 			{
 				textFieldTelefonnummer = new JTextField();
-				textFieldTelefonnummer.setBounds(380, 383, 163, 38);
+				textFieldTelefonnummer.setBackground(Color.WHITE);
+				textFieldTelefonnummer.setEditable(false);
+				textFieldTelefonnummer.setBounds(380, 397, 163, 27);
 				panel.add(textFieldTelefonnummer);
 				textFieldTelefonnummer.setColumns(10);
 			}
-			{
-				passwordField = new JPasswordField();
-				passwordField.setBounds(106, 246, 155, 24);
-				panel.add(passwordField);
-			}
-			{
-				passwordField_1 = new JPasswordField();
-				passwordField_1.setBounds(106, 300, 155, 27);
-				panel.add(passwordField_1);
-			}
-		}
-		{
-			button = new JButton(Unicodes.CHECK);
-			button.setBounds(535, 577, 89, 23);
-			Utils.setStandardButtonOptions(button);
-			contentPane.add(button);
 		}
 		{
 			zurueck = new JButton(Unicodes.BACK_ARROW);
+			zurueck.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onBackPressed(arg0);
+				}
+			});
 			zurueck.setBounds(28, 577, 89, 23);
 			Utils.setStandardButtonOptions(zurueck);
 			contentPane.add(zurueck);
@@ -297,5 +296,62 @@ public class JFrameMitarbeiterProfile extends JFrame {
 			lblNewLabelMAProfil.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			contentPane.add(lblNewLabelMAProfil);
 		}
+		fillProfile();
+	}
+	
+	/**
+	 * Created by Omar 09.02.2020
+	 */
+	private void fillProfile() {
+		textFieldName.setText(mitarbeiter.getNamemitarbeiter());
+		textFieldNachname.setText(mitarbeiter.getNachname());
+		textFieldLohn.setText(mitarbeiter.getLohn());
+		
+		DaoAnschrift dao = new DaoAnschrift();
+		Anschrift anschrift = dao.getMitarbeiterAnschrift(mitarbeiter.getId());
+		if(anschrift != null) {
+			mitarbeiter.setAnschrift(anschrift);
+			
+			textFieldStrasse.setText(mitarbeiter.getAnschrift().getAdressse());
+			textFieldTelefonnummer.setText(mitarbeiter.getAnschrift().getTel());
+			textFieldPlz.setText(mitarbeiter.getAnschrift().getPlz());
+			textFieldOrt.setText(mitarbeiter.getAnschrift().getOrt());
+			textFieldHausNr.setText(getHomeNumber(mitarbeiter.getAnschrift().getAdressse()));
+			//TODO fill email and birthdate
+		} else {
+			JOptionPane.showMessageDialog(this, "Einige Daten konnten nicht geladen werden");
+		}
+	}
+	
+	/**
+	 * Checks if there are numbers in the address and adds them
+	 * In case it found at least a number it checks for 3 Alphabets after the numbers
+	 * Like ExampleStreet 34A
+	 * @param completeStreet the street name with the number
+	 * @return the number as a string (incase including alphabets)
+	 */
+	private String getHomeNumber(String completeStreet) {
+		char[] numbers = {'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+		char[] chars = {'A', 'a', 'B', 'b', 'C', 'c'};
+		String streetNumber = "";
+		for (char c : completeStreet.toCharArray()) {
+			for (int i = 0; i < numbers.length; i++) {
+				if(c == numbers[i]) {
+					streetNumber += c;
+				}
+			}
+			if(streetNumber.length() > 0) {
+				for (char d : chars) {
+					if(c == d) {
+						streetNumber += d;
+					}
+				}
+			}
+		}
+		return streetNumber;
+	}
+	
+	protected void onBackPressed(ActionEvent arg0) {
+		this.setVisible(false);
 	}
 }

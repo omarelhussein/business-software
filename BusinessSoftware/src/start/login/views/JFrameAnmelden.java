@@ -22,11 +22,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import general.code.AutoCompletition;
 import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
+import general.design.Fonts;
 import general.design.Unicodes;
-import main.dao.GeascheaftDao;
+import main.dao.DaoGescheaft;
 import main.views.JFrameMain;
 import mitarbeiter.dao.DaoMitarbeiter;
 import start.login.dao.Daoanmelden;
@@ -51,8 +53,8 @@ public class JFrameAnmelden extends JFrame {
 	Daoanmelden daoanmelden;
 	private JLabel labelNewLabel;
 	private JComboBox<String> comboBox;
-	private JTextField textFieldHierSuchen;
 	private ArrayList<String> namesList;
+	private JLabel labelNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -73,11 +75,12 @@ public class JFrameAnmelden extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @throws ClassNotFoundException 
+	 * 
+	 * @throws ClassNotFoundException
 	 */
 	public JFrameAnmelden() throws ClassNotFoundException {
-		 mitarbeiterEinlogen = new DaoMitarbeiter();
-		 daoanmelden=new Daoanmelden();
+		mitarbeiterEinlogen = new DaoMitarbeiter();
+		daoanmelden = new Daoanmelden();
 		initGUI();
 		namesList = new ArrayList<String>();
 	}
@@ -162,15 +165,17 @@ public class JFrameAnmelden extends JFrame {
 				comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				setComboBoxAdapter();
-				comboBox.setBounds(105, 79, 244, 41);
+				comboBox.setBounds(108, 135, 244, 41);
 				panel.add(comboBox);
 			}
 			{
-				textFieldHierSuchen = new JTextField();
-				textFieldHierSuchen.setText("Gesch\u00E4ft eingeben oder Suchen");
-				textFieldHierSuchen.setBounds(105, 50, 244, 20);
-				panel.add(textFieldHierSuchen);
-				textFieldHierSuchen.setColumns(10);
+				labelNewLabel_1 = new JLabel("Gesch\u00E4ft ausw\u00E4hlen:");
+				labelNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				labelNewLabel_1.setVerticalAlignment(SwingConstants.BOTTOM);
+				labelNewLabel_1.setBounds(108, 79, 244, 41);
+				labelNewLabel_1.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
+				Fonts.setCenturySchoolbookFont(labelNewLabel_1, 16);
+				panel.add(labelNewLabel_1);
 			}
 		}
 		buttonZurck = new JButton(Unicodes.BACK_ARROW);
@@ -204,14 +209,15 @@ public class JFrameAnmelden extends JFrame {
 	}
 
 	private void setComboBoxAdapter() {
-		GeascheaftDao dao = new GeascheaftDao();
+		DaoGescheaft dao = new DaoGescheaft();
 		namesList = dao.getAllNames();
-		
+
 		String[] arrayNames = new String[namesList.size()];
 		for (int i = 0; i < namesList.size(); i++) {
 			arrayNames[i] = namesList.get(i);
 		}
 		comboBox.setModel(new DefaultComboBoxModel<String>(arrayNames));
+		AutoCompletition.enable(comboBox, arrayNames);
 	}
 
 	/**
@@ -229,17 +235,17 @@ public class JFrameAnmelden extends JFrame {
 			JOptionPane.showMessageDialog(this, "Bitte fühlen Sie die Felder ein");
 			return;
 		}
-		
+
 		if (!radioButtonGeschftfhrer.isSelected() && !radioButtonMitarbeiter.isSelected()) {
 			JOptionPane.showMessageDialog(this, "Bitte einen von den Oberen Knöpfe auswählen");
 			return;
 		}
-		
+
 		System.out.println(textFieldNameInput.getText());
 		System.out.println(String.valueOf(textFieldPasswordInput.getPassword()));
 
-		if (radioButtonGeschftfhrer.isSelected()&&login.loginBoss(textFieldNameInput.getText(), String.valueOf(textFieldPasswordInput.getPassword()))
-				 ) {
+		if (radioButtonGeschftfhrer.isSelected() && login.loginBoss(textFieldNameInput.getText(),
+				String.valueOf(textFieldPasswordInput.getPassword()))) {
 			GeschaeftDB.getInstance().setCurrentAccountName(textFieldNameInput.getText());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
@@ -247,15 +253,12 @@ public class JFrameAnmelden extends JFrame {
 			return;
 		}
 
-		
-
-		if (radioButtonMitarbeiter.isSelected()&&mitarbeiterEinlogen.mitarbeitereinlogen(textFieldNameInput.getText(),
-				String.valueOf(textFieldPasswordInput.getPassword()),comboBox.getSelectedItem().toString()) ) {
+		if (radioButtonMitarbeiter.isSelected() && mitarbeiterEinlogen.mitarbeitereinlogen(textFieldNameInput.getText(),
+				String.valueOf(textFieldPasswordInput.getPassword()), comboBox.getSelectedItem().toString())) {
 			GeschaeftDB.getInstance().setCurrentAccountName(comboBox.getSelectedItem().toString());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
-			
-		
+
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte geben Sie den richtigen Name und Password ein");
 		}

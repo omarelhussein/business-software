@@ -1,5 +1,7 @@
 package mitarbeiter.business_classes;
 
+import main.business_classes.Anschrift;
+
 /**
  * Created on 10.12.2019
  * @author alkazah
@@ -12,6 +14,7 @@ public class Mitarbeiter {
 	private String nachname;
 	private String lohn;
 	private String pass;
+	private Anschrift anschrift;
 
 	public void setId(int id) {
 		this.id = id;
@@ -21,6 +24,10 @@ public class Mitarbeiter {
 		return id;
 	}
 
+	public void setAnschrift(Anschrift anschrift) {
+		this.anschrift = anschrift;
+	}
+	
 	public void setNamemitarbeiter(String namemitarbeiter) {
 		this.namemitarbeiter = namemitarbeiter;
 	}
@@ -51,6 +58,10 @@ public class Mitarbeiter {
 
 	public String getPass() {
 		return pass;
+	}
+	
+	public Anschrift getAnschrift() {
+		return anschrift;
 	}
 
 }

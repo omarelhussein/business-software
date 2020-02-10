@@ -28,7 +28,11 @@ public class Daoanmelden {
 		Connection rabita = null;
 
 		try {
+<<<<<<< HEAD
 			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+=======
+			rabita =  DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(DATEI));
+>>>>>>> aref-v1
 
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
@@ -57,6 +61,10 @@ public class Daoanmelden {
 		}
 
 	}
+	/**
+	 * @author Aref
+	 * @return
+	 */
 	public String[] nameGeascheaft() {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

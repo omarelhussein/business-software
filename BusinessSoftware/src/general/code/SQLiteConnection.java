@@ -44,7 +44,7 @@ public class SQLiteConnection {
 			String an = "select " + tableName + ".id from " + tableName + " inner join " + tableName2 + " on "
 					+ tableName + "." + colum + "=" + tableName2 + ".id where " + tableName2 + "." + colum2
 					+ " = ?  and " + tableName + "." + colum3 + " = ?";
-			System.out.println(an);
+			System.out.println("hier"+an);
 			statmment = conn.prepareStatement(an);
 			statmment.setString(1, bedinungErfullung);
 			statmment.setString(2, bedinungErfullung2);
@@ -222,5 +222,54 @@ public class SQLiteConnection {
 		}
 		return name;
 	}
+	/**
+	 * 
+	 * @param tableName
+	 * @param forigkey
+	 * @param tableName2
+	 * @param colum
+	 * @param bedinungErfullung
+	 * @param bedinungErfullung2
+	 * @param sqlRecorse
+	 * @return
+	 * @author Aref
+	 */
+	public static int forigkeyBetrefendesache(String tableName,String forigkey, String tableName2, String colum,
+			String bedinungErfullung,int bedinungErfullung2, String sqlRecorse) {
+		Connection conn = null;
+		PreparedStatement statmment = null;
+		int d = 0;
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			String an = "select " + tableName +"."+forigkey+" from " + tableName + " inner join " + tableName2 +" on "
+					+ tableName +"."+ forigkey+ " = " + tableName2 +".id where " + tableName2 +"."+ colum
+					+ " = ? and  "+tableName2+".id = ?";
+			System.out.println(an);
+			statmment = conn.prepareStatement(an);
+			statmment.setString(1, bedinungErfullung);
+			statmment.setInt(2, bedinungErfullung2);
+			System.out.println("ich bin hier von SQlite klasse vor Result");
+			ResultSet resultSet = statmment.executeQuery();
+		while(resultSet.next()) {
+			
+			d = resultSet.getInt(forigkey);
+		
+		}
+			
+			System.out.println("ich bin hier von SQlite klasse :"+d);
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			try {
+				statmment.close();
+				conn.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return d;
+	}
+	
+	
 
 }

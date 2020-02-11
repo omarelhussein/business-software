@@ -23,20 +23,26 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
 
 public class JFrameArtikelHinzufuegen extends JFrame {
 	private JPanel panel;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JComboBox comboBox;
+	private JComboBox comboBoxAbteilung;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JLabel lblNewLabel_3;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	private JComboBox comboBox_1;
+	private JComboBox comboBoxKategorie;
+	private JButton bestaetigen;
+	private JSeparator separator;
+	private JSeparator separator_1;
+	private JButton aktuallisieren;
+	private JButton loeschen;
 
 	/**
 	 * Launch the application.
@@ -55,27 +61,26 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
-	 *
+	 * Created by Mohammad on 10.02.2020
 	 */
 
 	public JFrameArtikelHinzufuegen() {
 		initGUI();
-		
+
 	}
 	private void initGUI() {
 		getContentPane().setLayout(null);
-	
-		
+
+
 		Utils.setMiddleFrameOptions(this);
 		getContentPane().setBackground(Colors.parseColor(Colors.LIGHT_GREY));
-		
-	 
+
+
 		{
 			panel = new JPanel();
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
-			panel.setBounds(27, 43, 583, 521);
+			panel.setBounds(22, 43, 583, 521);
 			getContentPane().add(panel);
 			panel.setLayout(null);
 			{
@@ -87,20 +92,21 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 			{
 				lblNewLabel_1 = new JLabel("Preis");
 				lblNewLabel_1.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
-				lblNewLabel_1.setBounds(10, 205, 61, 23);
+				lblNewLabel_1.setBounds(10, 114, 61, 23);
 				panel.add(lblNewLabel_1);
 			}
 			{
 				lblNewLabel_2 = new JLabel("Anzahl");
 				lblNewLabel_2.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
-				lblNewLabel_2.setBounds(10, 360, 61, 23);
+				lblNewLabel_2.setBounds(10, 188, 61, 23);
 				panel.add(lblNewLabel_2);
 			}
 			{
-				comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"Lebiensmittel", "Elktronik"}));
-				comboBox.setBounds(10, 433, 561, 67);
-				panel.add(comboBox);
+				comboBoxAbteilung = new JComboBox();
+				comboBoxAbteilung.setModel(new DefaultComboBoxModel(new String[] {"Lebiensmittel", "Elktronik"}));
+				comboBoxAbteilung.setBounds(10, 265, 222, 47);
+				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
+				panel.add(comboBoxAbteilung);
 			}
 			{
 				textField = new JTextField();
@@ -110,21 +116,52 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 			}
 			{
 				textField_1 = new JTextField();
-				textField_1.setBounds(143, 200, 178, 28);
+				textField_1.setBounds(132, 113, 189, 28);
 				panel.add(textField_1);
 				textField_1.setColumns(10);
 			}
 			{
 				textField_2 = new JTextField();
-				textField_2.setBounds(143, 359, 178, 28);
+				textField_2.setBounds(132, 187, 189, 28);
 				panel.add(textField_2);
 				textField_2.setColumns(10);
 			}
 			{
-				comboBox_1 = new JComboBox();
-				comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Obst", "Gem\u00FCse"}));
-				comboBox_1.setBounds(434, 43, 137, 47);
-				panel.add(comboBox_1);
+				comboBoxKategorie = new JComboBox();
+				comboBoxKategorie.setModel(new DefaultComboBoxModel(new String[] {"Obst", "Gem\u00FCse"}));
+				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
+				comboBoxKategorie.setBounds(351, 265, 222, 47);
+				panel.add(comboBoxKategorie);
+			}
+			{
+				bestaetigen = new JButton("Best\u00E4tigen");
+				Utils.setStandardButtonOptions(bestaetigen);
+				bestaetigen.setBounds(446, 487, 127, 23);
+				panel.add(bestaetigen);
+			}
+			{
+				separator = new JSeparator();
+				separator.setBounds(10, 253, 563, 1);
+				panel.add(separator);
+			}
+			{
+				separator_1 = new JSeparator();
+				separator_1.setOrientation(SwingConstants.VERTICAL);
+				separator_1.setBounds(359, 11, 2, 244);
+				panel.add(separator_1);
+			}
+			{
+				aktuallisieren = new JButton("Aktuallisieren");
+				aktuallisieren.setBounds(383, 74, 156, 23);
+				Utils.setStandardButtonOptions(aktuallisieren);
+				panel.add(aktuallisieren);
+			}
+			{
+				loeschen = new JButton("L\u00F6schen");
+				loeschen.setBounds(383, 190, 154, 23);
+				Utils.setStandardButtonOptions(loeschen);
+
+				panel.add(loeschen);
 			}
 		}
 		{
@@ -137,7 +174,7 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 		}
 		{
 			btnNewButton = new JButton(Unicodes.CHECK);
-					Utils.setStandardButtonOptions(btnNewButton);
+			Utils.setStandardButtonOptions(btnNewButton);
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					btnNewButtonActionPerformed(e);

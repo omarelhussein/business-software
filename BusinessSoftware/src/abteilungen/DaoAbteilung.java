@@ -126,6 +126,7 @@ public class DaoAbteilung {
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
 				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
 					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+					System.out.println("dsad");
 
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen,
 					SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));

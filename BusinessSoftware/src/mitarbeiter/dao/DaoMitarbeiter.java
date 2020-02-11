@@ -137,7 +137,7 @@ public class DaoMitarbeiter {
 				currentMitarbeiter.setNachname(resultSet.getString("nachname"));
 				currentMitarbeiter.setLohn(resultSet.getString("lohn"));
 				currentMitarbeiter.setPass(resultSet.getString("pass"));
-				currentMitarbeiter.setId(resultSet.getInt(1));
+				currentMitarbeiter.setId(resultSet.getInt("id"));
 
 				mitarbeiterListe.add(currentMitarbeiter);
 			}

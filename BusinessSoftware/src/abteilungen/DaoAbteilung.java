@@ -120,17 +120,24 @@ public class DaoAbteilung {
 		DaoMitarbeiter daomit = new DaoMitarbeiter();
 		String mitarbeiter = "";
 		try {
+
 			if (SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
 				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
 					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+
+			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen,
+					SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+
 				}
 				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;
 			}
+
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
 					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

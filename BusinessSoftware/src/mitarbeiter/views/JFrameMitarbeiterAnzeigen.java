@@ -40,6 +40,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JButton buttonAnzeigen;
 	private JScrollPane scrollPane;
 	private JButton button;
+
 	private Mitarbeiter[] values = new Mitarbeiter[] {};
 	private JComboBox<String> comboBox;
 	private String[] abteilungenValues;
@@ -49,6 +50,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JLabel labelAbteilungen;
 	private JTextField textFieldSuchen;
 	private JButton buttonNewButton;
+
 
 	/**
 	 * Launch the application.
@@ -133,6 +135,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			contentPane.add(button);
 		}
 		{
+
 			comboBox = new JComboBox<String>();
 			AutoCompletition.enable(comboBox, abteilungenValues);
 			comboBox.addActionListener(new ActionListener() {
@@ -186,6 +189,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			});
 			buttonNewButton.setBounds(141, 80, 89, 25);
 			contentPane.add(buttonNewButton);
+
 		}
 	}
 

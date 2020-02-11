@@ -28,8 +28,8 @@ public class Daoanmelden {
 		Connection rabita = null;
 
 		try {
-			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 
+			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
 			vorbereitungAussage = rabita.prepareStatement(sql);

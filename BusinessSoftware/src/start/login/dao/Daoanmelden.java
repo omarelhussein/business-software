@@ -10,9 +10,6 @@ import general.code.SQLiteConnection;
 
 public class Daoanmelden {
 
-	private final String DATEI = "Geaschgeaft.db";
-	
-
 	public Daoanmelden() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
 	}
@@ -25,27 +22,27 @@ public class Daoanmelden {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public boolean loginBoss(String name, String password) throws ClassNotFoundException {
+	public boolean loginBoss(String name, String password) {
 
 		PreparedStatement vorbereitungAussage = null;
 		Connection rabita = null;
 
 		try {
-			rabita =  DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(DATEI));
+			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
 			vorbereitungAussage = rabita.prepareStatement(sql);
 			vorbereitungAussage.setString(1, name);
 			vorbereitungAussage.setString(2, password);
-			
+
 			ResultSet ergebniss = vorbereitungAussage.executeQuery();
 
-				if (ergebniss.next()) {
-					return true;					
-				} else {
-					return false;
-				}
+			if (ergebniss.next()) {
+				return true;
+			} else {
+				return false;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,6 +57,7 @@ public class Daoanmelden {
 		}
 
 	}
+
 	/**
 	 * @author Aref
 	 * @return
@@ -70,9 +68,9 @@ public class Daoanmelden {
 		String abteilunge = "";
 		String[] abteilungen = null;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(DATEI));
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "select namegaeschaeft from Geascheaft";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 			System.out.println("SDa");
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -82,7 +80,7 @@ public class Daoanmelden {
 			}
 			abteilungen = abteilunge.split("_");
 		} catch (SQLException e) {
-			System.out.println("von an :"+e);
+			System.out.println("von an :" + e);
 		} finally {
 			try {
 				connection.close();
@@ -94,6 +92,5 @@ public class Daoanmelden {
 		}
 		return abteilungen;
 	}
-	
 
 }

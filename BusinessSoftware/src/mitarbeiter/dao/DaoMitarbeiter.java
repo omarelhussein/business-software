@@ -5,12 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
-import start.register.views.JFrameRegistrieren;
 
 /**
  * @author ajab
@@ -19,10 +19,12 @@ import start.register.views.JFrameRegistrieren;
  */
 public class DaoMitarbeiter {
 
-	final String sqlresors = "Geaschgeaft.db";
-
-	public DaoMitarbeiter() throws ClassNotFoundException {
-		SQLiteConnection.getSQLiteConnectionInstance();
+	public DaoMitarbeiter() {
+		try {
+			SQLiteConnection.getSQLiteConnectionInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -33,16 +35,15 @@ public class DaoMitarbeiter {
 	 * @param anschrift
 	 * @author Aref
 	 */
-
 	public void insert(Mitarbeiter mitarbeiter, String aNmae, Anschrift anschrift) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
 
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlresors));
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sqlAnschrift = "insert into Anschrift values(?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sqlAnschrift);
-			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Anschrift", sqlresors) + 1);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Anschrift") + 1);
 			preparedStatement.setString(2, anschrift.getAdressse());
 			preparedStatement.setString(3, anschrift.getStadt());
 			preparedStatement.setString(4, anschrift.getTel());
@@ -50,15 +51,15 @@ public class DaoMitarbeiter {
 			preparedStatement.execute();
 			String sqlb = "insert into Mitarbeiter values (?,?,?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sqlb);
-			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Mitarbeiter", sqlresors) + 1);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Mitarbeiter") + 1);
 			preparedStatement.setString(2, mitarbeiter.getNamemitarbeiter());
 			preparedStatement.setString(3, mitarbeiter.getNachname());
 			preparedStatement.setString(4, mitarbeiter.getLohn());
 			preparedStatement.setString(5, mitarbeiter.getPass());
 			preparedStatement.setInt(6, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), aNmae, sqlresors));
+					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), aNmae));
 
-			preparedStatement.setInt(7, SQLiteConnection.anzalAnschrift("Anschrift", sqlresors));
+			preparedStatement.setInt(7, SQLiteConnection.anzalAnschrift("Anschrift"));
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -76,25 +77,23 @@ public class DaoMitarbeiter {
 	/**
 	 * Created On 21.01.2020
 	 * 
-	 * @author ajab
-	 *teil davon aref
+	 * @author ajab teil davon aref
 	 */
-
-
-	public boolean mitarbeitereinlogen(String name, String password,String nameGeascheaft) throws ClassNotFoundException {
+	public boolean mitarbeitereinlogen(String name, String password, String nameGeascheaft)
+			throws ClassNotFoundException {
 
 		PreparedStatement preparedStatment = null;
 		Connection connection = null;
 
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlresors));
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT * FROM  Mitarbeiter inner join Abteilung on Mitarbeiter.maf = Abteilung.id WHERE Abteilung.agf = ? and namemitarbeiter = ? AND pass = ?";
 			System.out.println(sql);
 			preparedStatment = connection.prepareStatement(sql);
-			preparedStatment.setInt(1, SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", nameGeascheaft,sqlresors));
+			preparedStatment.setInt(1, SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", nameGeascheaft));
 			preparedStatment.setString(2, name);
 			preparedStatment.setString(3, password);
-			
+
 			ResultSet result = preparedStatment.executeQuery();
 			if (result.next()) {
 				return true;
@@ -102,7 +101,7 @@ public class DaoMitarbeiter {
 				return false;
 			}
 		} catch (Exception e) {
-			System.out.println("von mit :"+e);
+			System.out.println("von mit :" + e);
 		} finally {
 			try {
 				connection.close();
@@ -113,44 +112,51 @@ public class DaoMitarbeiter {
 		}
 		return false;
 	}
+
 	/**
 	 * @author Aref
 	 * @param nameGeascheaft
 	 * @param nameabtei
-	 * @return
-	 * @
 	 */
-	public String[] nameMitarbeiter(String nameGeascheaft,String nameabtei) {
+	public Mitarbeiter[] loadMitarbeiter(String nameGeascheaft, String nameabtei) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		String abteilunge = "";
-		String[] abteilungen = null;
+		ArrayList<Mitarbeiter> mitarbeiterListe = new ArrayList<>();
+		Mitarbeiter[] mitarbeiterArray = null;
+		Mitarbeiter currentMitarbeiter;
 		try {
-			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlresors));
-			String sql = "select namemitarbeiter from Mitarbeiter inner join Abteilung on Mitarbeiter.maf=Abteilung.id where  Mitarbeiter.maf =?";
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "select * from Mitarbeiter inner join Abteilung on Mitarbeiter.maf=Abteilung.id where  Mitarbeiter.maf =?";
 			preparedStatement = connection.prepareStatement(sql);
-			//preparedStatement.setString(1, nameabtei);
-			System.out.println("Result >");
-			System.out.println("ich bin hier von Daomitarb klasse vor");
-			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", nameGeascheaft, nameabtei, sqlresors));
-			
+			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
+					"namegaeschaeft", "nameAbteilung", nameGeascheaft, nameabtei));
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				abteilunge += resultSet.getString("nameMitarbeiter") + "_";
-				System.out.println("ich bin hier von Daomitarb klasse nach");
+				currentMitarbeiter = new Mitarbeiter();
+				currentMitarbeiter.setNamemitarbeiter(resultSet.getString("namemitarbeiter"));
+				currentMitarbeiter.setNachname(resultSet.getString("nachname"));
+				currentMitarbeiter.setLohn(resultSet.getString("lohn"));
+				currentMitarbeiter.setPass(resultSet.getString("pass"));
+				currentMitarbeiter.setId(resultSet.getInt(1));
+
+				mitarbeiterListe.add(currentMitarbeiter);
 			}
-			abteilungen = abteilunge.split("_");
+			mitarbeiterArray = new Mitarbeiter[mitarbeiterListe.size()];
+
+			for (int i = 0; i < mitarbeiterListe.size(); i++) {
+				mitarbeiterArray[i] = mitarbeiterListe.get(i);
+			}
+
 		} catch (SQLException e) {
 			System.out.println(e);
 		} finally {
 			try {
 				connection.close();
 				preparedStatement.close();
-
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
-		return abteilungen;
+		return mitarbeiterArray;
 	}
 }

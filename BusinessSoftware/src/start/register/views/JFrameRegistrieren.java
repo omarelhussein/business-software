@@ -481,9 +481,10 @@ public class JFrameRegistrieren extends JFrame {
 
 			manageRegisterSteps(1, 3);
 		}
-
+		
 		if (checkBoxNewCheckBox.isSelected() && counter == 3 && daomelden.insert(anschrift, gescheaft) == true) {
 			GeschaeftDB.getInstance().setCurrentAccountName(gescheaft.getNamegeascheaft());
+
 			JFrameMain main = new JFrameMain();
 			Utils.startNewJFrame(this, main);
 

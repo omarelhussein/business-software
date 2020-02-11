@@ -10,9 +10,10 @@ public class SQLiteConnection {
 
 	private static String CONNECTION_STRING = "jdbc:sqlite:";
 	private static final String SQLITE_LIBRARY_CONNECTION = "org.sqlite.JDBC";
+	private static final String DB_FILE = "Geaschgeaft.db";
 
-	public static String getSQLiteConnectionString(String sqliteTableName) {
-		return CONNECTION_STRING + sqliteTableName;
+	public static String getSQLiteConnection() {
+		return CONNECTION_STRING + DB_FILE;
 	}
 
 	public static Class<?> getSQLiteConnectionInstance() throws ClassNotFoundException {
@@ -34,12 +35,12 @@ public class SQLiteConnection {
 	 */
 // diese methode helft die mit andere Tabelle verbunden sind also unter bedinung
 	public static int idBetrefendesache(String tableName, String tableName2, String colum, String colum2, String colum3,
-			String bedinungErfullung, String bedinungErfullung2, String sqlRecorse) {
+			String bedinungErfullung, String bedinungErfullung2) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select " + tableName + ".id from " + tableName + " inner join " + tableName2 + " on "
 					+ tableName + "." + colum + "=" + tableName2 + ".id where " + tableName2 + "." + colum2
 					+ " = ?  and " + tableName + "." + colum3 + " = ?";
@@ -58,27 +59,26 @@ public class SQLiteConnection {
 				statmment.close();
 				conn.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 		return d;
 	}
 
 	/**
-	 * 
 	 * @param tableName
 	 * @param sqlRecorse
 	 * @return
 	 * @author Aref
+	 * 
+	 * diese mithode helft die id von jede Tabele zu wissen
 	 */
-
-	// diese mithode helft die id von jede Tabele zu wissen
-	public static int anzalAnschrift(String tableName, String sqlRecorse) {
+	public static int anzalAnschrift(String tableName) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select Max (id) As gesamt from " + tableName;
 			statmment = conn.prepareStatement(an);
 
@@ -106,15 +106,16 @@ public class SQLiteConnection {
 	 * @return
 	 * @author Aref
 	 */
-	// dies methode helft um nameabteilung damit wir  wissen zu welche Abteilung gehort muss die mit arbeiter gehoren
+	// dies methode helft um nameabteilung damit wir wissen zu welche Abteilung
+	// gehort muss die mit arbeiter gehoren
 
 	public static String nameGeascheaft(String tableName, String tableName2, String colum, String colum2, String colum3,
-			String colum4, String bedinungErfullung, String bedinungErfullung2, String sqlRecorse) {
+			String colum4, String bedinungErfullung, String bedinungErfullung2) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		String d = "";
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select " + tableName + ".nameAbteilung As gesamt from " + tableName + " inner join "
 					+ tableName2 + " on " + tableName + "." + colum + " = " + tableName2 + "." + colum2 + " where "
 					+ tableName + "." + colum3 + " = ?  and " + tableName2 + "." + colum4 + " = ?";
@@ -144,14 +145,13 @@ public class SQLiteConnection {
 		return d;
 
 	}
-   
-	public static void Delete(String tabelName, String colum1, String colum2, String bedinungErfullen, int i,
-			String sql) {
+
+	public static void Delete(String tabelName, String colum1, String colum2, String bedinungErfullen, int i) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
 
-			connection = DriverManager.getConnection(getSQLiteConnectionString(sql));
+			connection = DriverManager.getConnection(getSQLiteConnection());
 			String sqlBefehl = "Delete from " + tabelName + " where " + tabelName + "." + colum1 + " = ? and "
 					+ tabelName + "." + colum2 + " = " + i;
 			System.out.println(sqlBefehl);
@@ -172,12 +172,12 @@ public class SQLiteConnection {
 	}
 
 	// die helft die id von die sache zu holen
-	public static int idTabelle(String tabelleName, String colum, String bedinungErfullen, String sql) {
+	public static int idTabelle(String tabelleName, String colum, String bedinungErfullen) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		int id = 0;
 		try {
-			connection = DriverManager.getConnection(getSQLiteConnectionString(sql));
+			connection = DriverManager.getConnection(getSQLiteConnection());
 			String sqlbefehl = "select id from " + tabelleName + " where  " + tabelleName + "." + colum + " = ?";
 			preparedStatement = connection.prepareStatement(sqlbefehl);
 			preparedStatement.setString(1, bedinungErfullen);
@@ -196,23 +196,23 @@ public class SQLiteConnection {
 		return id;
 
 	}
+
 	// diese methode helft name von sache zu uberpruphen
-	public static String uberBrufname(String tabeleName,String colum,String colum2,String bedinung,String sql) {
-		Connection connection=null;
-		PreparedStatement preparedStatement =null;
-		String name="";
+	public static String uberBrufname(String tabeleName, String colum, String colum2, String bedinung) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String name = "";
 		try {
-			connection=DriverManager.getConnection(getSQLiteConnectionString(sql));
-			String sqlBefehl=" select "+colum+" from "+tabeleName+" where  "+colum2+" = ? ";
-			preparedStatement=connection.prepareStatement(sqlBefehl);
-			preparedStatement.setString(1,bedinung );
-		    ResultSet resultSet=preparedStatement.executeQuery();
-		    name=resultSet.getString(colum);
-		   
-			
+			connection = DriverManager.getConnection(getSQLiteConnection());
+			String sqlBefehl = " select " + colum + " from " + tabeleName + " where  " + colum2 + " = ? ";
+			preparedStatement = connection.prepareStatement(sqlBefehl);
+			preparedStatement.setString(1, bedinung);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			name = resultSet.getString(colum);
+
 		} catch (SQLException e) {
 			// TODO: handle exception
-		}finally {
+		} finally {
 			try {
 				connection.close();
 				preparedStatement.close();
@@ -235,12 +235,12 @@ public class SQLiteConnection {
 	 * @author Aref
 	 */
 	public static int forigkeyBetrefendesache(String tableName,String forigkey, String tableName2, String colum,
-			String bedinungErfullung,int bedinungErfullung2, String sqlRecorse) {
+			String bedinungErfullung,int bedinungErfullung2) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select " + tableName +"."+forigkey+" from " + tableName + " inner join " + tableName2 +" on "
 					+ tableName +"."+ forigkey+ " = " + tableName2 +".id where " + tableName2 +"."+ colum
 					+ " = ? and  "+tableName2+".id = ?";

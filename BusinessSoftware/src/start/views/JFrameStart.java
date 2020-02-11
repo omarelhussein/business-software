@@ -19,6 +19,8 @@ import javax.swing.border.LineBorder;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
+import mitarbeiter.dao.DaoMitarbeiter;
+import start.login.dao.Daoanmelden;
 import start.login.views.JFrameAnmelden;
 import start.register.views.JFrameRegistrieren;
 
@@ -38,6 +40,7 @@ public class JFrameStart extends JFrame {
 	private JButton buttonI;
 	private JButton btnAnmelden;
 	public static boolean wegRegistierung = false;
+	Daoanmelden daoanmelden;
 
 	/**
 	 * Launch the application.
@@ -57,8 +60,10 @@ public class JFrameStart extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @throws ClassNotFoundException 
 	 */
-	public JFrameStart() {
+	public JFrameStart() throws ClassNotFoundException {
+		daoanmelden=new Daoanmelden();
 		initGUI();
 	}
 
@@ -131,7 +136,12 @@ public class JFrameStart extends JFrame {
 				btnAnmelden = new JButton("Anmelden");
 				btnAnmelden.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						onAnmeldenClicked(arg0);
+						try {
+							onAnmeldenClicked(arg0);
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				});
 				btnAnmelden.setRolloverEnabled(false);
@@ -168,8 +178,17 @@ public class JFrameStart extends JFrame {
 	private void showPane(String msg) {
 		JOptionPane.showMessageDialog(this, msg);
 	}
+	/**
+	 * created by Omar on 12.01.2020
+	 * teil davon aref
+	 * @param arg0
+	 */
 
-	protected void onAnmeldenClicked(ActionEvent arg0) {
+	protected void onAnmeldenClicked(ActionEvent arg0) throws ClassNotFoundException {
+		if(daoanmelden.nameGeascheaft()[0].equals("")) {
+			JOptionPane.showMessageDialog(null, "leider keine G√§sch√§fte vorhanden");
+			return;
+		}
 		JFrameAnmelden jFrameAnmelden = new JFrameAnmelden();
 		Utils.startNewJFrame(this, jFrameAnmelden);
 	}
@@ -188,7 +207,7 @@ public class JFrameStart extends JFrame {
 	 */
 	protected void onInfoClicked(ActionEvent arg0) {
 		showPane(
-				"Falls Sie noch kein eigenes Gesch‰ft erstellt haben, kˆnnen Sie auf \"Starte dein Gesch‰ft\" klicken und den Prozess durchf¸hren, "
+				"Falls Sie noch kein eigenes GeschŸÜft erstellt haben, kŸênnen Sie auf \"Starte dein GeschŸÜft\" klicken und den Prozess durchf√ºhren, "
 						+ "\num Ihre Organisation zu erstellen. Ansonsten melden Sie sich an");
 	}
 }

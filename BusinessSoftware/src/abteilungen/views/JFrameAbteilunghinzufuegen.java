@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -55,6 +56,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JButton button_Mins_abteilung;
 	private JTextField textFieldSuchen;
 	private JButton buttonSuchen;
+	String nameabteilung;
 
 	/**
 	 * Launch the application.
@@ -143,7 +145,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			btn_check_abteilung.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
-						do_btn_check_abteilung_actionPerformed(arg0);
+						onCheckClicked(arg0);
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -268,8 +270,9 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	}
 
 	/**
-	 * Created On 04.01.2020 Created By Omar
-	 * adds a custom abteilung after the button was clicked
+	 * Created On 04.01.2020 Created By Omar adds a custom abteilung after the
+	 * button was clicked
+	 * 
 	 * @param arg0
 	 */
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
@@ -287,9 +290,13 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	 * @param arg0
 	 * @throws ClassNotFoundException
 	 */
-	protected void do_btn_check_abteilung_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
+	protected void onCheckClicked(ActionEvent arg0) throws ClassNotFoundException {
 		String[] abteilungen = new String[values.size()];
 		String bteilung;
+		if(abteilungen.length == 0 || abteilungen == null) {
+			JOptionPane.showMessageDialog(this, "Keine Abteilungen konnten gespeichert werden\nÜberprüfen Sie Ihre eingaben");
+			return;
+		}
 		for (int i = 0; i < abteilungen.length; i++) {
 			abteilungen[i] = values.get(i).toString();
 			bteilung = abteilungen[i];
@@ -298,19 +305,16 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 		}
 		abteilung = new String[abteilungen.length];
 		abteilung = abteilungen;
-		System.out.println(abteilungen[0]);
 		this.setVisible(false);
 	}
 
 	/**
-	 * 15.01.2020 Ajabnoor
-	 * removes the selected abteilung
+	 * 15.01.2020 Ajabnoor removes the selected abteilung
+	 * 
 	 * @param arg0
 	 */
 	protected void onMinsAbteilungClicked(ActionEvent arg0) {
 		if (list.isSelectedIndex(list.getSelectedIndex())) {
-			String abteilung = list.getSelectedValue().toString();
-			// daoabteilung.AbteilungDelet(abteilung);
 			values.remove(list.getSelectedIndex());
 			Utils.updateList(list, true, scrollPane, values);
 		} else {
@@ -320,20 +324,11 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	}
 
 	/**
-	 * 15.01.2020 Ajabnoor
-	 * searches the abteilung
+	 * 15.01.2020 Ajabnoor searches the abteilung
+	 * 
 	 * @param arg0
 	 */
 	protected void buttonSuchenActionPerformed(ActionEvent arg0) {
-
-		for (String string : values) {
-			if (textFieldSuchen.getText().equals(string)) {
-				list.setSelectionInterval(values.indexOf(string), values.lastIndexOf(string));
-				return;
-			}
-
-		}
-		JOptionPane.showMessageDialog(this, "Suchwort wurde nicht gefunden");
-
+		Utils.searchWord(values, textFieldSuchen, list, this);
 	}
 }

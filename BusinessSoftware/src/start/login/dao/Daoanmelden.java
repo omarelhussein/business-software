@@ -10,9 +10,6 @@ import general.code.SQLiteConnection;
 
 public class Daoanmelden {
 
-	private final String DATEI = "Geaschgeaft.db";
-	private final String URL = "jdbc:sqlite:" + DATEI;
-
 	public Daoanmelden() throws ClassNotFoundException {
 		SQLiteConnection.getSQLiteConnectionInstance();
 	}
@@ -25,27 +22,27 @@ public class Daoanmelden {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public boolean loginBoss(String name, String password) throws ClassNotFoundException {
+	public boolean loginBoss(String name, String password) {
 
 		PreparedStatement vorbereitungAussage = null;
 		Connection rabita = null;
 
 		try {
-			rabita = DriverManager.getConnection(URL);
+			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
 			vorbereitungAussage = rabita.prepareStatement(sql);
 			vorbereitungAussage.setString(1, name);
 			vorbereitungAussage.setString(2, password);
-			
+
 			ResultSet ergebniss = vorbereitungAussage.executeQuery();
 
-				if (ergebniss.next()) {
-					return true;					
-				} else {
-					return false;
-				}
+			if (ergebniss.next()) {
+				return true;
+			} else {
+				return false;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,6 +57,40 @@ public class Daoanmelden {
 		}
 
 	}
-	
+
+	/**
+	 * @author Aref
+	 * @return
+	 */
+	public String[] nameGeascheaft() {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String abteilunge = "";
+		String[] abteilungen = null;
+		try {
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "select namegaeschaeft from Geascheaft";
+
+			preparedStatement = connection.prepareStatement(sql);
+			System.out.println("SDa");
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				abteilunge += resultSet.getString("namegaeschaeft") + "_";
+				System.out.println(resultSet.getFetchSize());
+			}
+			abteilungen = abteilunge.split("_");
+		} catch (SQLException e) {
+			System.out.println("von an :" + e);
+		} finally {
+			try {
+				connection.close();
+				preparedStatement.close();
+
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return abteilungen;
+	}
 
 }

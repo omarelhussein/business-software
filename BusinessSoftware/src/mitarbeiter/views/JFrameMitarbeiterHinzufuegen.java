@@ -1,5 +1,6 @@
 package mitarbeiter.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -15,10 +16,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Unicodes;
@@ -27,10 +31,8 @@ import mitarbeiter.business_classes.Mitarbeiter;
 import mitarbeiter.dao.DaoMitarbeiter;
 import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
 
 	private JPanel contentPane;
@@ -53,12 +55,12 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private boolean textnutz;
 	Mitarbeiter mitarbeiter;
 	DaoMitarbeiter daoMitarbeiter;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	JFrameRegistrieren frameRegistrieren;
 	DaoAbteilung abteilung;
 	Anschrift anschrift;
 	JFrameAbteilunghinzufuegen abteilunghinzufuegen;
-	private JList list;
+	private JList<String> list;
 	private JScrollPane scrollPane;
 	private JTextField plz;
 	private JLabel lblNewLabel;
@@ -84,7 +86,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	}
 
 	/**
-	 * Created by Mohammad on 06.02.2020 
+	 * Created by Mohammad on 06.02.2020
 	 * 
 	 * @throws ClassNotFoundException
 	 */
@@ -98,13 +100,12 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	}
 
 	private void initGUI() {
-		
 
 		setBounds(100, 100, 651, 650);
 		contentPane = new JPanel();
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
+
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
@@ -114,11 +115,53 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			contentPane.add(buttonSpeichern);
 		}
 		{
+			Stadt = new JTextField();
+			Stadt.setBounds(480, 45, 86, 20);
+			contentPane.add(Stadt);
+			Stadt.setColumns(10);
+		}
+		{
+			Adresse = new JTextField();
+			Adresse.setBounds(480, 129, 86, 20);
+			contentPane.add(Adresse);
+			Adresse.setColumns(10);
+		}
+		{
+			Tel = new JTextField();
+			Tel.setBounds(480, 215, 86, 20);
+			contentPane.add(Tel);
+			Tel.setColumns(10);
+		}
+		{
+			lblStadt = new JLabel("stadt");
+			lblStadt.setBounds(393, 48, 46, 14);
+			contentPane.add(lblStadt);
+		}
+		{
+			lblAdresse = new JLabel("Adresse");
+			lblAdresse.setBounds(393, 132, 46, 14);
+			contentPane.add(lblAdresse);
+		}
+		{
+			lblTel = new JLabel("Tel");
+			lblTel.setBounds(393, 218, 46, 14);
+			contentPane.add(lblTel);
+		}
+		{
+			btnNewButton = new JButton("New button");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					do_btnNewButton_actionPerformed(arg0);
+				}
+			});
+			btnNewButton.setBounds(420, 284, 89, 23);
+			contentPane.add(btnNewButton);
+		}
+		{
+			comboBox = new JComboBox<String>();
 			if (!JFrameStart.wegRegistierung) {
-//				comboBox = new JComboBox();
-//				comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
-//				comboBox.setBounds(289, 217, 191, 59);
-//				panel.add(comboBox);
+				comboBox.setModel(new DefaultComboBoxModel<String>(
+						abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			}
 		}
 		{
@@ -236,6 +279,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				{
 					btnNewButtonWeiter = new JButton(Unicodes.CHECK);
 					btnNewButtonWeiter.addActionListener(new ActionListener() {
+
 						public void actionPerformed(ActionEvent e) {
 							btnNewButtonWeiterActionPerformed(e);
 						}
@@ -260,15 +304,16 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 					lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 					lblNewLabel_1.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 					lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-					
-					
+
 					lblNewLabel_1.setBounds(123, 11, 335, 25);
 					contentPane.add(lblNewLabel_1);
 				}
 				btnNewButton.addActionListener(new ActionListener() {
+
 					public void actionPerformed(ActionEvent arg0) {
 						do_btnNewButton_actionPerformed(arg0);
 					}
+
 				});
 			}
 		}
@@ -305,23 +350,23 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	}
 
 	private boolean texteprüfen(boolean[] textBenutzung) {
-
 		for (boolean b : textBenutzung) {
 			if (b == false) {
 				textnutz = b;
 			} else {
 				textnutz = true;
 			}
-
 		}
 		return textnutz;
 	}
 
-	protected void onBackPressed(ActionEvent arg0) {
+	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		Utils.reviewOldJFrame(this, new JFrameStart());
 	}
+
 	protected void btnNewButtonWeiterActionPerformed(ActionEvent e) {
 	}
+
 	protected void btnNewButtonZurueckActionPerformed(ActionEvent e) {
 	}
 }

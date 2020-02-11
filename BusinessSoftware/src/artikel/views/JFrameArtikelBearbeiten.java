@@ -1,42 +1,45 @@
 package artikel.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
-import javax.swing.JButton;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
+import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
 import artikel.DaoArtikel;
 import artikel.business_classes.Artikel;
+import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Unicodes;
 import registrierung.JFrameRegistrieren;
 import start.views.JFrameStart;
-import javax.swing.SwingConstants;
-import java.awt.Font;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JList;
-import javax.swing.JSeparator;
-import javax.swing.JScrollPane;
 
+@SuppressWarnings("serial")
 public class JFrameArtikelBearbeiten extends JFrame {
 
 	private JPanel contentPane;
+	private JLabel labelArtikelBearbeiten;
+	private JTextField nameArtikel;
+	private JTextField preisArtikel;
+	private JButton buttonSpeichern;
+	private JTextField nameKatigore;
+	private JComboBox<String> comboBox;
 	DaoAbteilung abteilung;
 	Artikel artikel;
 	DaoArtikel daoArtikel;
@@ -77,30 +80,32 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	}
 
 	/**
-	 * Created by Mohammad on 11.02.2020
+	 * Created by Mohammad on 11.02.2020 Create the frame.
 	 * 
+	 * @throws ClassNotFoundException
 	 */
 
 	public JFrameArtikelBearbeiten() throws ClassNotFoundException {
-		abteilung=new DaoAbteilung();
-		artikel=new Artikel();
-		daoArtikel=new DaoArtikel();
-		frameRegistrieren=new JFrameRegistrieren();
+		abteilung = new DaoAbteilung();
+		artikel = new Artikel();
+		daoArtikel = new DaoArtikel();
+		frameRegistrieren = new JFrameRegistrieren();
 		initGUI();
 
 	}
+
 	private void initGUI() {
 		setBounds(100, 100, 650, 650);
 		Utils.setMiddleFrameOptions(this);
-
 
 		contentPane = new JPanel();
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		{
-			if(!JFrameStart.wegRegistierung) {
-				//comboBox.setModel(new DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
+			if (!JFrameStart.wegRegistierung) {
+				// comboBox.setModel(new
+				// DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
 				System.out.println(frameRegistrieren.nameGeascheaft);
 			}
 		}
@@ -149,14 +154,15 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			}
 			{
 				comboBoxKategorie = new JComboBox();
-				comboBoxKategorie.setModel(new DefaultComboBoxModel(new String[] {"Obst", "Gem\u00FCse", "Getr\u00E4nke", "Handys", "Laptops"}));
+				comboBoxKategorie.setModel(new DefaultComboBoxModel(
+						new String[] { "Obst", "Gem\u00FCse", "Getr\u00E4nke", "Handys", "Laptops" }));
 				comboBoxKategorie.setBounds(233, 329, 122, 38);
 				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxKategorie);
 			}
 			{
 				comboBoxAbteilung = new JComboBox();
-				comboBoxAbteilung.setModel(new DefaultComboBoxModel(new String[] {"Lebensmittel", "Elktro"}));
+				comboBoxAbteilung.setModel(new DefaultComboBoxModel(new String[] { "Lebensmittel", "Elktro" }));
 				comboBoxAbteilung.setBounds(10, 329, 129, 38);
 				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxAbteilung);
@@ -220,6 +226,34 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			contentPane.add(zurück);
 		}
 	}
+
 	protected void btnNewButton_1ActionPerformed(ActionEvent e) {
+		buttonSpeichern.setBounds(93, 411, 97, 25);
+		contentPane.add(buttonSpeichern);
+	}
+
+	{
+		nameKatigore = new JTextField();
+		nameKatigore.setBounds(77, 114, 184, 20);
+		contentPane.add(nameKatigore);
+		nameKatigore.setColumns(10);
+	}
+	{
+		comboBox = new JComboBox<String>();
+		comboBox.setBounds(418, 151, 127, 20);
+		if (!JFrameStart.wegRegistierung) {
+			comboBox.setModel(new DefaultComboBoxModel<String>(
+					abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+		}
+
+		contentPane.add(comboBox);
+	}
+
+	protected void do_buttonSpeichern_actionPerformed(ActionEvent e) {
+		String katihor;
+		artikel.setNameArtikel(nameArtikel.getText());
+		artikel.setPreis(preisArtikel.getText());
+		katihor = nameKatigore.getText();
+		daoArtikel.insertArtkel(artikel, katihor, comboBox.getSelectedItem().toString());
 	}
 }

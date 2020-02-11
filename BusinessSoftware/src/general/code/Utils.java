@@ -3,11 +3,6 @@ package general.code;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -59,6 +55,8 @@ public class Utils {
 		frame.setResizable(false);
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(frame.getClass().getResource("/media/shop.png")));
 	}
+
+	
 	public static void setMiddleFrameOptions(JFrame frame) {
 		frame.setBounds(0, 0, 650, 650);
 		frame.setLocationRelativeTo(null);
@@ -66,9 +64,6 @@ public class Utils {
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(frame.getClass().getResource("/media/shop.png")));
 	}
 	
-
-
-
 	/**
 	 * Created by Omar
 	 * 
@@ -119,6 +114,26 @@ public class Utils {
 		button.setBackground(new Color(255, 228, 225));
 		button.setFocusable(false);
 		button.setRolloverEnabled(false);
+	}
+	
+	public static void searchWord(ArrayList<String> values, JTextField searchField, JList<Object> list, JFrame context) {
+		for (String string : values) {
+			if (searchField.getText().trim().equals(string)) {
+				list.setSelectedIndex(values.indexOf(string));
+				return;
+			} else if (searchField.getText().endsWith("*") && searchField.getText().trim().length() > 2) {
+				if (string.matches(searchField.getText().toString() + "(.*)")) {
+					list.setSelectedIndex(values.indexOf(string));
+					return;
+				}
+			} else {
+				if(values.indexOf(string) == values.size()-1) {
+					JOptionPane.showMessageDialog(context, "Mindestens 2 Buchstaben eingeben\nDas (*) ende der Eingabe ist Optional");
+					return;					
+				}
+			}
+		}
+		JOptionPane.showMessageDialog(context, "Suchwort wurde nicht gefunden");
 	}
 
 	/**

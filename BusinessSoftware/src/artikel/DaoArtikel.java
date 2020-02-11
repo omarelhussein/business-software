@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
@@ -15,8 +17,12 @@ import start.register.views.JFrameRegistrieren;
 
 public class DaoArtikel {
 
-	public DaoArtikel() throws ClassNotFoundException {
-		SQLiteConnection.getSQLiteConnectionInstance();
+	public DaoArtikel() {
+		try {
+			SQLiteConnection.getSQLiteConnectionInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -107,5 +113,47 @@ public class DaoArtikel {
 		}
 		return d;
 	}
+	/**
+	 * Ajab
+	 * @return
+	 */
+	public List<Artikel> artikelLaden(String abteilung) {
+		System.out.println("hallo");
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet result = null;
+		List<Artikel> artikelList = new ArrayList<Artikel>();
+		try {
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "SELECT  * from Artikel INNER JOIN Kategorie on Artikel.akf = Kategorie.id where kategorie.kaf = ?";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(),abteilung ));
+			preparedStatement.execute();
+			result = preparedStatement.executeQuery();
+			
+			while(result.next()) {
+				Artikel artikel = new Artikel();
+				artikel.setId(result.getInt(1));
+				
+				artikel.setNameArtikel(result.getString("nameartikel"));
+				artikel.setPreis(result.getString("preis"));	
+				artikelList.add(artikel);
+			}
+			return artikelList;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				connection.close();
+				preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return null;
 
+	}
 }

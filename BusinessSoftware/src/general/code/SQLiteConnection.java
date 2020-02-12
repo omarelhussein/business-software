@@ -10,7 +10,7 @@ public class SQLiteConnection {
 
 	private static String CONNECTION_STRING = "jdbc:sqlite:";
 	private static final String SQLITE_LIBRARY_CONNECTION = "org.sqlite.JDBC";
-	public static final String DB_FILE = "Geaschgeaft.db";
+	private static final String DB_FILE = "Geaschgeaft.db";
 
 	public static String getSQLiteConnection() {
 		return CONNECTION_STRING + DB_FILE;

@@ -51,6 +51,9 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JTextField textFieldSuchen;
 	private JButton buttonNewButton;
 
+	
+	private JPanel panel;
+
 
 	/**
 	 * Launch the application.
@@ -190,6 +193,10 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			buttonNewButton.setBounds(141, 80, 89, 25);
 			contentPane.add(buttonNewButton);
 
+			panel = new JPanel();
+			panel.setBounds(277, 49, 129, 200);
+			contentPane.add(panel);
+
 		}
 	}
 
@@ -224,6 +231,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private void onItemSelected() {
 		String geschaeftName = GeschaeftDB.getInstance().getCurrentAccountName();
 		String abteilungName = String.valueOf(comboBox.getSelectedItem());
+	
 
 		values = daoMitarbeiter.loadMitarbeiter(geschaeftName, abteilungName);
 

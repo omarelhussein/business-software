@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -65,6 +67,7 @@ public class JFrameMain extends JFrame {
 	private JLabel labelGeschftBereich;
 	private JButton buttonAllgemeineDatenAnzeigen;
 	private String[] ausgewealtAbteilung;
+	private List<JButton> verwaltungButtons;
 
 	/**
 	 * Launch the application.
@@ -87,6 +90,24 @@ public class JFrameMain extends JFrame {
 	 */
 	public JFrameMain() {
 		initGUI();
+		checkLoginData();
+	}
+
+	private void checkLoginData() {
+		verwaltungButtons = new ArrayList<JButton>();
+		verwaltungButtons.add(btnAbteilungBearbeiten);
+		verwaltungButtons.add(buttonArtikelVerwalten);
+		verwaltungButtons.add(buttonMitarbeiterVerwalten);
+		
+		System.out.println("Status from Main: " + GeschaeftDB.getInstance().isMitarbeiter());
+		if(GeschaeftDB.getInstance().isMitarbeiter()) {
+			System.out.println("Mitarbeiter eingelogt");
+			for (JButton currentButton : verwaltungButtons) {
+				currentButton.setEnabled(false);
+			}
+		} else {
+			System.out.println("Boss eingelogt");
+		}
 	}
 
 	private void initGUI() {

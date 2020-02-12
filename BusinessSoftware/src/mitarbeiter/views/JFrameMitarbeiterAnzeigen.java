@@ -86,6 +86,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		{
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(10, 112, 220, 238);
+			scrollPane.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(scrollPane);
 			{
 				list = new JList<Object>();

@@ -246,19 +246,22 @@ public class JFrameAnmelden extends JFrame {
 
 		if (radioButtonGeschftfhrer.isSelected() && login.loginBoss(textFieldNameInput.getText(),
 				String.valueOf(textFieldPasswordInput.getPassword()))) {
+			GeschaeftDB.getInstance().setLoginStatus(false);
 			GeschaeftDB.getInstance().setCurrentAccountName(textFieldNameInput.getText());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
 			System.out.println("" + textFieldNameInput.getText());
+			System.out.println("Boss eingelogt");
 			return;
 		}
 
 		if (radioButtonMitarbeiter.isSelected() && mitarbeiterEinlogen.mitarbeitereinlogen(textFieldNameInput.getText(),
 				String.valueOf(textFieldPasswordInput.getPassword()), comboBox.getSelectedItem().toString())) {
+			GeschaeftDB.getInstance().setLoginStatus(true);
 			GeschaeftDB.getInstance().setCurrentAccountName(comboBox.getSelectedItem().toString());
 			JFrameMain JFrameOK = new JFrameMain();
 			Utils.startNewJFrame(this, JFrameOK);
-
+			System.out.println("Mitarbeiter eingelogt");
 		} else {
 			JOptionPane.showMessageDialog(this, "Bitte geben Sie den richtigen Name und Password ein");
 		}

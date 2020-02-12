@@ -11,9 +11,6 @@ import java.util.List;
 import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
-import general.code.Utils;
-import main.dao.DaoGescheaft;
-import start.register.views.JFrameRegistrieren;
 
 public class DaoArtikel {
 
@@ -115,7 +112,7 @@ public class DaoArtikel {
 	}
 	/**
 	 * Ajab
-	 * @return
+	 * @return liste von artikeln der Abteilung
 	 */
 	public List<Artikel> artikelLaden(String abteilung) {
 		System.out.println("hallo");

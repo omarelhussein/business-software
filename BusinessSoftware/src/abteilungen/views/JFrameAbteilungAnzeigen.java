@@ -69,6 +69,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 		{
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(10, 56, 265, 294);
+			scrollPane.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(scrollPane);
 			{
 				list = new JList<Object>();

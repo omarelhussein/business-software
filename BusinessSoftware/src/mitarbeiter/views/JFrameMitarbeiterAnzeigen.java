@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
@@ -51,7 +52,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JButton buttonNewButton;
 
 	/**
-	 * Launch the application.
+	 * 
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -73,8 +74,12 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		daoAbteilungen = new DaoAbteilung();
 		daoMitarbeiter = new DaoMitarbeiter();
 		initGUI();
+
 	}
 
+	/**
+	 * Created by Mohammad on 28.01.2020
+	 */
 	private void initGUI() {
 
 		Utils.setSmallFrameOptions(this);
@@ -85,7 +90,8 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		{
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 112, 220, 238);
+
+			scrollPane.setBounds(10, 91, 220, 259);
 			scrollPane.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(scrollPane);
 			{
@@ -105,7 +111,8 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		}
 		{
 			labelListeMitarbeiter = new JLabel("Liste Mitarbeiter");
-			labelListeMitarbeiter.setBounds(10, 11, 255, 33);
+			labelListeMitarbeiter.setHorizontalAlignment(SwingConstants.CENTER);
+			labelListeMitarbeiter.setBounds(10, 11, 359, 33);
 			Fonts.setCenturySchoolbookFont(labelListeMitarbeiter, 18);
 			labelListeMitarbeiter.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			contentPane.add(labelListeMitarbeiter);
@@ -118,12 +125,12 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 					onAnzeigen(arg0);
 				}
 			});
-			buttonAnzeigen.setBounds(240, 280, 135, 25);
+			buttonAnzeigen.setBounds(240, 289, 129, 25);
 			contentPane.add(buttonAnzeigen);
 		}
 		{
 			button = new JButton(Unicodes.CHECK);
-			button.setBounds(240, 320, 135, 25);
+			button.setBounds(240, 325, 129, 25);
 			Utils.setStandardButtonOptions(button);
 			button.addActionListener(new ActionListener() {
 				@Override
@@ -144,33 +151,34 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			abteilungenValues = daoAbteilungen.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
 			comboBox.setModel(new DefaultComboBoxModel<String>(abteilungenValues));
 			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
-			comboBox.setBounds(240, 81, 135, 20);
+			comboBox.setBounds(240, 91, 135, 20);
 			contentPane.add(comboBox);
 		}
 		onItemSelected();
 		{
 			labelAbteilungen = new JLabel("Abteilungen");
+			labelAbteilungen.setHorizontalAlignment(SwingConstants.CENTER);
 			labelAbteilungen.setForeground(SystemColor.textHighlight);
-			labelAbteilungen.setBounds(240, 50, 135, 20);
+			labelAbteilungen.setBounds(240, 57, 135, 20);
 			contentPane.add(labelAbteilungen);
 		}
 		{
 			textFieldSuchen = new JTextField();
-			textFieldSuchen.setBounds(10, 80, 125, 25);
+			textFieldSuchen.setBounds(10, 55, 125, 25);
 			contentPane.add(textFieldSuchen);
 			textFieldSuchen.setColumns(10);
 			textFieldSuchen.addKeyListener(new KeyListener() {
-				
+
 				@Override
 				public void keyTyped(KeyEvent e) {
-					//nothing todo here
+					// nothing todo here
 				}
-				
+
 				@Override
 				public void keyReleased(KeyEvent e) {
-					//nothing todo here
+					// nothing todo here
 				}
-				
+
 				@Override
 				public void keyPressed(KeyEvent e) {
 					onEnterPressed(e);
@@ -185,7 +193,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 					onSuchenClicked(arg0);
 				}
 			});
-			buttonNewButton.setBounds(141, 80, 89, 25);
+			buttonNewButton.setBounds(145, 55, 89, 25);
 			contentPane.add(buttonNewButton);
 		}
 	}
@@ -240,13 +248,13 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		}
 		return arrayList;
 	}
-	
+
 	protected void onCheckClicked(ActionEvent e) {
 		this.setVisible(false);
 	}
-	
+
 	protected void onEnterPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			onSearchClicked();
 		}
 	}

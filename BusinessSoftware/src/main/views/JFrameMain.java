@@ -1,7 +1,6 @@
 package main.views;
 
 import java.awt.Color;
-
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -32,11 +31,9 @@ import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
-import main.business_classes.Geschaeft;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
 import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
-import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
 /**

@@ -110,8 +110,10 @@ public class DaoArtikel {
 		}
 		return d;
 	}
+
 	/**
 	 * Ajab
+	 * 
 	 * @return liste von artikeln der Abteilung
 	 */
 	public List<Artikel> artikelLaden(String abteilung) {
@@ -124,20 +126,21 @@ public class DaoArtikel {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT  * from Artikel INNER JOIN Kategorie on Artikel.akf = Kategorie.id where kategorie.kaf = ?";
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(),abteilung ));
+			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
+					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
 			preparedStatement.execute();
 			result = preparedStatement.executeQuery();
-			
-			while(result.next()) {
+
+			while (result.next()) {
 				Artikel artikel = new Artikel();
 				artikel.setId(result.getInt(1));
-				
+
 				artikel.setNameArtikel(result.getString("nameartikel"));
-				artikel.setPreis(result.getString("preis"));	
+				artikel.setPreis(result.getString("preis"));
 				artikelList.add(artikel);
 			}
 			return artikelList;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -147,9 +150,9 @@ public class DaoArtikel {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		return null;
 
 	}

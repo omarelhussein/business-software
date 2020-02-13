@@ -60,6 +60,12 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	private JButton aktuallisieren;
 	private JButton loeschen;
 	private JSeparator separator_1;
+	private JLabel labelGewicht;
+	private JTextField textField_3;
+	private JLabel labelMarke;
+	private JTextField textField_4;
+	private JLabel labelDatum;
+	private JTextField textField_5;
 
 	/**
 	 * Launch the application.
@@ -124,7 +130,7 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			panel.setLayout(null);
 			{
 				scrollPane = new JScrollPane();
-				scrollPane.setBounds(379, 11, 225, 501);
+				scrollPane.setBounds(360, 11, 244, 501);
 				panel.add(scrollPane);
 				{
 					list = new JList();
@@ -133,19 +139,19 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			}
 			{
 				textField = new JTextField();
-				textField.setBounds(157, 32, 144, 25);
+				textField.setBounds(125, 20, 194, 25);
 				panel.add(textField);
 				textField.setColumns(10);
 			}
 			{
 				textField_1 = new JTextField();
-				textField_1.setBounds(157, 102, 144, 25);
+				textField_1.setBounds(125, 70, 194, 25);
 				panel.add(textField_1);
 				textField_1.setColumns(10);
 			}
 			{
 				textField_2 = new JTextField();
-				textField_2.setBounds(157, 172, 144, 25);
+				textField_2.setBounds(125, 120, 194, 25);
 				panel.add(textField_2);
 				textField_2.setColumns(10);
 			}
@@ -153,56 +159,92 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				comboBoxKategorie = new JComboBox();
 				comboBoxKategorie.setModel(new DefaultComboBoxModel(
 						new String[] { "Obst", "Gem\u00FCse", "Getr\u00E4nke", "Handys", "Laptops" }));
-				comboBoxKategorie.setBounds(20, 329, 330, 38);
+				comboBoxKategorie.setBounds(20, 369, 330, 38);
 				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxKategorie);
 			}
 			{
 				comboBoxAbteilung = new JComboBox();
 				comboBoxAbteilung.setModel(new DefaultComboBoxModel(new String[] { "Lebensmittel", "Elktro" }));
-				comboBoxAbteilung.setBounds(20, 373, 330, 38);
+				comboBoxAbteilung.setBounds(20, 418, 330, 38);
 				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxAbteilung);
 			}
 			{
 				name = new JLabel("Name");
 				name.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
-				name.setBounds(58, 32, 66, 25);
+				name.setBounds(48, 20, 60, 25);
 				panel.add(name);
 			}
 			{
 				preis = new JLabel("Preis");
 				preis.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
-				preis.setBounds(58, 102, 66, 25);
+				preis.setBounds(48, 70, 60, 25);
 				panel.add(preis);
 			}
 			{
 				anzahl = new JLabel("Anzahl");
 				anzahl.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
-				anzahl.setBounds(58, 172, 66, 25);
+				anzahl.setBounds(48, 120, 60, 25);
 				panel.add(anzahl);
 			}
 			{
 				separator = new JSeparator();
-				separator.setBounds(10, 230, 359, 1);
+				separator.setBounds(10, 296, 359, 1);
 				panel.add(separator);
 			}
 			{
 				aktuallisieren = new JButton("Aktuallisieren");
-				aktuallisieren.setBounds(20, 253, 160, 38);
+				aktuallisieren.setBounds(20, 308, 160, 38);
 				Utils.setStandardButtonOptions(aktuallisieren);
 				panel.add(aktuallisieren);
 			}
 			{
 				loeschen = new JButton("L\u00F6schen");
 				Utils.setStandardButtonOptions(loeschen);
-				loeschen.setBounds(185, 253, 160, 38);
+				loeschen.setBounds(185, 308, 160, 38);
 				panel.add(loeschen);
 			}
 			{
 				separator_1 = new JSeparator();
-				separator_1.setBounds(10, 306, 359, 1);
+				separator_1.setBounds(10, 357, 359, 1);
 				panel.add(separator_1);
+			}
+			{
+				labelGewicht = new JLabel("Gewicht");
+				labelGewicht.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
+				labelGewicht.setBounds(48, 168, 60, 25);
+				panel.add(labelGewicht);
+			}
+			{
+				textField_3 = new JTextField();
+				textField_3.setColumns(10);
+				textField_3.setBounds(125, 168, 194, 25);
+				panel.add(textField_3);
+			}
+			{
+				labelMarke = new JLabel("Marke");
+				labelMarke.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
+				labelMarke.setBounds(48, 215, 60, 25);
+				panel.add(labelMarke);
+			}
+			{
+				textField_4 = new JTextField();
+				textField_4.setColumns(10);
+				textField_4.setBounds(125, 215, 194, 25);
+				panel.add(textField_4);
+			}
+			{
+				labelDatum = new JLabel("Datum");
+				labelDatum.setFont(new Font("Trebuchet MS", Font.ITALIC, 15));
+				labelDatum.setBounds(48, 260, 60, 25);
+				panel.add(labelDatum);
+			}
+			{
+				textField_5 = new JTextField();
+				textField_5.setColumns(10);
+				textField_5.setBounds(125, 260, 194, 25);
+				panel.add(textField_5);
 			}
 		}
 		{

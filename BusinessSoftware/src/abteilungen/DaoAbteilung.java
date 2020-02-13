@@ -34,7 +34,7 @@ public class DaoAbteilung {
 	 * @author Aref
 	 */
 	public void insertAbteilung(String abteilung) {
-		if(abteilungExists(abteilung)) {
+		if (abteilungExists(abteilung)) {
 			return;
 		}
 		Connection connection = null;
@@ -62,11 +62,11 @@ public class DaoAbteilung {
 			}
 		}
 	}
-	
+
 	private boolean abteilungExists(String nameAbteilung) {
 		String[] currentAbteilungen = Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
 		for (int i = 0; i < currentAbteilungen.length; i++) {
-			if(currentAbteilungen[i].equalsIgnoreCase(nameAbteilung)) {
+			if (currentAbteilungen[i].equalsIgnoreCase(nameAbteilung)) {
 				return true;
 			}
 		}
@@ -124,7 +124,8 @@ public class DaoAbteilung {
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
 				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
-					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+					mitarbeiter += " < "
+							+ daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
 				}
 				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;
@@ -140,7 +141,7 @@ public class DaoAbteilung {
 	public void updateAbteilung(String nameNeu, String nameAlte) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		if(abteilungExists(nameNeu)) {
+		if (abteilungExists(nameNeu)) {
 			return;
 		}
 		try {
@@ -155,13 +156,13 @@ public class DaoAbteilung {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			try {
 				preparedStatement.close();
 				connection.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 	}

@@ -65,6 +65,7 @@ public class JFrameMain extends JFrame {
 	private JButton buttonAllgemeineDatenAnzeigen;
 	private String[] ausgewealtAbteilung;
 	private List<JButton> verwaltungButtons;
+	private JMenuItem menuItemNewMenuItem;
 
 	/**
 	 * Launch the application.
@@ -129,6 +130,15 @@ public class JFrameMain extends JFrame {
 						}
 					});
 					menuSettings.add(menuItemLogout);
+				}
+				{
+					menuItemNewMenuItem = new JMenuItem("Position zur\u00FCcksetzen");
+					menuItemNewMenuItem.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							onResetPositionSelected(e);
+						}
+					});
+					menuSettings.add(menuItemNewMenuItem);
 				}
 			}
 		}
@@ -428,5 +438,9 @@ public class JFrameMain extends JFrame {
 	protected void buttonAllgemeineDatenAnzeigenActionPerformed(ActionEvent e) {
 		JFrameAllgemeineGeschaeftsDaten geschaeftsDatenAnzeigen = new JFrameAllgemeineGeschaeftsDaten();
 		geschaeftsDatenAnzeigen.setVisible(true);
+	}
+	
+	protected void onResetPositionSelected(ActionEvent e) {
+		this.setLocationRelativeTo(null);
 	}
 }

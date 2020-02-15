@@ -21,7 +21,7 @@ public class SQLiteConnection {
 	}
 
 	/**
-	 * 
+	 * diese methode helft die mit andere Tabelle verbunden sind also unter bedinung
 	 * @param tableName
 	 * @param tableName2
 	 * @param colum
@@ -33,7 +33,6 @@ public class SQLiteConnection {
 	 * @return
 	 * @author Aref
 	 */
-// diese methode helft die mit andere Tabelle verbunden sind also unter bedinung
 	public static int idBetrefendesache(String tableName, String tableName2, String colum, String colum2, String colum3,
 			String bedinungErfullung, String bedinungErfullung2) {
 		Connection conn = null;
@@ -48,12 +47,12 @@ public class SQLiteConnection {
 			statmment = conn.prepareStatement(an);
 			statmment.setString(1, bedinungErfullung);
 			statmment.setString(2, bedinungErfullung2);
-			statmment.execute();
 			ResultSet resultSet = statmment.executeQuery();
-			resultSet.next();
-			d = resultSet.getInt("id");
+			if(resultSet.next()) {
+				d = resultSet.getInt(1);				
+			}
 		} catch (SQLException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		} finally {
 			try {
 				statmment.close();
@@ -133,13 +132,13 @@ public class SQLiteConnection {
 			resultSet.next();
 
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			try {
 				statmment.close();
 				conn.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 		return d;
@@ -270,6 +269,10 @@ public class SQLiteConnection {
 		return d;
 	}
 	
-	
+	public static boolean checkIfAbteilungExists() {
+		//TODO
+		return false;
+		
+	}
 
 }

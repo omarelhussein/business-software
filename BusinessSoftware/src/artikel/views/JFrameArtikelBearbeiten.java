@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -12,6 +14,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -19,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import abteilungen.DaoAbteilung;
 import artikel.DaoArtikel;
@@ -26,8 +31,9 @@ import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
+import general.design.Fonts;
 import general.design.Unicodes;
-import registrierung.JFrameRegistrieren;
+import kategorie.dao.DaoKategorie;
 import start.views.JFrameStart;
 
 @SuppressWarnings("serial")
@@ -38,20 +44,15 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	private JTextField nameArtikel;
 	private JTextField preisArtikel;
 	private JButton buttonSpeichern;
-	DaoAbteilung abteilung;
-	Artikel artikel;
-	DaoArtikel daoArtikel;
-	JFrameRegistrieren frameRegistrieren;
 	private JLabel lblArtikelBearbeiten;
 	private JPanel panel;
 	private JButton weiter;
-	private JButton zurück;
-	private JList list;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JComboBox comboBoxKategorie;
-	private JComboBox comboBoxAbteilung;
+	private JList<Object> list;
+	private JTextField textFieldName;
+	private JTextField textFieldPreis;
+	private JTextField textFieldAnzahl;
+	private JComboBox<String> comboBoxKategorie;
+	private JComboBox<String> comboBoxAbteilung;
 	private JLabel name;
 	private JLabel preis;
 	private JLabel anzahl;
@@ -61,11 +62,15 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	private JButton loeschen;
 	private JSeparator separator_1;
 	private JLabel labelGewicht;
-	private JTextField textField_3;
+	private JTextField textFieldGewicht;
 	private JLabel labelMarke;
-	private JTextField textField_4;
+	private JTextField textFieldMarke;
 	private JLabel labelDatum;
-	private JTextField textField_5;
+	private JTextField textFieldDatum;
+	// DB
+	private DaoArtikel daoArtikel;
+	private DaoAbteilung daoAbteilung;
+	private DaoKategorie daoKategorie;
 
 	/**
 	 * Launch the application.
@@ -90,12 +95,11 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	 */
 
 	public JFrameArtikelBearbeiten() throws ClassNotFoundException {
-		abteilung = new DaoAbteilung();
-		artikel = new Artikel();
+		daoAbteilung = new DaoAbteilung();
 		daoArtikel = new DaoArtikel();
-		frameRegistrieren = new JFrameRegistrieren();
+		daoKategorie = new DaoKategorie();
 		initGUI();
-
+		loadArticles(true, true);
 	}
 
 	private void initGUI() {
@@ -109,21 +113,20 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			if (!JFrameStart.wegRegistierung) {
 				// comboBox.setModel(new
 				// DefaultComboBoxModel(abteilung.Abteilungen(frameRegistrieren.nameGeascheaft)));
-				System.out.println(frameRegistrieren.nameGeascheaft);
 			}
 		}
 		contentPane.setLayout(null);
 		{
 			lblArtikelBearbeiten = new JLabel("Artikel Bearbeiten");
 			lblArtikelBearbeiten.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
-			lblArtikelBearbeiten.setFont(new Font("Verdana Pro Cond Semibold", Font.ITALIC, 16));
+			Fonts.setCenturySchoolbookFont(lblArtikelBearbeiten, 18);
 			lblArtikelBearbeiten.setHorizontalAlignment(SwingConstants.CENTER);
 			lblArtikelBearbeiten.setBounds(87, 11, 408, 30);
 			contentPane.add(lblArtikelBearbeiten);
 		}
 		{
 			panel = new JPanel();
-			panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panel.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			panel.setBounds(10, 43, 614, 523);
 			contentPane.add(panel);
@@ -133,40 +136,64 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				scrollPane.setBounds(360, 11, 244, 501);
 				panel.add(scrollPane);
 				{
-					list = new JList();
+					list = new JList<>();
+					list.addListSelectionListener(new ListSelectionListener() {
+
+						@Override
+						public void valueChanged(ListSelectionEvent e) {
+							if (list.isSelectedIndex(list.getSelectedIndex())) {
+								fillFields();
+							} else {
+								clearFields();
+							}
+						}
+					});
 					scrollPane.setViewportView(list);
 				}
 			}
 			{
-				textField = new JTextField();
-				textField.setBounds(125, 20, 194, 25);
-				panel.add(textField);
-				textField.setColumns(10);
+				textFieldName = new JTextField();
+				textFieldName.setBounds(125, 20, 194, 25);
+				panel.add(textFieldName);
+				textFieldName.setColumns(10);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setBounds(125, 70, 194, 25);
-				panel.add(textField_1);
-				textField_1.setColumns(10);
+				textFieldPreis = new JTextField();
+				textFieldPreis.setBounds(125, 70, 194, 25);
+				panel.add(textFieldPreis);
+				textFieldPreis.setColumns(10);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setBounds(125, 120, 194, 25);
-				panel.add(textField_2);
-				textField_2.setColumns(10);
+				textFieldAnzahl = new JTextField();
+				textFieldAnzahl.setBounds(125, 120, 194, 25);
+				panel.add(textFieldAnzahl);
+				textFieldAnzahl.setColumns(10);
 			}
 			{
-				comboBoxKategorie = new JComboBox();
-				comboBoxKategorie.setModel(new DefaultComboBoxModel(
-						new String[] { "Obst", "Gem\u00FCse", "Getr\u00E4nke", "Handys", "Laptops" }));
-				comboBoxKategorie.setBounds(20, 369, 330, 38);
+				String currentAccountName = GeschaeftDB.getInstance().getCurrentAccountName();
+				comboBoxKategorie = new JComboBox<>();
+				comboBoxKategorie.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onKategorieSelected(e);
+					}
+				});
+				comboBoxKategorie.setModel(new DefaultComboBoxModel<>((String[]) daoKategorie
+						.loadKategorien(daoAbteilung.Abteilungen(currentAccountName)[0]).toArray(new String[daoKategorie
+								.loadKategorien(daoAbteilung.Abteilungen(currentAccountName)[0]).size()])));
+				comboBoxKategorie.setBounds(20, 418, 330, 38);
 				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxKategorie);
 			}
 			{
-				comboBoxAbteilung = new JComboBox();
-				comboBoxAbteilung.setModel(new DefaultComboBoxModel(new String[] { "Lebensmittel", "Elktro" }));
-				comboBoxAbteilung.setBounds(20, 418, 330, 38);
+				comboBoxAbteilung = new JComboBox<>();
+				comboBoxAbteilung.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						onAbteilungSelected(arg0);
+					}
+				});
+				comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(
+						daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+				comboBoxAbteilung.setBounds(20, 369, 330, 38);
 				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxAbteilung);
 			}
@@ -195,12 +222,22 @@ public class JFrameArtikelBearbeiten extends JFrame {
 			}
 			{
 				aktuallisieren = new JButton("Aktuallisieren");
+				aktuallisieren.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onUpdateClicked(e);
+					}
+				});
 				aktuallisieren.setBounds(20, 308, 160, 38);
 				Utils.setStandardButtonOptions(aktuallisieren);
 				panel.add(aktuallisieren);
 			}
 			{
 				loeschen = new JButton("L\u00F6schen");
+				loeschen.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onDeleteClicked(e);
+					}
+				});
 				Utils.setStandardButtonOptions(loeschen);
 				loeschen.setBounds(185, 308, 160, 38);
 				panel.add(loeschen);
@@ -217,10 +254,10 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				panel.add(labelGewicht);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setColumns(10);
-				textField_3.setBounds(125, 168, 194, 25);
-				panel.add(textField_3);
+				textFieldGewicht = new JTextField();
+				textFieldGewicht.setColumns(10);
+				textFieldGewicht.setBounds(125, 168, 194, 25);
+				panel.add(textFieldGewicht);
 			}
 			{
 				labelMarke = new JLabel("Marke");
@@ -229,10 +266,10 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				panel.add(labelMarke);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setColumns(10);
-				textField_4.setBounds(125, 215, 194, 25);
-				panel.add(textField_4);
+				textFieldMarke = new JTextField();
+				textFieldMarke.setColumns(10);
+				textFieldMarke.setBounds(125, 215, 194, 25);
+				panel.add(textFieldMarke);
 			}
 			{
 				labelDatum = new JLabel("Datum");
@@ -241,38 +278,158 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				panel.add(labelDatum);
 			}
 			{
-				textField_5 = new JTextField();
-				textField_5.setColumns(10);
-				textField_5.setBounds(125, 260, 194, 25);
-				panel.add(textField_5);
+				textFieldDatum = new JTextField();
+				textFieldDatum.setColumns(10);
+				textFieldDatum.setBounds(125, 260, 194, 25);
+				panel.add(textFieldDatum);
 			}
 		}
 		{
 			weiter = new JButton(Unicodes.CHECK);
+			weiter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onCheckClicked(e);
+				}
+			});
 			Utils.setStandardButtonOptions(weiter);
 			weiter.setBounds(535, 577, 89, 23);
 			contentPane.add(weiter);
 		}
-		{
-			zurück = new JButton(Unicodes.BACK_ARROW);
-			Utils.setStandardButtonOptions(zurück);
-			zurück.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					onBackClicked(e);
-				}
-			});
-			zurück.setBounds(10, 577, 89, 23);
-			contentPane.add(zurück);
-		}
 	}
 
-	protected void onBackClicked(ActionEvent e) {
-		
+	protected void onSaveClicked(ActionEvent e) {
+		// TODO continue method
+	}
+
+	protected void onAbteilungSelected(ActionEvent arg0) {
+		loadArticles(true, true);
+	}
+
+	/**
+	 * Created by Omar 14.02.2020 if there is no Category for the Abteilung, all the
+	 * items will be listed otherwise it will update the categories list to show in
+	 * the comboBox the articles will be loaded in both cases
+	 */
+	private List<Artikel> loadArticles(boolean refreshComboBox, boolean reloadList) {
+		String[] values;
+		ArrayList<String> valuesList;
+		List<Artikel> artikelnList;
+
+		if (refreshComboBox) {
+			comboBoxKategorie.setModel(
+					new DefaultComboBoxModel<>(loadCategories(comboBoxAbteilung.getSelectedItem().toString())));
+		}
+		if (loadCategories(comboBoxAbteilung.getSelectedItem().toString()).length == 0) {
+			values = loadArtikelNames(arrayListToArrayArtikel(
+					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
+			valuesList = arrayToArrayList(values);
+			artikelnList = daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
+			if (reloadList) {
+				Utils.updateList(list, true, scrollPane, valuesList);
+			}
+		} else {
+			values = loadArtikelNames(arrayListToArrayArtikel(
+					daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString())));
+			valuesList = arrayToArrayList(values);
+			artikelnList = daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString());
+			if (reloadList) {
+				Utils.updateList(list, true, scrollPane, valuesList);
+			}
+		}
+		return artikelnList;
+	}
+
+	/**
+	 * created by Omar on 14.02.2020.
+	 * 
+	 * @param abteilung the current abteilung
+	 * @return all the categories for this abteilung
+	 */
+	private String[] loadCategories(String abteilung) {
+		String[] categories = arrayListToArrayString(daoKategorie.loadKategorien(abteilung));
+		return categories;
+	}
+
+	private String[] loadArtikelNames(Artikel[] artikels) {
+		String[] artikelNames = new String[artikels.length];
+		for (int i = 0; i < artikels.length; i++) {
+			artikelNames[i] = artikels[i].getNameArtikel();
+		}
+		return artikelNames;
+	}
+
+	private Artikel[] arrayListToArrayArtikel(List<Artikel> artikelList) {
+		Artikel[] artikelArray = new Artikel[artikelList.size()];
+		for (int i = 0; i < artikelList.size(); i++) {
+			artikelArray[i] = artikelList.get(i);
+		}
+		return artikelArray;
+	}
+
+	private String[] arrayListToArrayString(List<String> list) {
+		String[] array = new String[daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()).size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = list.get(i);
+		}
+		return array;
+	}
+
+	private ArrayList<String> arrayToArrayList(String[] array) {
+		ArrayList<String> listNames = new ArrayList<>();
+		for (int i = 0; i < array.length; i++) {
+			listNames.add(array[i]);
+		}
+		return listNames;
+	}
+
+	protected void onKategorieSelected(ActionEvent e) {
+		loadArticles(false, true);
+	}
+
+	private void fillFields() {
+		int selectedIndex = list.getSelectedIndex();
+		System.out.println(selectedIndex);
+		Artikel artikel = loadArticles(false, false).get(selectedIndex);
+		textFieldName.setText(artikel.getNameArtikel());
+		textFieldPreis.setText(artikel.getPreis());
 	}
 	
-	protected void onSaveClicked(ActionEvent e) {
-		artikel.setNameArtikel(nameArtikel.getText());
-		artikel.setPreis(preisArtikel.getText());
-		//TODO continue method
+	private void clearFields() {
+		textFieldName.setText("");
+		textFieldPreis.setText("");
+		textFieldAnzahl.setText("");
+		textFieldMarke.setText("");
+		textFieldGewicht.setText("");
+		textFieldDatum.setText("");
+	}
+
+	protected void onCheckClicked(ActionEvent e) {
+		this.setVisible(false);
+	}
+	
+	protected void onDeleteClicked(ActionEvent e) {
+		if(list.isSelectionEmpty()) {
+			JOptionPane.showMessageDialog(this, "Bitte einen Artikel auswählen");
+			return;
+		}
+		int currentId = loadArticles(false, false).get(list.getSelectedIndex()).getId();
+		daoArtikel.deleteArtikel(currentId);
+		loadArticles(false, true);
+	}
+	
+	protected void onUpdateClicked(ActionEvent e) {
+		if(list.isSelectionEmpty()) {
+			JOptionPane.showMessageDialog(this, "Bitte einen Artikel auswählen");
+			return;
+		}
+		if(textFieldName.getText().isEmpty() || textFieldPreis.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Bitte alle Felder ausfüllen");
+		}
+		Artikel currentArtikel = loadArticles(false, false).get(list.getSelectedIndex());
+		//set new object data here to update
+		currentArtikel.setNameArtikel(textFieldName.getText());
+		currentArtikel.setPreis(textFieldPreis.getText());
+		daoArtikel.updateArtikel(currentArtikel);
+		loadArticles(false, true);
 	}
 }

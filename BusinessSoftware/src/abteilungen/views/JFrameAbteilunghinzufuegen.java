@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,16 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
-import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -43,7 +39,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	private JPanel contentPane;
 	private JLabel labelNewLabel;
 	private JButton button_add_abteilung;
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	private JButton btn_activate_custom_abteilung;
 	private JButton btn_check_abteilung;
 	private JTextField text_field_custom_abteilung;
@@ -79,7 +75,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	public JFrameAbteilunghinzufuegen() throws ClassNotFoundException {
+	public JFrameAbteilunghinzufuegen() {
 		initGUI();
 		daoabteilung = new DaoAbteilung();
 	}
@@ -113,11 +109,11 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			contentPane.add(button_add_abteilung);
 		}
 		{
-			comboBox = new JComboBox();
+			comboBox = new JComboBox<>();
 			comboBox.setFocusable(false);
 			comboBox.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
 			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
-			comboBox.setModel(new DefaultComboBoxModel(new String[] { "Lebensmittel", "Elektronik" }));
+			comboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Lebensmittel", "Elektronik" }));
 			comboBox.setBounds(20, 92, 257, 27);
 			contentPane.add(comboBox);
 		}
@@ -183,7 +179,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 				scrollPane = new JScrollPane();
 				scrollPane.setBounds(20, 229, 167, 121);
 				contentPane.add(scrollPane);
-				list = new JList();
+				list = new JList<>();
 				scrollPane.setViewportView(list);
 				list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 			}
@@ -242,34 +238,6 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	}
 
 	/**
-	 * Created On 04.01.2020 Created By Omar
-	 * 
-	 */
-	private void updateAbteilungsList() {
-		list.setModel(new AbstractListModel<Object>() {
-
-			@Override
-			public Object getElementAt(int index) {
-				return values.get(index);
-			}
-
-			@Override
-			public int getSize() {
-				return values.size();
-			}
-		});
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				JScrollBar verticalScroll = scrollPane.getVerticalScrollBar();
-				verticalScroll.setValue(verticalScroll.getMaximum());
-			}
-		});
-	}
-
-	/**
 	 * Created On 04.01.2020 Created By Omar adds a custom abteilung after the
 	 * button was clicked
 	 * 
@@ -293,8 +261,9 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	protected void onCheckClicked(ActionEvent arg0) throws ClassNotFoundException {
 		String[] abteilungen = new String[values.size()];
 		String bteilung;
-		if(abteilungen.length == 0 || abteilungen == null) {
-			JOptionPane.showMessageDialog(this, "Keine Abteilungen konnten gespeichert werden\nÜberprüfen Sie Ihre eingaben");
+		if (abteilungen.length == 0 || abteilungen == null) {
+			JOptionPane.showMessageDialog(this,
+					"Keine Abteilungen konnten gespeichert werden\nÜberprüfen Sie Ihre eingaben");
 			return;
 		}
 		for (int i = 0; i < abteilungen.length; i++) {
@@ -319,7 +288,6 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 			Utils.updateList(list, true, scrollPane, values);
 		} else {
 			System.out.println("sad");
-
 		}
 	}
 

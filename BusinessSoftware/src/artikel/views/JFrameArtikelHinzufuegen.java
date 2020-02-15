@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -13,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -21,11 +24,16 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.views.JFrameAbteilunghinzufuegen;
+import artikel.DaoArtikel;
+import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import kategorie.dao.DaoKategorie;
+import kategorie.views.JFrameKategorieHinzufuegen;
 
 @SuppressWarnings("serial")
 public class JFrameArtikelHinzufuegen extends JFrame {
@@ -34,29 +42,34 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JComboBox<String> comboBoxAbteilung;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldName;
+	private JTextField textFieldPreis;
+	private JTextField textFieldAnzahl;
 	private JLabel lblNewLabel_3;
 	private JButton btnCheck;
 	private JComboBox<String> comboBoxKategorie;
 	private JButton btnSpeichern;
 	private JSeparator separator_1;
-	private JTextField textField_3;
+	private JTextField textFieldGewicht;
 	private JLabel labelGewicht;
 	private JLabel labelNewLabel;
 	private JLabel labelAbteilung;
 	private JLabel labelMarke;
-	private JTextField textField_4;
+	private JTextField textFieldMarke;
 	private JLabel labelDatum;
-	private JTextField textField_5;
+	private JTextField textFieldDate;
 	private JButton btnAbteilungHinzufuegen;
 	private JButton btnKategorieHinzufuegen;
 	private JList<Object> list;
 	private JScrollPane scrollPane;
 	private JLabel labelNeuGespeicherteArtikeln;
 	private JButton btnNeuLaden;
+	private ArrayList<String> values;
+
+	// DB Variables
 	private DaoAbteilung daoAbteilung;
+	private DaoKategorie daoKategorie;
+	private DaoArtikel daoArtikel;
 
 	/**
 	 * Launch the application.
@@ -79,6 +92,9 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	 */
 	public JFrameArtikelHinzufuegen() {
 		daoAbteilung = new DaoAbteilung();
+		daoKategorie = new DaoKategorie();
+		daoArtikel = new DaoArtikel();
+		values = new ArrayList<>();
 		initGUI();
 	}
 
@@ -115,38 +131,51 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 			}
 			{
 				comboBoxAbteilung = new JComboBox<>();
-				comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+				comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(
+						daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 				comboBoxAbteilung.setBounds(81, 330, 140, 25);
 				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
+				comboBoxAbteilung.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						onAbteilungSelected(e);
+					}
+				});
 				panel.add(comboBoxAbteilung);
 			}
 			{
-				textField = new JTextField();
-				textField.setBounds(81, 25, 140, 25);
-				panel.add(textField);
-				textField.setColumns(10);
+				textFieldName = new JTextField();
+				textFieldName.setBounds(81, 25, 140, 25);
+				panel.add(textFieldName);
+				textFieldName.setColumns(10);
 			}
 			{
-				textField_1 = new JTextField();
-				textField_1.setBounds(81, 72, 140, 25);
-				panel.add(textField_1);
-				textField_1.setColumns(10);
+				textFieldPreis = new JTextField();
+				textFieldPreis.setBounds(81, 72, 140, 25);
+				panel.add(textFieldPreis);
+				textFieldPreis.setColumns(10);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setBounds(81, 127, 140, 25);
-				panel.add(textField_2);
-				textField_2.setColumns(10);
+				textFieldAnzahl = new JTextField();
+				textFieldAnzahl.setBounds(81, 127, 140, 25);
+				panel.add(textFieldAnzahl);
+				textFieldAnzahl.setColumns(10);
 			}
 			{
 				comboBoxKategorie = new JComboBox<>();
-				comboBoxKategorie.setModel(new DefaultComboBoxModel<>());
+				String[] kategorien = loadCategories();
+				comboBoxKategorie.setModel(new DefaultComboBoxModel<>(kategorien));
 				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				comboBoxKategorie.setBounds(81, 389, 140, 25);
 				panel.add(comboBoxKategorie);
 			}
 			{
 				btnSpeichern = new JButton("Speichern");
+				btnSpeichern.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onSaveClicked(e);
+					}
+				});
 				Utils.setStandardButtonOptions(btnSpeichern);
 				btnSpeichern.setBounds(10, 487, 210, 23);
 				panel.add(btnSpeichern);
@@ -158,10 +187,10 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				panel.add(separator_1);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setColumns(10);
-				textField_3.setBounds(81, 180, 140, 25);
-				panel.add(textField_3);
+				textFieldGewicht = new JTextField();
+				textFieldGewicht.setColumns(10);
+				textFieldGewicht.setBounds(81, 180, 140, 25);
+				panel.add(textFieldGewicht);
 			}
 			{
 				labelGewicht = new JLabel("Gewicht");
@@ -188,10 +217,10 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				panel.add(labelMarke);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setColumns(10);
-				textField_4.setBounds(81, 229, 140, 25);
-				panel.add(textField_4);
+				textFieldMarke = new JTextField();
+				textFieldMarke.setColumns(10);
+				textFieldMarke.setBounds(81, 229, 140, 25);
+				panel.add(textFieldMarke);
 			}
 			{
 				labelDatum = new JLabel("Datum");
@@ -200,16 +229,23 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				panel.add(labelDatum);
 			}
 			{
-				textField_5 = new JTextField();
-				textField_5.setColumns(10);
-				textField_5.setBounds(81, 276, 140, 25);
-				panel.add(textField_5);
+				textFieldDate = new JTextField();
+				textFieldDate.setColumns(10);
+				textFieldDate.setBounds(81, 276, 140, 25);
+				panel.add(textFieldDate);
 			}
 			{
 				btnAbteilungHinzufuegen = new JButton("+");
 				btnAbteilungHinzufuegen.setToolTipText("Abteilung hinzuf\u00FCgen");
 				Utils.setStandardButtonOptions(btnAbteilungHinzufuegen);
 				btnAbteilungHinzufuegen.setBounds(30, 330, 41, 25);
+				btnAbteilungHinzufuegen.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						onAddAbteilungClicked(e);
+					}
+				});
 				panel.add(btnAbteilungHinzufuegen);
 			}
 			{
@@ -217,6 +253,13 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				btnKategorieHinzufuegen.setToolTipText("Kategorie hinzuf\u00FCgen");
 				Utils.setStandardButtonOptions(btnKategorieHinzufuegen);
 				btnKategorieHinzufuegen.setBounds(30, 390, 41, 25);
+				btnKategorieHinzufuegen.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						onAddCategoryClicked(e);
+					}
+				});
 				panel.add(btnKategorieHinzufuegen);
 			}
 			{
@@ -224,7 +267,7 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				scrollPane.setBounds(256, 56, 317, 425);
 				panel.add(scrollPane);
 				{
-					list = new JList();
+					list = new JList<>();
 					scrollPane.setViewportView(list);
 				}
 			}
@@ -237,6 +280,11 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 			}
 			{
 				btnNeuLaden = new JButton("Neu laden");
+				btnNeuLaden.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onRefreshClicked(e);
+					}
+				});
 				btnNeuLaden.setBounds(10, 458, 211, 23);
 				panel.add(btnNeuLaden);
 				btnNeuLaden.setToolTipText("Daten von der Datenbank neu Laden");
@@ -256,7 +304,7 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 			Utils.setStandardButtonOptions(btnCheck);
 			btnCheck.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					btnNewButtonActionPerformed(e);
+					onCheckClicked(e);
 				}
 			});
 			btnCheck.setBounds(521, 575, 89, 23);
@@ -264,6 +312,137 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 		}
 	}
 
-	protected void btnNewButtonActionPerformed(ActionEvent e) {
+	/**
+	 * load all categories that are ordered to the Abteilung
+	 * 
+	 * @return list of categories
+	 */
+	private String[] loadCategories() {
+		return arrayListToArray(daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()));
 	}
+
+	/**
+	 * load all Abteilungen for the current Account
+	 * 
+	 * @return list of Abteilungen
+	 */
+	private String[] loadAbteilungen() {
+		return daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
+	}
+
+	private String[] arrayListToArray(List<String> list) {
+		String[] array = new String[list.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = list.get(i);
+		}
+		return array;
+	}
+
+	/**
+	 * done from this window
+	 * 
+	 * @param e
+	 */
+	protected void onCheckClicked(ActionEvent e) {
+		this.setVisible(false);
+	}
+
+	/**
+	 * Refresh the list to check if new content available is (Abteilung and
+	 * Categories List)
+	 * 
+	 * @param e
+	 */
+	protected void onRefreshClicked(ActionEvent e) {
+		int currentIndex = comboBoxAbteilung.getSelectedIndex();
+		comboBoxAbteilung.setModel(new DefaultComboBoxModel<String>(loadAbteilungen()));
+		comboBoxKategorie.setModel(new DefaultComboBoxModel<String>(loadCategories()));
+		comboBoxAbteilung.setSelectedIndex(currentIndex);
+	}
+
+	/**
+	 * Save the inserted Data in the DB
+	 * 
+	 * @param e
+	 */
+	protected void onSaveClicked(ActionEvent e) {
+		Artikel currentArtikel = new Artikel();
+		List<JTextField> fillFields = new ArrayList<>();
+		boolean allFilled = false;
+		String currentKat;
+
+		fillFields.add(textFieldName);
+		fillFields.add(textFieldPreis);
+		for (JTextField jTextField : fillFields) {
+			if (jTextField.getText().trim().isEmpty()) {
+				allFilled = false;
+				return;
+			}
+			allFilled = true;
+		}
+		if (allFilled) {
+			if (comboBoxKategorie.getItemCount() == 0) {
+				currentKat = "";
+				showErrorPane("Bitte Mind. Eine Kategorie zu der Abteilung hinzufügen");
+			} else {
+
+				currentArtikel.setNameArtikel(textFieldName.getText());
+				currentArtikel.setPreis(textFieldPreis.getText());
+				values.add(currentArtikel.getNameArtikel());
+				Utils.updateList(list, true, scrollPane, values);
+
+				currentKat = comboBoxKategorie.getSelectedItem().toString();
+				daoArtikel.insertArtkel(currentArtikel, currentKat, comboBoxAbteilung.getSelectedItem().toString());
+				for (JTextField jTextField : fillFields) {
+					jTextField.setText("");
+				}
+				fillFields.get(0).requestFocus();
+			}
+		} else {
+			showErrorPane("Bitte alle Felder vollständig ausfüllen");
+		}
+	}
+
+	/**
+	 * Load categories when an item in Abteilungen is selected
+	 * 
+	 * @param e
+	 */
+	protected void onAbteilungSelected(ActionEvent e) {
+		String[] categories = loadCategories();
+		comboBoxKategorie.setModel(new DefaultComboBoxModel<String>(categories));
+	}
+
+	/**
+	 * Open Add Abteilung Page
+	 * 
+	 * @param e
+	 */
+	protected void onAddAbteilungClicked(ActionEvent e) {
+		JFrameAbteilunghinzufuegen addAbteilung = new JFrameAbteilunghinzufuegen();
+		addAbteilung.setVisible(true);
+		addAbteilung.setAlwaysOnTop(true);
+	}
+
+	/**
+	 * Open Add Categories Page
+	 * 
+	 * @param e
+	 */
+	protected void onAddCategoryClicked(ActionEvent e) {
+		JFrameKategorieHinzufuegen addCategory = new JFrameKategorieHinzufuegen(
+				comboBoxAbteilung.getSelectedItem().toString());
+		addCategory.setVisible(true);
+		addCategory.setAlwaysOnTop(true);
+	}
+
+	/**
+	 * show an output message to the user
+	 * 
+	 * @param msg the output
+	 */
+	private void showErrorPane(String msg) {
+		JOptionPane.showMessageDialog(this, msg);
+	}
+
 }

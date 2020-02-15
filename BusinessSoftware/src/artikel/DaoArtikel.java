@@ -33,45 +33,26 @@ public class DaoArtikel {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
-
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-			String katjglbefehl = "insert into Kategorie values (?,?,?)";
-			preparedStatement = connection.prepareStatement(katjglbefehl);
-			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Kategorie") + 1);
-			preparedStatement.setString(2, katig);
-			preparedStatement.setInt(3, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
+			String artikelbefehl = "insert into Artikel values (?,?,?,?)";
+			preparedStatement = connection.prepareStatement(artikelbefehl);
+			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel") + 1);
+			preparedStatement.setString(2, artikel.getNameArtikel());
+			preparedStatement.setString(3, artikel.getPreis());
+			String nameGeascheaft = SQLiteConnection.nameGeascheaft("Abteilung", "Geascheaft", "agf", "id",
+					"nameAbteilung", "namegaeschaeft", abteilung, GeschaeftDB.getInstance().getCurrentAccountName());
+			preparedStatement.setInt(4, SQLiteConnection.idBetrefendesache("Kategorie", "Abteilung", "kaf",
+					"nameAbteilung", "nameKategorie", nameGeascheaft, katig));
 			preparedStatement.execute();
-			connection.close();
-			preparedStatement.close();
-			connection = null;
-			preparedStatement = null;
-			try {
-				connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-				String artikelbefehl = "insert into Artikel values (?,?,?,?)";
-				preparedStatement = connection.prepareStatement(artikelbefehl);
-				preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Artikel") + 1);
-				preparedStatement.setString(2, artikel.getNameArtikel());
-				preparedStatement.setString(3, artikel.getPreis());
-				String nameGeascheaft = SQLiteConnection.nameGeascheaft("Abteilung", "Geascheaft", "agf", "id",
-						"nameAbteilung", "namegaeschaeft", abteilung,
-						GeschaeftDB.getInstance().getCurrentAccountName());
-				preparedStatement.setInt(4, SQLiteConnection.idBetrefendesache("Kategorie", "Abteilung", "kaf",
-						"nameAbteilung", "nameKategorie", nameGeascheaft, katig));
-				preparedStatement.execute();
-				nameGeascheaft = "";
-			} catch (SQLException e) {
-				System.out.println("e1 :" + e);
-			}
-
+			nameGeascheaft = "";
 		} catch (SQLException e) {
-			System.out.println("e2: " + e);
+			e.printStackTrace();
 		} finally {
 			try {
 				preparedStatement.close();
 				connection.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 	}
@@ -116,8 +97,7 @@ public class DaoArtikel {
 	 * 
 	 * @return liste von artikeln der Abteilung
 	 */
-	public List<Artikel> artikelLaden(String abteilung) {
-		System.out.println("hallo");
+	public List<Artikel> loadAbteilungArtikeln(String abteilung) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
@@ -152,8 +132,81 @@ public class DaoArtikel {
 			}
 
 		}
-
 		return null;
-
 	}
+
+	/**
+	 * load list articles from the categorie stored in the DB
+	 * 
+	 * @param kategorie to get the articles from
+	 * @return the list of all articles found in the kategorie
+	 */
+	public List<Artikel> loadKategorienArtikeln(String kategorie) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		Artikel currentArtikel;
+		List<Artikel> artikelList = new ArrayList<>();
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			final String SQL = "SELECT * FROM Artikel INNER JOIN Kategorie ON Artikel.akf = Kategorie.id WHERE Kategorie.namekategorie = ?";
+			ps = conn.prepareStatement(SQL);
+			ps.setString(1, kategorie);
+			ResultSet result = ps.executeQuery();
+			while (result.next()) {
+				currentArtikel = new Artikel();
+				currentArtikel.setId(result.getInt(1));
+				currentArtikel.setNameArtikel(result.getString("nameartikel"));
+				currentArtikel.setPreis(result.getString("preis"));
+				artikelList.add(currentArtikel);
+			}
+			return artikelList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void deleteArtikel(int id) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			final String SQL = "DELETE FROM Artikel WHERE id = ?";
+			ps = conn.prepareStatement(SQL);
+			ps.setInt(1, id);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void updateArtikel(Artikel artikel) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			final String SQL = "UPDATE Artikel SET nameartikel = ?, preis = ? WHERE id = ?";
+			ps = conn.prepareStatement(SQL);
+			if(artikel == null) {
+				return;
+			}
+			ps.setString(1, artikel.getNameArtikel());
+			ps.setString(2, artikel.getPreis());
+			ps.setInt(3, artikel.getId());
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 }

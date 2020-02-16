@@ -21,12 +21,13 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import abteilungen.business_classes.Abteilung;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import kategorie.business_classes.Kategorie;
 import kategorie.dao.DaoKategorie;
-
 
 @SuppressWarnings("serial")
 public class JFrameKategorieHinzufuegen extends JFrame {
@@ -47,16 +48,17 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 	private JButton button_Mins_abteilung;
 	private JTextField textFieldSuchen;
 	private JButton buttonSuchen;
-	private String currentAbteilung;
+	private Abteilung currentAbteilung;
 
 	/**
 	 * Create the frame.
 	 */
-	public JFrameKategorieHinzufuegen(String currentAbteilung) {
+	public JFrameKategorieHinzufuegen(Abteilung currentAbteilung) {
 		this.currentAbteilung = currentAbteilung;
 		daoKategorie = new DaoKategorie();
 		initGUI();
 	}
+
 	private void initGUI() {
 		contentPane = new JPanel();
 		setTitle("Abteilung hinzufügen");
@@ -67,7 +69,8 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 		contentPane.setLayout(null);
 		{
 			labelNewLabel = new JLabel();
-			labelNewLabel.setText("<html><body>Kategorie hinzufügen<br><center>(" + currentAbteilung + ")</center></body></html>");
+			labelNewLabel.setText(
+					"<html><body>Kategorie hinzufügen<br><center>(" + currentAbteilung.getNameAbteilung() + ")</center></body></html>");
 			labelNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			Fonts.setCenturySchoolbookFont(labelNewLabel, 20);
 			labelNewLabel.setBounds(10, 31, 364, 50);
@@ -91,7 +94,7 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 			comboBox.setFocusable(false);
 			comboBox.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
 			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
-			comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"Gem\u00FCse", "Obst", "Smartphones"}));
+			comboBox.setModel(new DefaultComboBoxModel<>(new String[] { "Gem\u00FCse", "Obst", "Smartphones" }));
 			comboBox.setBounds(30, 92, 257, 27);
 			contentPane.add(comboBox);
 		}
@@ -147,7 +150,7 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 			contentPane.add(button_add_custom_kategorie);
 		}
 		{
-			values = new ArrayList<String>();
+			values = new ArrayList<>();
 			{
 				scrollPane = new JScrollPane();
 				scrollPane.setBounds(20, 229, 167, 121);
@@ -188,7 +191,7 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 			contentPane.add(buttonSuchen);
 		}
 	}
-	
+
 	/**
 	 * Created On 04.01.2020 Created By Omar
 	 * 
@@ -205,7 +208,7 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 	 * 
 	 * @param arg0
 	 */
-	protected void onAddKategorieClicked(ActionEvent arg0) {
+	protected void onAddKategorieClicked(ActionEvent arg0) {	
 		values.add(comboBox.getSelectedItem().toString());
 		Utils.updateList(list, true, scrollPane, values);
 	}
@@ -232,22 +235,23 @@ public class JFrameKategorieHinzufuegen extends JFrame {
 	 * @throws ClassNotFoundException
 	 */
 	protected void onCheckClicked(ActionEvent arg0) {
-		if(currentAbteilung.trim().equals("")) {
-			JOptionPane.showMessageDialog(this, "Die Kategorien können nicht zu einer Abteilung zugeordnet werden. \nSicher, dass Sie mind. eine Abteilung hinzugefügt haben?");
+		if (currentAbteilung.getNameAbteilung().trim().equals("")) {
+			JOptionPane.showMessageDialog(this,
+					"Die Kategorien können nicht zu einer Abteilung zugeordnet werden. \nSicher, dass Sie mind. eine Abteilung hinzugefügt haben?");
 			return;
 		}
-		String[] kategorien = new String[values.size()];
+		Kategorie[] kategorien = new Kategorie[values.size()];
 		if (kategorien.length == 0 || kategorien == null) {
 			JOptionPane.showMessageDialog(this,
 					"Keine Kategorie konnten gespeichert werden\nÜberprüfen Sie Ihre eingaben");
 			return;
 		}
 		for (int i = 0; i < kategorien.length; i++) {
-			kategorien[i] = values.get(i).toString();
-			daoKategorie.insertKategorie(kategorien[i], currentAbteilung);
+			Kategorie currentKat = new Kategorie();
+			currentKat.setNamekategorie(values.get(i));
+			kategorien[i] = currentKat;
+			daoKategorie.insertKategorie(kategorien[i], currentAbteilung.getId());
 		}
-		kategorie = new String[kategorien.length];
-		kategorie = kategorien;
 		this.setVisible(false);
 	}
 

@@ -23,6 +23,7 @@ import javax.swing.border.LineBorder;
 import abteilungen.DaoAbteilung;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
 import general.code.GeschaeftDB;
+import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Unicodes;
@@ -90,7 +91,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	public JFrameMitarbeiterHinzufuegen() throws ClassNotFoundException {
+	public JFrameMitarbeiterHinzufuegen() {
 		abteilung = new DaoAbteilung();
 		frameRegistrieren = new JFrameRegistrieren();
 		initGUI();
@@ -161,7 +162,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			comboBox = new JComboBox<String>();
 			if (!JFrameStart.wegRegistierung) {
 				comboBox.setModel(new DefaultComboBoxModel<String>(
-						abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+						SQLiteConnection.loadAbteilungenNamen()));
 			}
 		}
 		{

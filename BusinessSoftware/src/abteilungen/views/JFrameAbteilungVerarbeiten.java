@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 
 import abteilungen.DaoAbteilung;
 import general.code.GeschaeftDB;
+import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -69,7 +70,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	public JFrameAbteilungVerarbeiten() throws ClassNotFoundException {
+	public JFrameAbteilungVerarbeiten() {
 		daoAbteilung = new DaoAbteilung();
 		initGUI();
 	}
@@ -97,7 +98,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		scrollPane.setViewportView(list);
 		list.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		list.setFont(new Font("Century Schoolbook", Font.PLAIN, 13));
-		String[] arrayValues = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
+		String[] arrayValues = SQLiteConnection.loadAbteilungenNamen();
 		arrayToArrayList(arrayValues);
 		list.setModel(new AbstractListModel<Object>() {
 			String[] values = arrayValues;
@@ -234,7 +235,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 			}
 			daoAbteilung.updateAbteilung(textField_neuerName.getText(), values.get(list.getSelectedIndex()));
 			values.clear();
-			values = arrayToArrayList(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
+			values = arrayToArrayList(SQLiteConnection.loadAbteilungenNamen());
 			Utils.updateList(list, true, scrollPane, values);
 			textField_alterName.setText("");
 			textField_neuerName.setText("");

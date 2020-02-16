@@ -22,13 +22,16 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
 import artikel.DaoArtikel;
 import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
+import general.code.JComboBoxAdapter;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import kategorie.business_classes.Kategorie;
 import kategorie.dao.DaoKategorie;
 
 @SuppressWarnings("serial")
@@ -37,21 +40,19 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	private JPanel contentPane;
 	private JLabel labelArtikelAnzeigen;
 	private JScrollPane scrollPane;
-
 	private Artikel[] artikelList;
 	private DaoArtikel daoArtikel;
 	private DaoKategorie daoKategorie;
-	private JComboBox<String> comboBoxAbteilung;
+	private JComboBox<Abteilung> comboBoxAbteilung;
 	private DaoAbteilung daoAbteilung;
 	private JButton buttonAnzeigen;
 	private JButton buttonSpeichern;
 	private JList<Object> list;
 	private JLabel labelNewLabel;
 	private JLabel labelKategorieAuswhlen;
-	private JComboBox<String> comboBoxKategorie;
+	private JComboBox<Kategorie> comboBoxKategorie;
 	private JTextField textFieldSuchen;
 	private JButton button;
-
 	/**
 	 * Launch the application.
 	 */
@@ -99,15 +100,14 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			contentPane.add(labelArtikelAnzeigen);
 		}
 		{
-			comboBoxAbteilung = new JComboBox<>();
+			comboBoxAbteilung = new JComboBox<>(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
 			comboBoxAbteilung.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					onAbteilungSelected(e);
 				}
 			});
+			comboBoxAbteilung.setRenderer(new JComboBoxAdapter(new Abteilung()));
 			comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
-			comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(
-					daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			comboBoxAbteilung.setBounds(240, 121, 135, 21);
 			contentPane.add(comboBoxAbteilung);
 		}
@@ -170,14 +170,14 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			contentPane.add(labelKategorieAuswhlen);
 		}
 		{
-			comboBoxKategorie = new JComboBox<String>();
+			Abteilung firstAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[0];
+			comboBoxKategorie = new JComboBox<>(loadCategories(firstAbteilung.getId()));
 			comboBoxKategorie.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					onCategorySelected(e);
 				}
 			});
-			comboBoxKategorie.setModel(new DefaultComboBoxModel<>(arrayListToArrayString(
-					daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()))));
+			comboBoxKategorie.setRenderer(new JComboBoxAdapter(new Kategorie()));
 			comboBoxKategorie.setBackground(new Color(255, 250, 250));
 			comboBoxKategorie.setBounds(240, 172, 135, 21);
 			contentPane.add(comboBoxKategorie);
@@ -233,7 +233,8 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	}
 
 	private String[] arrayListToArrayString(List<String> list) {
-		String[] array = new String[daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()).size()];
+		Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
+		String[] array = new String[daoKategorie.loadKategorien(currentAbteilung.getId()).size()];
 		for (int i = 0; i < array.length; i++) {
 			array[i] = list.get(i);
 		}
@@ -264,22 +265,23 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		String[] values;
 		ArrayList<String> valuesList;
 		List<Artikel> artikelnList;
+		Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
 
 		if (refreshComboBox) {
-			comboBoxKategorie.setModel(
-					new DefaultComboBoxModel<>(loadCategories(comboBoxAbteilung.getSelectedItem().toString())));
+			comboBoxKategorie.setModel(new DefaultComboBoxModel<Kategorie>(loadCategories(currentAbteilung.getId())));
 		}
-		if (loadCategories(comboBoxAbteilung.getSelectedItem().toString()).length == 0) {
+		if (loadCategories(currentAbteilung.getId()).length == 0) {
 			values = loadArtikelNames(arrayListToArrayArtikel(
 					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
 			valuesList = arrayToArrayList(values);
 			artikelnList = daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
 			Utils.updateList(list, true, scrollPane, valuesList);
 		} else {
+			Kategorie currentKat = loadCategories(currentAbteilung.getId())[comboBoxKategorie.getSelectedIndex()];
 			values = loadArtikelNames(arrayListToArrayArtikel(
-					daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString())));
+					daoArtikel.loadKategorienArtikeln(currentKat.getId())));
 			valuesList = arrayToArrayList(values);
-			artikelnList = daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString());
+			artikelnList = daoArtikel.loadKategorienArtikeln(currentKat.getId());
 			Utils.updateList(list, true, scrollPane, valuesList);
 		}
 		return artikelnList;
@@ -291,8 +293,8 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	 * @param abteilung the current abteilung
 	 * @return all the categories for this abteilung
 	 */
-	private String[] loadCategories(String abteilung) {
-		String[] categories = arrayListToArrayString(daoKategorie.loadKategorien(abteilung));
+	private Kategorie[] loadCategories(int abteilungID) {
+		Kategorie[] categories = Utils.arrayListToArray(Kategorie.class, daoKategorie.loadKategorien(abteilungID));
 		return categories;
 	}
 

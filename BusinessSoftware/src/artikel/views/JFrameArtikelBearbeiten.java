@@ -26,13 +26,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
 import artikel.DaoArtikel;
 import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
+import general.code.JComboBoxAdapter;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import kategorie.business_classes.Kategorie;
 import kategorie.dao.DaoKategorie;
 import start.views.JFrameStart;
 
@@ -51,8 +54,8 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	private JTextField textFieldName;
 	private JTextField textFieldPreis;
 	private JTextField textFieldAnzahl;
-	private JComboBox<String> comboBoxKategorie;
-	private JComboBox<String> comboBoxAbteilung;
+	private JComboBox<Kategorie> comboBoxKategorie;
+	private JComboBox<Abteilung> comboBoxAbteilung;
 	private JLabel name;
 	private JLabel preis;
 	private JLabel anzahl;
@@ -94,7 +97,7 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	 * @throws ClassNotFoundException
 	 */
 
-	public JFrameArtikelBearbeiten() throws ClassNotFoundException {
+	public JFrameArtikelBearbeiten() {
 		daoAbteilung = new DaoAbteilung();
 		daoArtikel = new DaoArtikel();
 		daoKategorie = new DaoKategorie();
@@ -170,29 +173,26 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				textFieldAnzahl.setColumns(10);
 			}
 			{
-				String currentAccountName = GeschaeftDB.getInstance().getCurrentAccountName();
-				comboBoxKategorie = new JComboBox<>();
+				comboBoxKategorie = new JComboBox<>(loadCategories(getCurrentAbteilungFromIndex(0)));
+				comboBoxKategorie.setRenderer(new JComboBoxAdapter(new Kategorie()));
 				comboBoxKategorie.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						onKategorieSelected(e);
 					}
 				});
-				comboBoxKategorie.setModel(new DefaultComboBoxModel<>((String[]) daoKategorie
-						.loadKategorien(daoAbteilung.Abteilungen(currentAccountName)[0]).toArray(new String[daoKategorie
-								.loadKategorien(daoAbteilung.Abteilungen(currentAccountName)[0]).size()])));
 				comboBoxKategorie.setBounds(20, 418, 330, 38);
 				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxKategorie);
 			}
 			{
-				comboBoxAbteilung = new JComboBox<>();
+				comboBoxAbteilung = new JComboBox<>(
+						daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
 				comboBoxAbteilung.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						onAbteilungSelected(arg0);
 					}
 				});
-				comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(
-						daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+				comboBoxAbteilung.setRenderer(new JComboBoxAdapter(new Abteilung()));
 				comboBoxAbteilung.setBounds(20, 369, 330, 38);
 				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				panel.add(comboBoxAbteilung);
@@ -303,6 +303,9 @@ public class JFrameArtikelBearbeiten extends JFrame {
 
 	protected void onAbteilungSelected(ActionEvent arg0) {
 		loadArticles(true, true);
+		Abteilung abteilung = daoAbteilung
+				.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
+		System.out.println("ABTEILUNG ID: " + abteilung.getId());
 	}
 
 	/**
@@ -316,10 +319,10 @@ public class JFrameArtikelBearbeiten extends JFrame {
 		List<Artikel> artikelnList;
 
 		if (refreshComboBox) {
-			comboBoxKategorie.setModel(
-					new DefaultComboBoxModel<>(loadCategories(comboBoxAbteilung.getSelectedItem().toString())));
+			comboBoxKategorie.setModel(new DefaultComboBoxModel<Kategorie>(
+					loadCategories(getCurrentAbteilungFromIndex(comboBoxAbteilung.getSelectedIndex()))));
 		}
-		if (loadCategories(comboBoxAbteilung.getSelectedItem().toString()).length == 0) {
+		if (loadCategories(getCurrentAbteilungFromIndex(comboBoxAbteilung.getSelectedIndex())).length == 0) {
 			values = loadArtikelNames(arrayListToArrayArtikel(
 					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
 			valuesList = arrayToArrayList(values);
@@ -328,10 +331,12 @@ public class JFrameArtikelBearbeiten extends JFrame {
 				Utils.updateList(list, true, scrollPane, valuesList);
 			}
 		} else {
-			values = loadArtikelNames(arrayListToArrayArtikel(
-					daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString())));
+			Kategorie currentKat = loadCategories(
+					getCurrentAbteilungFromIndex(comboBoxAbteilung.getSelectedIndex()))[comboBoxKategorie
+							.getSelectedIndex()];
+			values = loadArtikelNames(arrayListToArrayArtikel(daoArtikel.loadKategorienArtikeln(currentKat.getId())));
 			valuesList = arrayToArrayList(values);
-			artikelnList = daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString());
+			artikelnList = daoArtikel.loadKategorienArtikeln(currentKat.getId());
 			if (reloadList) {
 				Utils.updateList(list, true, scrollPane, valuesList);
 			}
@@ -345,8 +350,9 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	 * @param abteilung the current abteilung
 	 * @return all the categories for this abteilung
 	 */
-	private String[] loadCategories(String abteilung) {
-		String[] categories = arrayListToArrayString(daoKategorie.loadKategorien(abteilung));
+	private Kategorie[] loadCategories(Abteilung abteilung) {
+		Kategorie[] categories = Utils.arrayListToArray(Kategorie.class,
+				daoKategorie.loadKategorien(abteilung.getId()));
 		return categories;
 	}
 
@@ -366,14 +372,6 @@ public class JFrameArtikelBearbeiten extends JFrame {
 		return artikelArray;
 	}
 
-	private String[] arrayListToArrayString(List<String> list) {
-		String[] array = new String[daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()).size()];
-		for (int i = 0; i < array.length; i++) {
-			array[i] = list.get(i);
-		}
-		return array;
-	}
-
 	private ArrayList<String> arrayToArrayList(String[] array) {
 		ArrayList<String> listNames = new ArrayList<>();
 		for (int i = 0; i < array.length; i++) {
@@ -388,12 +386,15 @@ public class JFrameArtikelBearbeiten extends JFrame {
 
 	private void fillFields() {
 		int selectedIndex = list.getSelectedIndex();
-		System.out.println(selectedIndex);
 		Artikel artikel = loadArticles(false, false).get(selectedIndex);
 		textFieldName.setText(artikel.getNameArtikel());
 		textFieldPreis.setText(artikel.getPreis());
+		textFieldDatum.setText(artikel.getDatum());
+		textFieldGewicht.setText(String.valueOf(artikel.getGewicht()));
+		textFieldMarke.setText(artikel.getMarke());
+		textFieldAnzahl.setText(String.valueOf(artikel.getAnzahl()));
 	}
-	
+
 	private void clearFields() {
 		textFieldName.setText("");
 		textFieldPreis.setText("");
@@ -406,9 +407,9 @@ public class JFrameArtikelBearbeiten extends JFrame {
 	protected void onCheckClicked(ActionEvent e) {
 		this.setVisible(false);
 	}
-	
+
 	protected void onDeleteClicked(ActionEvent e) {
-		if(list.isSelectionEmpty()) {
+		if (list.isSelectionEmpty()) {
 			JOptionPane.showMessageDialog(this, "Bitte einen Artikel auswählen");
 			return;
 		}
@@ -416,17 +417,21 @@ public class JFrameArtikelBearbeiten extends JFrame {
 		daoArtikel.deleteArtikel(currentId);
 		loadArticles(false, true);
 	}
-	
+
+	private Abteilung getCurrentAbteilungFromIndex(int index) {
+		return daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[index];
+	}
+
 	protected void onUpdateClicked(ActionEvent e) {
-		if(list.isSelectionEmpty()) {
+		if (list.isSelectionEmpty()) {
 			JOptionPane.showMessageDialog(this, "Bitte einen Artikel auswählen");
 			return;
 		}
-		if(textFieldName.getText().isEmpty() || textFieldPreis.getText().isEmpty()) {
+		if (textFieldName.getText().isEmpty() || textFieldPreis.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Bitte alle Felder ausfüllen");
 		}
 		Artikel currentArtikel = loadArticles(false, false).get(list.getSelectedIndex());
-		//set new object data here to update
+		// set new object data here to update
 		currentArtikel.setNameArtikel(textFieldName.getText());
 		currentArtikel.setPreis(textFieldPreis.getText());
 		daoArtikel.updateArtikel(currentArtikel);

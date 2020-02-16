@@ -16,7 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
 import general.code.GeschaeftDB;
+import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -30,7 +32,6 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	private JLabel labelNewLabel;
 	private JButton btn_abteilung_check;
 	private JScrollPane scrollPane;
-	private JButton btn_abteilung_anzeigen;
 	DaoAbteilung abteilung = null;
 	ArrayList<String> value;
 
@@ -57,8 +58,9 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	 */
 	public JFrameAbteilungAnzeigen() {
 		abteilung = new DaoAbteilung();
-		value = new ArrayList<String>();
+		value = new ArrayList<>();
 		initGUI();
+		loadAbteilungenList();
 	}
 
 	private void initGUI() {
@@ -103,11 +105,6 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 			contentPane.add(btn_abteilung_check);
 		}
 		{
-			btn_abteilung_anzeigen = new JButton("Anzeigen");
-
-			btn_abteilung_anzeigen.setBounds(285, 293, 89, 23);
-			Utils.setStandardButtonOptions(btn_abteilung_anzeigen);
-			contentPane.add(btn_abteilung_anzeigen);
 
 			btn_abteilung_check.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -116,16 +113,6 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 
 			});
 		}
-	}
-
-	protected void btn_abteilung_anzeigenActionPerformed(ActionEvent e) {
-
-		int selectindex = list.getSelectedIndex();
-		btn_abteilung_check.setBounds(285, 327, 89, 23);
-		Utils.setStandardButtonOptions(btn_abteilung_check);
-		contentPane.add(btn_abteilung_check);
-
-		loadAbteilungenList();
 	}
 
 	private void loadAbteilungenList() {
@@ -144,7 +131,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 
 	private void arraytoArrayList() {
 		for (int i = 0; i < abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length; i++) {
-			value.add(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i]);
+			value.add(SQLiteConnection.loadAbteilungenNamen()[i]);
 		}
 	}
 

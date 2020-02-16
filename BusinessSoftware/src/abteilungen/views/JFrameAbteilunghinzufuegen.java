@@ -244,7 +244,7 @@ public class JFrameAbteilunghinzufuegen extends JFrame {
 	 * @param arg0
 	 */
 	protected void onAddCustomAbteilungClicked(ActionEvent arg0) {
-		if (text_field_custom_abteilung.getText() != null) {
+		if (text_field_custom_abteilung.getText() != null && !text_field_custom_abteilung.getText().trim().isEmpty()) {
 			values.add(text_field_custom_abteilung.getText().toString());
 			Utils.updateList(list, true, scrollPane, values);
 			text_field_custom_abteilung.setText("");

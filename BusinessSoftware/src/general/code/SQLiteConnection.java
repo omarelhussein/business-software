@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
+
 public class SQLiteConnection {
 
 	private static String CONNECTION_STRING = "jdbc:sqlite:";
@@ -269,10 +272,29 @@ public class SQLiteConnection {
 		return d;
 	}
 	
-	public static boolean checkIfAbteilungExists() {
-		//TODO
-		return false;
-		
+	public static boolean abteilungExists() {
+		DaoAbteilung dao = new DaoAbteilung();
+		int arrayLength = 0;
+		Abteilung[] abteilungen = dao.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
+		for (int i = 0; i < abteilungen.length; i++) {
+			if(!abteilungen[i].getNameAbteilung().trim().isEmpty()) {
+				arrayLength++;
+			}
+		}
+		if(arrayLength == 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static String[] loadAbteilungenNamen() {
+		DaoAbteilung daoAbteilung = new DaoAbteilung();
+		Abteilung[] abteilungen = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
+		String[] namen = new String[abteilungen.length];
+		for (int i = 0; i < abteilungen.length; i++) {
+			namen[i] = abteilungen[i].getNameAbteilung();
+		}
+		return namen;
 	}
 
 }

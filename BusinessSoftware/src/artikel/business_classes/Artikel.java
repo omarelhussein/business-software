@@ -8,9 +8,45 @@ public class Artikel {
 	private int id;
 	private String nameArtikel;
 	private String preis;
+	private int anzahl;
+	private String marke;
+	private String datum;
+	private double gewicht;
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getAnzahl() {
+		return anzahl;
+	}
+
+	public void setAnzahl(int anzahl) {
+		this.anzahl = anzahl;
+	}
+
+	public String getMarke() {
+		return marke;
+	}
+
+	public void setMarke(String marke) {
+		this.marke = marke;
+	}
+
+	public String getDatum() {
+		return datum;
+	}
+
+	public void setDatum(String datum) {
+		this.datum = datum;
+	}
+
+	public double getGewicht() {
+		return gewicht;
+	}
+
+	public void setGewicht(double gewicht) {
+		this.gewicht = gewicht;
 	}
 
 	public int getId() {

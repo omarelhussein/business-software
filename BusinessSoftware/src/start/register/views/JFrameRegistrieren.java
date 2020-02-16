@@ -109,7 +109,7 @@ public class JFrameRegistrieren extends JFrame {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	public JFrameRegistrieren() throws ClassNotFoundException {
+	public JFrameRegistrieren() {
 		daomelden = new Daomelden();
 		gescheaft = new Geschaeft();
 		anschrift = new Anschrift();

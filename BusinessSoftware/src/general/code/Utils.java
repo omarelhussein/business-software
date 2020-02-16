@@ -3,7 +3,10 @@ package general.code;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -242,4 +245,14 @@ public class Utils {
 			}
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T[] arrayListToArray(Class<T> classToConvertTo, List<T> input) {
+		T[] convertedArray = (T[]) Array.newInstance(classToConvertTo, input.size());
+		for (int i = 0; i < input.size(); i++) {
+			convertedArray[i] = input.get(i);
+		}
+		return convertedArray;
+	}
+	
 }

@@ -5,10 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.sound.midi.MidiDevice.Info;
 import javax.swing.JOptionPane;
 
+import abteilungen.business_classes.Abteilung;
 import abteilungen.views.JFrameAbteilungVerarbeiten;
 import general.code.GeschaeftDB;
 import general.code.SQLiteConnection;
@@ -34,9 +38,6 @@ public class DaoAbteilung {
 	 * @author Aref
 	 */
 	public void insertAbteilung(String abteilung) {
-		if (abteilungExists(abteilung)) {
-			return;
-		}
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -62,37 +63,30 @@ public class DaoAbteilung {
 		}
 	}
 
-	private boolean abteilungExists(String nameAbteilung) {
-		String[] currentAbteilungen = Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
-		for (int i = 0; i < currentAbteilungen.length; i++) {
-			if (currentAbteilungen[i].equalsIgnoreCase(nameAbteilung)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	/**
 	 * 
 	 * @param nameGeascgeaft
 	 * @return
 	 * @author Aref
 	 */
-	public String[] Abteilungen(String nameGeascheaft) {
+	public Abteilung[] Abteilungen(String nameGeascheaft) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		String abteilunge = "";
-		String[] abteilungen = null;
+		Abteilung[] abteilungen = null;
+		List<Abteilung> abteilungenList = new ArrayList<>();
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-			String sql = "select nameAbteilung from Abteilung inner join Geascheaft on Abteilung.agf = Geascheaft.id where namegaeschaeft = ?";
+			String sql = "SELECT * FROM Abteilung INNER JOIN Geascheaft ON Abteilung.agf = Geascheaft.id WHERE namegaeschaeft = ?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, nameGeascheaft);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				abteilunge += resultSet.getString("nameAbteilung") + "_";
+				Abteilung currentAbteilung = new Abteilung();
+				currentAbteilung.setId(resultSet.getInt(1));
+				currentAbteilung.setNameAbteilung(resultSet.getString("nameAbteilung"));
+				abteilungenList.add(currentAbteilung);
 			}
-			abteilungen = abteilunge.split("_");
+			abteilungen = abteilungenList.toArray(new Abteilung[abteilungenList.size()]);
 		} catch (SQLException e) {
 			System.out.println(e);
 		} finally {
@@ -101,7 +95,7 @@ public class DaoAbteilung {
 				preparedStatement.close();
 
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 		return abteilungen;
@@ -139,9 +133,6 @@ public class DaoAbteilung {
 	public void updateAbteilung(String nameNeu, String nameAlte) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		if (abteilungExists(nameNeu)) {
-			return;
-		}
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "UPDATE Abteilung set nameAbteilung=? where Abteilung.id =(SELECT Abteilung.id from Abteilung INNER join Geascheaft on Abteilung.agf=Geascheaft.id where Abteilung.nameAbteilung=? )";

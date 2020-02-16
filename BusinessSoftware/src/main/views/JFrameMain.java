@@ -28,6 +28,7 @@ import artikel.views.JFrameArtikelAnzeigen;
 import artikel.views.JFrameArtikelBearbeiten;
 import artikel.views.JFrameArtikelHinzufuegen;
 import general.code.GeschaeftDB;
+import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -96,9 +97,9 @@ public class JFrameMain extends JFrame {
 		verwaltungButtons.add(btnAbteilungBearbeiten);
 		verwaltungButtons.add(buttonArtikelVerwalten);
 		verwaltungButtons.add(buttonMitarbeiterVerwalten);
-		
+
 		System.out.println("Status from Main: " + GeschaeftDB.getInstance().isMitarbeiter());
-		if(GeschaeftDB.getInstance().isMitarbeiter()) {
+		if (GeschaeftDB.getInstance().isMitarbeiter()) {
 			System.out.println("Mitarbeiter eingelogt");
 			for (JButton currentButton : verwaltungButtons) {
 				currentButton.setEnabled(false);
@@ -121,12 +122,7 @@ public class JFrameMain extends JFrame {
 					menuItemLogout = new JMenuItem("Abmelden");
 					menuItemLogout.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							try {
-								menuItemLogoutActionPerformed(e);
-							} catch (ClassNotFoundException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
+							menuItemLogoutActionPerformed(e);
 						}
 					});
 					menuSettings.add(menuItemLogout);
@@ -167,12 +163,7 @@ public class JFrameMain extends JFrame {
 				btnAbteilungBearbeiten = new JButton("Abteilung verwalten");
 				btnAbteilungBearbeiten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						try {
 							onManageAbteilungClicked(e);
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
 					}
 				});
 				Utils.setStandardButtonOptions(btnAbteilungBearbeiten);
@@ -184,7 +175,9 @@ public class JFrameMain extends JFrame {
 				btnMitarbeiterAnzeigen = new JButton("Mitarbeiter anzeigen");
 				btnMitarbeiterAnzeigen.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						onMitarbeiterAnzeigenClicked(e);
+						if(abteilungExists()) {
+							onMitarbeiterAnzeigenClicked(e);							
+						}
 					}
 				});
 				btnMitarbeiterAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -223,7 +216,9 @@ public class JFrameMain extends JFrame {
 				buttonArtikelAnzeigen = new JButton("Artikel anzeigen");
 				buttonArtikelAnzeigen.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						buttonArtikelAnzeigenActionPerformed(e);
+						if(abteilungExists()) {
+							buttonArtikelAnzeigenActionPerformed(e);							
+						}
 					}
 				});
 				buttonArtikelAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -235,11 +230,8 @@ public class JFrameMain extends JFrame {
 				buttonAbteilungAnzeigen = new JButton("Abteilung anzeigen");
 				buttonAbteilungAnzeigen.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						try {
-							buttonAbteilungAnzeigenActionPerformed(e);
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+						if(abteilungExists()) {
+							buttonAbteilungAnzeigenActionPerformed(e);							
 						}
 					}
 				});
@@ -252,11 +244,8 @@ public class JFrameMain extends JFrame {
 				buttonArtikelVerwalten = new JButton("Artikel verwalten");
 				buttonArtikelVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						try {
-							buttonArtikelVerwaltenActionPerformed(e);
-						} catch (ClassNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+						if(abteilungExists()) {
+							buttonArtikelVerwaltenActionPerformed(e);							
 						}
 					}
 				});
@@ -269,11 +258,8 @@ public class JFrameMain extends JFrame {
 				buttonMitarbeiterVerwalten = new JButton("Mitarbeiter verwalten");
 				buttonMitarbeiterVerwalten.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						try {
-							onManageMitarbeiterClicked(arg0);
-						} catch (ClassNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if(abteilungExists()) {
+							onManageMitarbeiterClicked(arg0);							
 						}
 					}
 				});
@@ -303,7 +289,9 @@ public class JFrameMain extends JFrame {
 						"<html>Allgemeine Daten<br/><center>anzeigen</center></html>");
 				buttonAllgemeineDatenAnzeigen.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						buttonAllgemeineDatenAnzeigenActionPerformed(e);
+						if(abteilungExists()) {
+							buttonAllgemeineDatenAnzeigenActionPerformed(e);
+						}
 					}
 				});
 				buttonAllgemeineDatenAnzeigen.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -320,7 +308,7 @@ public class JFrameMain extends JFrame {
 	 * @param arg0 action event Handles the click by Manage Mitarbeiter Click
 	 * @throws ClassNotFoundException
 	 */
-	protected void onManageMitarbeiterClicked(ActionEvent arg0) throws ClassNotFoundException {
+	protected void onManageMitarbeiterClicked(ActionEvent arg0) {
 		String title = "Mehrfach Optionen zu Mitarbeiter verwalten";
 		String[] buttons = { "Mitarbeiter hinzufügen", "Mitarbeiter verwalten" };
 		JFrameMitarbeiterHinzufuegen jFrame1 = new JFrameMitarbeiterHinzufuegen();
@@ -334,7 +322,7 @@ public class JFrameMain extends JFrame {
 	 * @param e
 	 * @throws ClassNotFoundException
 	 */
-	protected void onManageAbteilungClicked(ActionEvent e) throws ClassNotFoundException {
+	protected void onManageAbteilungClicked(ActionEvent e) {
 		String title = "Mehrfach Optionen zu Abteilung verwalten";
 		String[] buttons = { "Abteilung hinzufügen", "Abteilung verwalten" };
 		JFrameAbteilunghinzufuegen jFrame1 = new JFrameAbteilunghinzufuegen();
@@ -371,9 +359,9 @@ public class JFrameMain extends JFrame {
 	 * Created by Omar on 24.12.2019
 	 * 
 	 * @param e
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException
 	 */
-	protected void menuItemLogoutActionPerformed(ActionEvent e) throws ClassNotFoundException {
+	protected void menuItemLogoutActionPerformed(ActionEvent e) {
 		int answer = JOptionPane.showConfirmDialog(this, "Sicher abmelden?", "Abmelden", 2);
 		switch (answer) {
 		case 0:
@@ -409,10 +397,9 @@ public class JFrameMain extends JFrame {
 	 * 
 	 */
 
-	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) throws ClassNotFoundException {
+	protected void buttonAbteilungAnzeigenActionPerformed(ActionEvent e) {
 		JFrameAbteilungAnzeigen abteilungAnzeigenSeite = new JFrameAbteilungAnzeigen();
 		abteilungAnzeigenSeite.setVisible(true);
-
 	}
 
 	/**
@@ -421,7 +408,7 @@ public class JFrameMain extends JFrame {
 	 * @throws ClassNotFoundException edited: methoden hinzufügen von Ajabnoor
 	 *                                14.10.2020
 	 */
-	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e) throws ClassNotFoundException {
+	protected void buttonArtikelVerwaltenActionPerformed(ActionEvent e)  {
 		String title = "Mehrfach Optionen zu Artikel verwalten";
 		String[] buttons = { "Artikel hinzufügen", "Artikel verwalten" };
 
@@ -439,8 +426,16 @@ public class JFrameMain extends JFrame {
 		JFrameAllgemeineGeschaeftsDaten geschaeftsDatenAnzeigen = new JFrameAllgemeineGeschaeftsDaten();
 		geschaeftsDatenAnzeigen.setVisible(true);
 	}
-	
+
 	protected void onResetPositionSelected(ActionEvent e) {
 		this.setLocationRelativeTo(null);
 	}
+	
+	private boolean abteilungExists() {
+		if(!SQLiteConnection.abteilungExists()) {
+			JOptionPane.showMessageDialog(this, "Mindestens eine Abteilung muss erstellt werden um Fortzufahren.");
+		}
+		return SQLiteConnection.abteilungExists();
+	}
+	
 }

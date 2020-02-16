@@ -48,7 +48,6 @@ public class JFrameArtikelData extends JFrame {
 		fillData();
 	}
 	private void initGUI() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Utils.setSmallFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));

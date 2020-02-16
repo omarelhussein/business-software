@@ -10,8 +10,12 @@ import general.code.SQLiteConnection;
 
 public class Daoanmelden {
 
-	public Daoanmelden() throws ClassNotFoundException {
-		SQLiteConnection.getSQLiteConnectionInstance();
+	public Daoanmelden() {
+		try {
+			SQLiteConnection.getSQLiteConnectionInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

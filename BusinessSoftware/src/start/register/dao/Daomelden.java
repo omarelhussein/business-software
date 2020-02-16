@@ -15,8 +15,12 @@ import main.business_classes.Geschaeft;
 public class Daomelden {
 
 
-	public Daomelden() throws ClassNotFoundException {
-		SQLiteConnection.getSQLiteConnectionInstance();
+	public Daomelden() {
+		try {
+			SQLiteConnection.getSQLiteConnectionInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean insert(Object... objects) {

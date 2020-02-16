@@ -7,6 +7,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -24,14 +25,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
 import artikel.DaoArtikel;
 import artikel.business_classes.Artikel;
 import general.code.GeschaeftDB;
+import general.code.JComboBoxAdapter;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import kategorie.business_classes.Kategorie;
 import kategorie.dao.DaoKategorie;
 import kategorie.views.JFrameKategorieHinzufuegen;
 
@@ -41,13 +45,13 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JComboBox<String> comboBoxAbteilung;
+	private JComboBox<Abteilung> comboBoxAbteilung;
 	private JTextField textFieldName;
 	private JTextField textFieldPreis;
 	private JTextField textFieldAnzahl;
 	private JLabel lblNewLabel_3;
 	private JButton btnCheck;
-	private JComboBox<String> comboBoxKategorie;
+	private JComboBox<Kategorie> comboBoxKategorie;
 	private JButton btnSpeichern;
 	private JSeparator separator_1;
 	private JTextField textFieldGewicht;
@@ -130,9 +134,8 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				panel.add(lblNewLabel_2);
 			}
 			{
-				comboBoxAbteilung = new JComboBox<>();
-				comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(
-						daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+				comboBoxAbteilung = new JComboBox<>(loadAbteilungen());
+				comboBoxAbteilung.setRenderer(new JComboBoxAdapter(new Abteilung()));
 				comboBoxAbteilung.setBounds(81, 330, 140, 25);
 				comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				comboBoxAbteilung.addActionListener(new ActionListener() {
@@ -162,9 +165,8 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 				textFieldAnzahl.setColumns(10);
 			}
 			{
-				comboBoxKategorie = new JComboBox<>();
-				String[] kategorien = loadCategories();
-				comboBoxKategorie.setModel(new DefaultComboBoxModel<>(kategorien));
+				comboBoxKategorie = new JComboBox<>(loadCategories());
+				comboBoxKategorie.setRenderer(new JComboBoxAdapter(new Kategorie()));
 				comboBoxKategorie.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 				comboBoxKategorie.setBounds(81, 389, 140, 25);
 				panel.add(comboBoxKategorie);
@@ -317,8 +319,10 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	 * 
 	 * @return list of categories
 	 */
-	private String[] loadCategories() {
-		return arrayListToArray(daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()));
+	private Kategorie[] loadCategories() {
+		Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
+		List<Kategorie> kategorienList = daoKategorie.loadKategorien(currentAbteilung.getId());
+		return Utils.arrayListToArray(Kategorie.class, kategorienList);
 	}
 
 	/**
@@ -326,16 +330,8 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	 * 
 	 * @return list of Abteilungen
 	 */
-	private String[] loadAbteilungen() {
+	private Abteilung[] loadAbteilungen() {
 		return daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
-	}
-
-	private String[] arrayListToArray(List<String> list) {
-		String[] array = new String[list.size()];
-		for (int i = 0; i < array.length; i++) {
-			array[i] = list.get(i);
-		}
-		return array;
 	}
 
 	/**
@@ -355,8 +351,8 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	 */
 	protected void onRefreshClicked(ActionEvent e) {
 		int currentIndex = comboBoxAbteilung.getSelectedIndex();
-		comboBoxAbteilung.setModel(new DefaultComboBoxModel<String>(loadAbteilungen()));
-		comboBoxKategorie.setModel(new DefaultComboBoxModel<String>(loadCategories()));
+		refreshAbteilungComboBox();
+		refreshKategorieComboBox();
 		comboBoxAbteilung.setSelectedIndex(currentIndex);
 	}
 
@@ -369,12 +365,17 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 		Artikel currentArtikel = new Artikel();
 		List<JTextField> fillFields = new ArrayList<>();
 		boolean allFilled = false;
-		String currentKat;
+		Kategorie currentKat = new Kategorie();
 
 		fillFields.add(textFieldName);
 		fillFields.add(textFieldPreis);
+		fillFields.add(textFieldDate);
+		fillFields.add(textFieldGewicht);
+		fillFields.add(textFieldMarke);
+		fillFields.add(textFieldAnzahl);
 		for (JTextField jTextField : fillFields) {
 			if (jTextField.getText().trim().isEmpty()) {
+				showErrorPane("Bitte alle Felder vervollständigen");
 				allFilled = false;
 				return;
 			}
@@ -382,17 +383,26 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 		}
 		if (allFilled) {
 			if (comboBoxKategorie.getItemCount() == 0) {
-				currentKat = "";
 				showErrorPane("Bitte Mind. Eine Kategorie zu der Abteilung hinzufügen");
 			} else {
-
-				currentArtikel.setNameArtikel(textFieldName.getText());
-				currentArtikel.setPreis(textFieldPreis.getText());
+				try {
+					currentArtikel.setNameArtikel(textFieldName.getText());
+					currentArtikel.setPreis(textFieldPreis.getText());
+					currentArtikel.setDatum(new Date().toString());
+					currentArtikel.setAnzahl(Integer.valueOf(textFieldAnzahl.getText()));
+					currentArtikel.setGewicht(Double.valueOf(textFieldGewicht.getText()));
+					currentArtikel.setMarke(textFieldMarke.getText());
+				} catch (NumberFormatException error) {
+					showErrorPane("Bitte Felder mit richtige Daten ausfüllen");
+					return;
+				}
 				values.add(currentArtikel.getNameArtikel());
 				Utils.updateList(list, true, scrollPane, values);
 
-				currentKat = comboBoxKategorie.getSelectedItem().toString();
-				daoArtikel.insertArtkel(currentArtikel, currentKat, comboBoxAbteilung.getSelectedItem().toString());
+				Abteilung currentAbteilung = loadAbteilungen()[comboBoxAbteilung.getSelectedIndex()];
+				currentKat.setNamekategorie(comboBoxKategorie.getSelectedItem().toString());
+				currentKat.setId(loadCategories()[comboBoxKategorie.getSelectedIndex()].getId());
+				daoArtikel.insertArtkel(currentArtikel, currentKat, currentAbteilung.getId());
 				for (JTextField jTextField : fillFields) {
 					jTextField.setText("");
 				}
@@ -409,8 +419,15 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	 * @param e
 	 */
 	protected void onAbteilungSelected(ActionEvent e) {
-		String[] categories = loadCategories();
-		comboBoxKategorie.setModel(new DefaultComboBoxModel<String>(categories));
+		refreshKategorieComboBox();
+	}
+	
+	private void refreshAbteilungComboBox() {
+		comboBoxAbteilung.setModel(new DefaultComboBoxModel<Abteilung>(loadAbteilungen()));
+	}
+	
+	private void refreshKategorieComboBox() {
+		comboBoxKategorie.setModel(new DefaultComboBoxModel<Kategorie>(loadCategories()));
 	}
 
 	/**
@@ -430,8 +447,8 @@ public class JFrameArtikelHinzufuegen extends JFrame {
 	 * @param e
 	 */
 	protected void onAddCategoryClicked(ActionEvent e) {
-		JFrameKategorieHinzufuegen addCategory = new JFrameKategorieHinzufuegen(
-				comboBoxAbteilung.getSelectedItem().toString());
+		Abteilung selectedAbteilung = loadAbteilungen()[comboBoxAbteilung.getSelectedIndex()];
+		JFrameKategorieHinzufuegen addCategory = new JFrameKategorieHinzufuegen(selectedAbteilung);
 		addCategory.setVisible(true);
 		addCategory.setAlwaysOnTop(true);
 	}

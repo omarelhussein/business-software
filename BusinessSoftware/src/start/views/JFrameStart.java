@@ -62,7 +62,7 @@ public class JFrameStart extends JFrame {
 	 * Create the frame.
 	 * @throws ClassNotFoundException 
 	 */
-	public JFrameStart() throws ClassNotFoundException {
+	public JFrameStart() {
 		daoanmelden=new Daoanmelden();
 		initGUI();
 	}

@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import abteilungen.DaoAbteilung;
 import general.code.AutoCompletition;
 import general.code.GeschaeftDB;
+import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -148,7 +149,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 					onItemSelected(arg0);
 				}
 			});
-			abteilungenValues = daoAbteilungen.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
+			abteilungenValues = SQLiteConnection.loadAbteilungenNamen();
 			comboBox.setModel(new DefaultComboBoxModel<String>(abteilungenValues));
 			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			comboBox.setBounds(240, 91, 135, 20);

@@ -235,12 +235,12 @@ public class SQLiteConnection {
 	 * @author Aref
 	 */
 	public static int forigkeyBetrefendesache(String tableName,String forigkey, String tableName2, String colum,
-			String bedinungErfullung,int bedinungErfullung2, String sqlRecorse) {
+			String bedinungErfullung,int bedinungErfullung2) {
 		Connection conn = null;
 		PreparedStatement statmment = null;
 		int d = 0;
 		try {
-			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(sqlRecorse));
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String an = "select " + tableName +"."+forigkey+" from " + tableName + " inner join " + tableName2 +" on "
 					+ tableName +"."+ forigkey+ " = " + tableName2 +".id where " + tableName2 +"."+ colum
 					+ " = ? and  "+tableName2+".id = ?";

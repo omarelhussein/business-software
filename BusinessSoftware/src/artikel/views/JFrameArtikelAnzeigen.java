@@ -23,6 +23,10 @@ import general.design.Fonts;
 import general.design.Unicodes;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class JFrameArtikelAnzeigen extends JFrame {
 
@@ -37,6 +41,9 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	private DaoArtikel daoArtikel;
 	private JComboBox comboBox;
 	private DaoAbteilung daoAbteilung;
+	private Artikel[] value = new Artikel[] {};
+	Artikel artikel;
+	private JLabel lblNewLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -57,6 +64,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameArtikelAnzeigen() {
+		artikel=new Artikel();
 		daoArtikel = new DaoArtikel();
 		daoAbteilung = new DaoAbteilung();
 		initGUI();
@@ -79,6 +87,11 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 		{
 			comboBox = new JComboBox();
+			comboBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					do_comboBox_actionPerformed(arg0);
+				}
+			});
 			comboBox.setModel(new DefaultComboBoxModel(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			comboBox.setBounds(277, 42, 83, 21);
 			contentPane.add(comboBox);
@@ -118,7 +131,16 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			Utils.setStandardButtonOptions(buttonSpeichern);
 			contentPane.add(buttonSpeichern);
 		}
+		{
+			lblNewLabel = new JLabel("New label");
+			lblNewLabel.setForeground(Color.BLUE);
+			lblNewLabel.setFont(new Font("Lucida Sans", Font.PLAIN, 11));
+			lblNewLabel.setBounds(289, 106, 46, 14);
+			lblNewLabel.setText(daoArtikel.nameKategorie(comboBox.getSelectedItem().toString()));
+			contentPane.add(lblNewLabel);
+		}
 	}
+
 
 	private String[] loadArtikelNames(Artikel[] artikels) {
 		String[] artikelNames = new String[artikels.length];
@@ -128,6 +150,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		return artikelNames;
 	}
 	
+	
 	private Artikel[] arrayListToArray(List<Artikel> artikelList) {
 		Artikel[] artikelArray = new Artikel[artikelList.size()];
 		for (int i = 0; i < artikelList.size(); i++) {
@@ -136,4 +159,26 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		return artikelArray;
 	}
 	
+	protected void do_comboBox_actionPerformed(ActionEvent arg0) {
+		onItemSelected();
+		
+	}
+	private ArrayList<String> arrayToArrayList(Object[] array) {
+		ArrayList<String> arrayList = new ArrayList<String>();
+		for (int i = 0; i < value.length; i++) {
+			arrayList.add(value[i].getNameArtikel());
+		}
+		return arrayList;
+	}
+	/**
+	 * @author Aref
+	 */
+	private void onItemSelected() {
+		String abteilungName = String.valueOf(comboBox.getSelectedItem());
+		artikel.setNameArtikel(daoArtikel.nameKategorie(comboBox.getSelectedItem().toString()));
+		lblNewLabel.setText(daoArtikel.nameKategorie(comboBox.getSelectedItem().toString()));
+		
+		value =arrayListToArray(daoArtikel.artikelLaden(abteilungName)) ;
+		Utils.updateList(list, true, scrollPane, arrayToArrayList(value));
+	}
 }

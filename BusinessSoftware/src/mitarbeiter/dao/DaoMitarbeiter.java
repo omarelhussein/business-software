@@ -159,4 +159,59 @@ public class DaoMitarbeiter {
 		}
 		return mitarbeiterArray;
 	}
+	
+	public void deletMitarbeiter(String abteilung,String namemitarbeiter) {
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		try {
+			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql="Delete from mitarbeiter where mitarbeiter.namemitarbeiter=? and mitarbeiter.nachname=? ";
+			System.out.println("arefii"+sql);
+			preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setString(1, namemitarbeiter);
+			preparedStatement.setString(2, namchNamemitarbeiter(abteilung, namemitarbeiter));
+			
+
+			preparedStatement.execute();
+			
+		} catch (Exception e) {
+			System.out.println("von delet:"+e);
+		}finally {
+			try {
+				connection.close();
+				preparedStatement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+	}
+	public String namchNamemitarbeiter(String abteilung,String namemitarbeiter) {
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		String nachname="";
+		try {
+			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql="select mitarbeiter.nachname from mitarbeiter inner join Abteilung on Abteilung.id=Mitarbeiter.maf where  Mitarbeiter.namemitarbeiter=? and Abteilung.id=?";
+			preparedStatement=connection.prepareStatement(sql);
+			
+			preparedStatement.setString(1, namemitarbeiter);
+			preparedStatement.setInt(2, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
+					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
+		ResultSet resultSet=preparedStatement.executeQuery();
+		nachname=resultSet.getString("nachname");
+		System.out.println(nachname);
+			preparedStatement.execute();
+			
+		} catch (Exception e) {
+			System.out.println("von delet:"+e);
+		}finally {
+			try {
+				connection.close();
+				preparedStatement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return nachname;
+	}
 }

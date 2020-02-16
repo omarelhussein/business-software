@@ -17,6 +17,7 @@ import start.register.views.JFrameRegistrieren;
 
 public class DaoArtikel {
 
+	
 	public DaoArtikel() {
 		try {
 			SQLiteConnection.getSQLiteConnectionInstance();
@@ -155,5 +156,33 @@ public class DaoArtikel {
 		
 		return null;
 
+	}
+	public String nameKategorie(String nameAbteilung) {
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String name="";
+		try {
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql="select namekategorie from kategorie inner join Abteilung on Abteilung.id=kategorie.kaf where   Abteilung.nameAbteilung=? and Abteilung.agf=?";
+			preparedStatement = connection.prepareStatement(sql);
+			System.out.println("Hallo"+sql);
+			preparedStatement.setInt(2, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(),nameAbteilung ));
+			preparedStatement.setString(1, nameAbteilung);
+			
+			ResultSet resultSet=preparedStatement.executeQuery();
+			name=resultSet.getString("nameAbteilung");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				connection.close();
+				preparedStatement.close();
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+		}
+		return name;
+		
 	}
 }

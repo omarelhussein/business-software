@@ -59,6 +59,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private JScrollPane scrollPane;
 	private JTextField plz;
 	private JLabel lblNewLabel;
+	private JButton btnNewButton_1;
 
 	/**
 	 * Launch the application.
@@ -219,6 +220,16 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			lblNewLabel.setBounds(393, 166, 46, 14);
 			contentPane.add(lblNewLabel);
 		}
+		{
+			btnNewButton_1 = new JButton("New button");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					do_btnNewButton_1_actionPerformed(e);
+				}
+			});
+			btnNewButton_1.setBounds(628, 128, 89, 23);
+			contentPane.add(btnNewButton_1);
+		}
 
 	}
 
@@ -266,5 +277,9 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 
 	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		Utils.reviewOldJFrame(this, new JFrameStart());
+	}
+	protected void do_btnNewButton_1_actionPerformed(ActionEvent e) {
+		Mitarbeiterkundigen1 mitarbeiterkundigen1=new Mitarbeiterkundigen1();
+		Utils.startNewJFrame(this, mitarbeiterkundigen1);
 	}
 }

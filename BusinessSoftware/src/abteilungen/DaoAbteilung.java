@@ -120,6 +120,7 @@ public class DaoAbteilung {
 		try {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen,
 					SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
 =======
@@ -128,21 +129,30 @@ public class DaoAbteilung {
 				for (int i = 0; i <daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen) .length; i++) {
 					mitarbeiter+=" < "+daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen)[i]+" >";
 =======
+=======
+
+>>>>>>> aref-v1
 			if (SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
 				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
 <<<<<<< HEAD
 					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+<<<<<<< HEAD
 >>>>>>> omar-v1
 =======
 					mitarbeiter += " < "
 							+ daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
 >>>>>>> omar-v1
+=======
+		
+>>>>>>> aref-v1
 				}
 				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;
+				
 			}
+<<<<<<< HEAD
 <<<<<<< HEAD
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection.idTabelle(
 					"Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName(), SQLITE_TABLE), SQLITE_TABLE);
@@ -151,11 +161,23 @@ public class DaoAbteilung {
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
 					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
 >>>>>>> omar-v1
+=======
+
+			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
+					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+
+>>>>>>> aref-v1
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
+
+	/**
+	 * @author Aref
+	 * @param nameNeu
+	 * @param nameAlte
+	 */
 
 	public void updateAbteilung(String nameNeu, String nameAlte) {
 		Connection connection = null;
@@ -163,6 +185,7 @@ public class DaoAbteilung {
 		if (abteilungExists(nameNeu)) {
 			return;
 		}
+
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "UPDATE Abteilung set nameAbteilung=? where Abteilung.id =(SELECT Abteilung.id from Abteilung INNER join Geascheaft on Abteilung.agf=Geascheaft.id where Abteilung.nameAbteilung=? )";

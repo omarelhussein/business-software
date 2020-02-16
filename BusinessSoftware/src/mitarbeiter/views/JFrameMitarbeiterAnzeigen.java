@@ -42,9 +42,13 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton button;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private String[] values = new String[]{ "Ajab", "Omri", "Arefi", "Muhammadi" };
 	private JPanel panel;
 =======
+=======
+
+>>>>>>> aref-v1
 	private Mitarbeiter[] values = new Mitarbeiter[] {};
 	private JComboBox<String> comboBox;
 	private String[] abteilungenValues;
@@ -55,6 +59,10 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JTextField textFieldSuchen;
 	private JButton buttonNewButton;
 >>>>>>> omar-v1
+
+	
+	private JPanel panel;
+
 
 	/**
 	 * 
@@ -147,10 +155,14 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 		}
 		{
 <<<<<<< HEAD
+<<<<<<< HEAD
 			panel = new JPanel();
 			panel.setBounds(277, 49, 129, 200);
 			contentPane.add(panel);
 =======
+=======
+
+>>>>>>> aref-v1
 			comboBox = new JComboBox<String>();
 			AutoCompletition.enable(comboBox, abteilungenValues);
 			comboBox.addActionListener(new ActionListener() {
@@ -205,7 +217,15 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			});
 			buttonNewButton.setBounds(145, 55, 89, 25);
 			contentPane.add(buttonNewButton);
+<<<<<<< HEAD
 >>>>>>> omar-v1
+=======
+
+			panel = new JPanel();
+			panel.setBounds(277, 49, 129, 200);
+			contentPane.add(panel);
+
+>>>>>>> aref-v1
 		}
 	}
 
@@ -240,6 +260,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private void onItemSelected() {
 		String geschaeftName = GeschaeftDB.getInstance().getCurrentAccountName();
 		String abteilungName = String.valueOf(comboBox.getSelectedItem());
+	
 
 		values = daoMitarbeiter.loadMitarbeiter(geschaeftName, abteilungName);
 

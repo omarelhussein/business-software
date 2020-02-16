@@ -30,6 +30,7 @@ public class Daoanmelden {
 		try {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 =======
 			rabita =  DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(DATEI));
@@ -37,7 +38,10 @@ public class Daoanmelden {
 =======
 			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 >>>>>>> omar-v1
+=======
+>>>>>>> aref-v1
 
+			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
 			vorbereitungAussage = rabita.prepareStatement(sql);

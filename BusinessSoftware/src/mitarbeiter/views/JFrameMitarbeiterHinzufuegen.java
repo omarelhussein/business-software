@@ -64,10 +64,14 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private JScrollPane scrollPane;
 	private JTextField plz;
 	private JLabel lblNewLabel;
+<<<<<<< HEAD
 	private JPanel panel;
 	private JButton btnNewButtonWeiter;
 	private JButton btnNewButtonZurueck;
 	private JLabel lblNewLabel_1;
+=======
+	private JButton btnNewButton_1;
+>>>>>>> aref-v1
 
 	/**
 	 * Launch the application.
@@ -317,6 +321,16 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				});
 			}
 		}
+		{
+			btnNewButton_1 = new JButton("New button");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					do_btnNewButton_1_actionPerformed(e);
+				}
+			});
+			btnNewButton_1.setBounds(628, 128, 89, 23);
+			contentPane.add(btnNewButton_1);
+		}
 
 	}
 
@@ -363,6 +377,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	protected void onBackPressed(ActionEvent arg0) throws ClassNotFoundException {
 		Utils.reviewOldJFrame(this, new JFrameStart());
 	}
+<<<<<<< HEAD
 
 	protected void btnNewButtonWeiterActionPerformed(ActionEvent e) {
 	}
@@ -370,3 +385,10 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	protected void btnNewButtonZurueckActionPerformed(ActionEvent e) {
 	}
 }
+=======
+	protected void do_btnNewButton_1_actionPerformed(ActionEvent e) {
+		Mitarbeiterkundigen1 mitarbeiterkundigen1=new Mitarbeiterkundigen1();
+		Utils.startNewJFrame(this, mitarbeiterkundigen1);
+	}
+}
+>>>>>>> aref-v1

@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/abteilungen/views/JFrameAbteilungVerarbeiten.java=UTF-8
+encoding//src/artikel/views/JFrameArtikelAnzeigen.java=UTF-8
+encoding//src/mitarbeiter/dao/Printjob.java=UTF-8
 encoding//src/start/register/views/JFrameRegistrieren.java=UTF-8
 encoding//src/start/views/JFrameStart.java=UTF-8

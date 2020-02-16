@@ -126,6 +126,11 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			contentPane.add(buttonSpeichern);
 		}
 	}
+	/**
+	 * ajabnoor 
+	 * @param artikels
+	 * @return
+	 */
 
 	private String[] loadArtikelNames(Artikel[] artikels) {
 		String[] artikelNames = new String[artikels.length];

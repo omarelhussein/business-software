@@ -4,6 +4,7 @@ public class GeschaeftDB {
 
 	private static GeschaeftDB geschaeftInstance;
 	private String currentAccountName;
+	private boolean isMitarbeiter;
 
 	public static GeschaeftDB getInstance() {
 		if (geschaeftInstance == null) {
@@ -23,6 +24,14 @@ public class GeschaeftDB {
 
 	public void setCurrentAccountName(String currentAccountName) {
 		this.currentAccountName = currentAccountName;
+	}
+	
+	public void setLoginStatus(boolean isMitarbeiter) {
+		this.isMitarbeiter = isMitarbeiter;
+	}
+	
+	public boolean isMitarbeiter() {
+		return isMitarbeiter;
 	}
 
 }

@@ -1,4 +1,4 @@
-package start.business_classes;
+package kategorie.business_classes;
 
 
 /**

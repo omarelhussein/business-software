@@ -30,7 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 /**
- * Created by Mohammad 20.01.2020
+ * 
  */
 public class JFrameMitarbeiterProfile extends JFrame {
 
@@ -68,7 +68,7 @@ public class JFrameMitarbeiterProfile extends JFrame {
 	}
 
 	/**
-	 * Launch the application.
+	 * Created by Mohammad 20.01.2020
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

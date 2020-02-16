@@ -1,16 +1,24 @@
 package artikel.views;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
@@ -21,24 +29,36 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+<<<<<<< HEAD
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+=======
+import kategorie.dao.DaoKategorie;
+>>>>>>> 1508884fb3e2640e8fbc945e451d309502b4fbe7
 
+@SuppressWarnings("serial")
 public class JFrameArtikelAnzeigen extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel labelArtikelAnzeigen;
-	private JList<Object> list;
-	private JButton buttonAnzeigen;
-	private JButton buttonSpeichern;
 	private JScrollPane scrollPane;
-	
+
 	private Artikel[] artikelList;
 	private DaoArtikel daoArtikel;
-	private JComboBox comboBox;
+	private DaoKategorie daoKategorie;
+	private JComboBox<String> comboBoxAbteilung;
 	private DaoAbteilung daoAbteilung;
+	private JButton buttonAnzeigen;
+	private JButton buttonSpeichern;
+	private JList<Object> list;
+	private JLabel labelNewLabel;
+	private JLabel labelKategorieAuswhlen;
+	private JComboBox<String> comboBoxKategorie;
+	private JTextField textFieldSuchen;
+	private JButton button;
+
 	/**
 	 * Launch the application.
 	 */
@@ -61,9 +81,14 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	public JFrameArtikelAnzeigen() {
 		daoArtikel = new DaoArtikel();
 		daoAbteilung = new DaoAbteilung();
+		daoKategorie = new DaoKategorie();
 		initGUI();
+		loadArticles(true);
 	}
 
+	/**
+	 * Created by Mohammad 28.01.2020
+	 */
 	private void initGUI() {
 
 		Utils.setSmallFrameOptions(this);
@@ -74,12 +99,14 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		contentPane.setLayout(null);
 		{
 			labelArtikelAnzeigen = new JLabel("Liste Artikeln");
-			labelArtikelAnzeigen.setBounds(10, 11, 151, 31);
+			labelArtikelAnzeigen.setHorizontalAlignment(SwingConstants.CENTER);
+			labelArtikelAnzeigen.setBounds(10, 11, 350, 31);
 			Fonts.setCenturySchoolbookFont(labelArtikelAnzeigen, 18);
 			labelArtikelAnzeigen.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 			contentPane.add(labelArtikelAnzeigen);
 		}
 		{
+<<<<<<< HEAD
 			comboBox = new JComboBox();
 			comboBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -89,17 +116,31 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			comboBox.setModel(new DefaultComboBoxModel(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			comboBox.setBounds(277, 42, 83, 21);
 			contentPane.add(comboBox);
+=======
+			comboBoxAbteilung = new JComboBox<>();
+			comboBoxAbteilung.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onAbteilungSelected(e);
+				}
+			});
+			comboBoxAbteilung.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
+			comboBoxAbteilung.setModel(new DefaultComboBoxModel<>(
+					daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
+			comboBoxAbteilung.setBounds(240, 121, 135, 21);
+			contentPane.add(comboBoxAbteilung);
+>>>>>>> 1508884fb3e2640e8fbc945e451d309502b4fbe7
 		}
 
 		{
 			scrollPane = new JScrollPane();
-			scrollPane.setBounds(10, 44, 257, 306);
+			scrollPane.setBounds(10, 93, 220, 258);
 			contentPane.add(scrollPane);
 			{
 				list = new JList<>();
 				scrollPane.setViewportView(list);
-				List<Artikel> artikeln = daoArtikel.artikelLaden(comboBox.getSelectedItem().toString());
-				artikelList = arrayListToArray(artikeln);
+				List<Artikel> artikeln = daoArtikel
+						.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
+				artikelList = arrayListToArrayArtikel(artikeln);
 				list.setModel(new AbstractListModel<Object>() {
 					String[] values = loadArtikelNames(artikelList);
 
@@ -115,16 +156,83 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 		{
 			buttonAnzeigen = new JButton("Anzeigen");
-			buttonAnzeigen.setBounds(277, 289, 97, 25);
+			buttonAnzeigen.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onAnzeigenClicked(e);
+				}
+			});
+			buttonAnzeigen.setBounds(240, 289, 134, 25);
 			Utils.setStandardButtonOptions(buttonAnzeigen);
 			contentPane.add(buttonAnzeigen);
 		}
 		{
 			buttonSpeichern = new JButton(Unicodes.CHECK);
-			buttonSpeichern.setBounds(277, 325, 97, 25);
+			buttonSpeichern.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onCheckClicked(e);
+				}
+			});
+			buttonSpeichern.setBounds(240, 325, 134, 25);
 			Utils.setStandardButtonOptions(buttonSpeichern);
 			contentPane.add(buttonSpeichern);
 		}
+		{
+			labelNewLabel = new JLabel("Abteilung ausw\u00E4hlen");
+			labelNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			labelNewLabel.setBounds(240, 96, 135, 14);
+			contentPane.add(labelNewLabel);
+		}
+		{
+			labelKategorieAuswhlen = new JLabel("Kategorie ausw\u00E4hlen");
+			labelKategorieAuswhlen.setHorizontalAlignment(SwingConstants.CENTER);
+			labelKategorieAuswhlen.setBounds(240, 153, 135, 14);
+			contentPane.add(labelKategorieAuswhlen);
+		}
+		{
+			comboBoxKategorie = new JComboBox<String>();
+			comboBoxKategorie.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onCategorySelected(e);
+				}
+			});
+			comboBoxKategorie.setModel(new DefaultComboBoxModel<>(arrayListToArrayString(
+					daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()))));
+			comboBoxKategorie.setBackground(new Color(255, 250, 250));
+			comboBoxKategorie.setBounds(240, 172, 135, 21);
+			contentPane.add(comboBoxKategorie);
+		}
+		{
+			textFieldSuchen = new JTextField();
+			textFieldSuchen.setColumns(10);
+			textFieldSuchen.setBounds(10, 57, 125, 25);
+			contentPane.add(textFieldSuchen);
+		}
+		{
+			button = new JButton("Suchen");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					onSearchClicked(e);
+				}
+			});
+			Utils.setStandardButtonOptions(button);
+			button.setBounds(145, 57, 89, 25);
+			contentPane.add(button);
+		}
+	}
+
+	protected void onAnzeigenClicked(ActionEvent e) {
+		int selectedIndex = list.getSelectedIndex();
+		int selectedAbteilung = comboBoxAbteilung.getSelectedIndex();
+		int selectedKategorie = comboBoxKategorie.getSelectedIndex();
+		if (!list.isSelectedIndex(selectedIndex)) {
+			JOptionPane.showMessageDialog(this, "Bitte ein Artikel aus der Liste auswählen");
+			return;
+		}
+		List<Artikel> currentList = loadArticles(true);
+		comboBoxAbteilung.setSelectedIndex(selectedAbteilung);
+		comboBoxKategorie.setSelectedIndex(selectedKategorie);
+		JFrameArtikelData dataPage = new JFrameArtikelData(currentList.get(selectedIndex));
+		dataPage.setVisible(true);
 	}
 	/**
 	 * ajabnoor 
@@ -139,14 +247,15 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 		return artikelNames;
 	}
-	
-	private Artikel[] arrayListToArray(List<Artikel> artikelList) {
+
+	private Artikel[] arrayListToArrayArtikel(List<Artikel> artikelList) {
 		Artikel[] artikelArray = new Artikel[artikelList.size()];
 		for (int i = 0; i < artikelList.size(); i++) {
 			artikelArray[i] = artikelList.get(i);
 		}
 		return artikelArray;
 	}
+<<<<<<< HEAD
 	
 	private ArrayList<String> arrayToArrayList(String[] artikeln) {
 		ArrayList<String> liste = new ArrayList<String>();
@@ -159,5 +268,83 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	protected void comboBoxActionPerformed(ActionEvent e) {
 		String[] values = loadArtikelNames(artikelList);
 		Utils.updateList(list, true, scrollPane, arrayToArrayList(values));
+=======
+
+	private String[] arrayListToArrayString(List<String> list) {
+		String[] array = new String[daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()).size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = list.get(i);
+		}
+		return array;
+	}
+
+	private ArrayList<String> arrayToArrayList(String[] array) {
+		ArrayList<String> listNames = new ArrayList<>();
+		for (int i = 0; i < array.length; i++) {
+			listNames.add(array[i]);
+		}
+		return listNames;
+	}
+
+	/**
+	 * Created by Omar on 14.02.2020
+	 */
+	protected void onAbteilungSelected(ActionEvent e) {
+		loadArticles(true);
+	}
+
+	/**
+	 * Created by Omar 14.02.2020 if there is no Category for the Abteilung, all the
+	 * items will be listed otherwise it will update the categories list to show in
+	 * the comboBox the articles will be loaded in both cases
+	 */
+	private List<Artikel> loadArticles(boolean refreshComboBox) {
+		String[] values;
+		ArrayList<String> valuesList;
+		List<Artikel> artikelnList;
+
+		if (refreshComboBox) {
+			comboBoxKategorie.setModel(
+					new DefaultComboBoxModel<>(loadCategories(comboBoxAbteilung.getSelectedItem().toString())));
+		}
+		if (loadCategories(comboBoxAbteilung.getSelectedItem().toString()).length == 0) {
+			values = loadArtikelNames(arrayListToArrayArtikel(
+					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
+			valuesList = arrayToArrayList(values);
+			artikelnList = daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
+			Utils.updateList(list, true, scrollPane, valuesList);
+		} else {
+			values = loadArtikelNames(arrayListToArrayArtikel(
+					daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString())));
+			valuesList = arrayToArrayList(values);
+			artikelnList = daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString());
+			Utils.updateList(list, true, scrollPane, valuesList);
+		}
+		return artikelnList;
+	}
+
+	/**
+	 * created by Omar on 14.02.2020.
+	 * 
+	 * @param abteilung the current abteilung
+	 * @return all the categories for this abteilung
+	 */
+	private String[] loadCategories(String abteilung) {
+		String[] categories = arrayListToArrayString(daoKategorie.loadKategorien(abteilung));
+		return categories;
+	}
+
+	protected void onCategorySelected(ActionEvent e) {
+		loadArticles(false);
+	}
+
+	protected void onSearchClicked(ActionEvent e) {
+		artikelList = arrayListToArrayArtikel(loadArticles(false));
+		Utils.searchWord(arrayToArrayList(loadArtikelNames(artikelList)), textFieldSuchen, list, this);
+	}
+
+	protected void onCheckClicked(ActionEvent e) {
+		this.setVisible(false);
+>>>>>>> 1508884fb3e2640e8fbc945e451d309502b4fbe7
 	}
 }

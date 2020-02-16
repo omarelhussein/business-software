@@ -1,6 +1,7 @@
 package abteilungen.views;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
-import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class JFrameAbteilungAnzeigen extends JFrame {
@@ -30,6 +30,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	private JLabel labelNewLabel;
 	private JButton btn_abteilung_check;
 	private JScrollPane scrollPane;
+	private JButton btn_abteilung_anzeigen;
 	DaoAbteilung abteilung = null;
 	ArrayList<String> value;
 
@@ -69,6 +70,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 		{
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(10, 56, 265, 294);
+			scrollPane.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(scrollPane);
 			{
 				list = new JList<Object>();
@@ -96,19 +98,33 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 		}
 		{
 			btn_abteilung_check = new JButton(Unicodes.CHECK);
-			btn_abteilung_check.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					onCheckClicked(arg0);
-				}
-			});
 			btn_abteilung_check.setBounds(285, 327, 89, 23);
 			Utils.setStandardButtonOptions(btn_abteilung_check);
 			contentPane.add(btn_abteilung_check);
 		}
-		loadAbteilungenList();
+		{
+			btn_abteilung_anzeigen = new JButton("Anzeigen");
+
+			btn_abteilung_anzeigen.setBounds(285, 293, 89, 23);
+			Utils.setStandardButtonOptions(btn_abteilung_anzeigen);
+			contentPane.add(btn_abteilung_anzeigen);
+
+			btn_abteilung_check.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onCheckClicked(arg0);
+				}
+
+			});
+		}
 	}
 
-	protected void do_btn_abteilung_anzeigen_actionPerformed(ActionEvent arg0) {
+	protected void btn_abteilung_anzeigenActionPerformed(ActionEvent e) {
+
+		int selectindex = list.getSelectedIndex();
+		btn_abteilung_check.setBounds(285, 327, 89, 23);
+		Utils.setStandardButtonOptions(btn_abteilung_check);
+		contentPane.add(btn_abteilung_check);
+
 		loadAbteilungenList();
 	}
 
@@ -131,8 +147,23 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 			value.add(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i]);
 		}
 	}
-	
+
 	protected void onCheckClicked(ActionEvent arg0) {
 		this.setVisible(false);
 	}
+
+	protected void do_btn_abteilung_anzeigen_actionPerformed(ActionEvent arg0) {
+		arraytoArrayList();
+
+		list.setModel(new AbstractListModel() {
+			public int getSize() {
+				return value.size();
+			}
+
+			public Object getElementAt(int index) {
+				return value.get(index);
+			}
+		});
+	}
+
 }

@@ -1,12 +1,13 @@
 package main.views;
 
 import java.awt.Color;
-
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,11 +31,9 @@ import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
-import main.business_classes.Geschaeft;
 import mitarbeiter.views.JFrameMitarbeiterAnzeigen;
 import mitarbeiter.views.JFrameMitarbeiterBearbeiten;
 import mitarbeiter.views.JFrameMitarbeiterHinzufuegen;
-import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
 
 /**
@@ -65,6 +64,8 @@ public class JFrameMain extends JFrame {
 	private JLabel labelGeschftBereich;
 	private JButton buttonAllgemeineDatenAnzeigen;
 	private String[] ausgewealtAbteilung;
+	private List<JButton> verwaltungButtons;
+	private JMenuItem menuItemNewMenuItem;
 
 	/**
 	 * Launch the application.
@@ -87,6 +88,24 @@ public class JFrameMain extends JFrame {
 	 */
 	public JFrameMain() {
 		initGUI();
+		checkLoginData();
+	}
+
+	private void checkLoginData() {
+		verwaltungButtons = new ArrayList<JButton>();
+		verwaltungButtons.add(btnAbteilungBearbeiten);
+		verwaltungButtons.add(buttonArtikelVerwalten);
+		verwaltungButtons.add(buttonMitarbeiterVerwalten);
+		
+		System.out.println("Status from Main: " + GeschaeftDB.getInstance().isMitarbeiter());
+		if(GeschaeftDB.getInstance().isMitarbeiter()) {
+			System.out.println("Mitarbeiter eingelogt");
+			for (JButton currentButton : verwaltungButtons) {
+				currentButton.setEnabled(false);
+			}
+		} else {
+			System.out.println("Boss eingelogt");
+		}
 	}
 
 	private void initGUI() {
@@ -111,6 +130,15 @@ public class JFrameMain extends JFrame {
 						}
 					});
 					menuSettings.add(menuItemLogout);
+				}
+				{
+					menuItemNewMenuItem = new JMenuItem("Position zur\u00FCcksetzen");
+					menuItemNewMenuItem.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							onResetPositionSelected(e);
+						}
+					});
+					menuSettings.add(menuItemNewMenuItem);
 				}
 			}
 		}
@@ -410,5 +438,9 @@ public class JFrameMain extends JFrame {
 	protected void buttonAllgemeineDatenAnzeigenActionPerformed(ActionEvent e) {
 		JFrameAllgemeineGeschaeftsDaten geschaeftsDatenAnzeigen = new JFrameAllgemeineGeschaeftsDaten();
 		geschaeftsDatenAnzeigen.setVisible(true);
+	}
+	
+	protected void onResetPositionSelected(ActionEvent e) {
+		this.setLocationRelativeTo(null);
 	}
 }

@@ -34,7 +34,7 @@ public class DaoAbteilung {
 	 * @author Aref
 	 */
 	public void insertAbteilung(String abteilung) {
-		if(abteilungExists(abteilung)) {
+		if (abteilungExists(abteilung)) {
 			return;
 		}
 		Connection connection = null;
@@ -51,22 +51,21 @@ public class DaoAbteilung {
 			System.out.println("aref");
 
 		} catch (SQLException e) {
-			// TODO: handle exception
 			System.out.println(e);
 		} finally {
 			try {
 				connection.close();
 				preparedStatement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 	}
-	
+
 	private boolean abteilungExists(String nameAbteilung) {
 		String[] currentAbteilungen = Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
 		for (int i = 0; i < currentAbteilungen.length; i++) {
-			if(currentAbteilungen[i].equalsIgnoreCase(nameAbteilung)) {
+			if (currentAbteilungen[i].equalsIgnoreCase(nameAbteilung)) {
 				return true;
 			}
 		}
@@ -86,13 +85,12 @@ public class DaoAbteilung {
 		String[] abteilungen = null;
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-			String sql = "select nameAbteilung from Abteilung inner join Geascheaft on Abteilung.agf=Geascheaft.id where namegaeschaeft =?";
+			String sql = "select nameAbteilung from Abteilung inner join Geascheaft on Abteilung.agf = Geascheaft.id where namegaeschaeft = ?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, nameGeascheaft);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				abteilunge += resultSet.getString("nameAbteilung") + "_";
-				System.out.println(resultSet.getFetchSize());
 			}
 			abteilungen = abteilunge.split("_");
 		} catch (SQLException e) {
@@ -134,7 +132,12 @@ public class DaoAbteilung {
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
 				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
+<<<<<<< HEAD
 					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+>>>>>>> omar-v1
+=======
+					mitarbeiter += " < "
+							+ daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
 >>>>>>> omar-v1
 				}
 				System.out.println("hallo" + mitarbeiter);
@@ -157,7 +160,7 @@ public class DaoAbteilung {
 	public void updateAbteilung(String nameNeu, String nameAlte) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		if(abteilungExists(nameNeu)) {
+		if (abteilungExists(nameNeu)) {
 			return;
 		}
 		try {
@@ -172,13 +175,13 @@ public class DaoAbteilung {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
 			try {
 				preparedStatement.close();
 				connection.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 	}

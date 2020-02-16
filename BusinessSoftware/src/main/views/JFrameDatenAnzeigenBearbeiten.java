@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameDatenAnzeigenBearbeiten extends JFrame {
 
@@ -73,9 +75,16 @@ public class JFrameDatenAnzeigenBearbeiten extends JFrame {
 		}
 		{
 			buttonSpeichern = new JButton("Speichern");
+			buttonSpeichern.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					buttonSpeichernActionPerformed(e);
+				}
+			});
 			buttonSpeichern.setBounds(157, 215, 97, 25);
 			contentPane.add(buttonSpeichern);
 		}
 	}
 
+	protected void buttonSpeichernActionPerformed(ActionEvent e) {
+	}
 }

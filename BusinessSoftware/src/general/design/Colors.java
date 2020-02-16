@@ -14,6 +14,7 @@ public class Colors {
 	public static final String LIGHT_GREY = "#F0ECEB";
 	//default text color
 	public static final String SEXY_BLUE = "#0078D7";
+	public static final String SEXY_RED = "#FF0000";
 	//default button background color
 	public static final String LIGHT_PINK = "#FFFAFA";
 	//default inner panel color

@@ -41,7 +41,7 @@ public class Daomelden {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			if(SQLiteConnection.uberBrufname("Geascheaft", "namegaeschaeft", "namegaeschaeft", gescheaft.getNamegeascheaft()).equals(gescheaft.getNamegeascheaft())) {
 				// show inputDialog return eine String
-				String newnamegeascheft=JOptionPane.showInputDialog(null, "diese Geascheaft ist schon vorhanden Bitte neu ein geben *_*");
+				String newnamegeascheft=JOptionPane.showInputDialog(null, "dieses Geschäft ist schon vorhanden, bitte neu eingeben *_*");
 				gescheaft.setNamegeascheaft(newnamegeascheft);
 				return false;
 			}

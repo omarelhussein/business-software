@@ -59,7 +59,7 @@ public class SQLiteConnection {
 				statmment.close();
 				conn.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 		return d;

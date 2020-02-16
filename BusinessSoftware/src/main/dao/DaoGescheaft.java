@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 import general.code.SQLiteConnection;
 
-public class GeascheaftDao {
+public class DaoGescheaft {
 
-	public GeascheaftDao() {
+	public DaoGescheaft() {
 		try {
 			SQLiteConnection.getSQLiteConnectionInstance();
 		} catch (ClassNotFoundException e) {

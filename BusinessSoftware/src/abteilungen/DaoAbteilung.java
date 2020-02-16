@@ -19,8 +19,12 @@ import start.register.views.JFrameRegistrieren;
 
 public class DaoAbteilung {
 
-	public DaoAbteilung() throws ClassNotFoundException {
-		SQLiteConnection.getSQLiteConnectionInstance();
+	public DaoAbteilung() {
+		try {
+			SQLiteConnection.getSQLiteConnectionInstance();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -29,8 +33,10 @@ public class DaoAbteilung {
 	 * @return
 	 * @author Aref
 	 */
-
 	public void insertAbteilung(String abteilung) {
+		if(abteilungExists(abteilung)) {
+			return;
+		}
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -39,7 +45,8 @@ public class DaoAbteilung {
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, SQLiteConnection.anzalAnschrift("Abteilung") + 1);
 			preparedStatement.setString(2, abteilung);
-			preparedStatement.setInt(3, SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+			preparedStatement.setInt(3, SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft",
+					GeschaeftDB.getInstance().getCurrentAccountName()));
 			preparedStatement.execute();
 			System.out.println("aref");
 
@@ -54,6 +61,16 @@ public class DaoAbteilung {
 				// TODO: handle exception
 			}
 		}
+	}
+	
+	private boolean abteilungExists(String nameAbteilung) {
+		String[] currentAbteilungen = Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName());
+		for (int i = 0; i < currentAbteilungen.length; i++) {
+			if(currentAbteilungen[i].equalsIgnoreCase(nameAbteilung)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -91,6 +108,7 @@ public class DaoAbteilung {
 		}
 		return abteilungen;
 	}
+
 	/**
 	 * @author Aref
 	 * @param bedinungErfullen
@@ -98,12 +116,11 @@ public class DaoAbteilung {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-
-	public String  AbteilungDelete(String bedinungErfullen,String nameGeascheaft) throws ClassNotFoundException {
-		DaoMitarbeiter daomit=new DaoMitarbeiter();
-		JFrameAbteilungVerarbeiten frame =new JFrameAbteilungVerarbeiten();
-		String mitarbeiter="";
+	public String AbteilungDelete(String bedinungErfullen, String nameGeascheaft) throws ClassNotFoundException {
+		DaoMitarbeiter daomit = new DaoMitarbeiter();
+		String mitarbeiter = "";
 		try {
+<<<<<<< HEAD
 <<<<<<< HEAD
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen,
 					SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
@@ -112,41 +129,51 @@ public class DaoAbteilung {
 					, bedinungErfullen, SQLITE_TABLE), SQLITE_TABLE)!=0) {
 				for (int i = 0; i <daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen) .length; i++) {
 					mitarbeiter+=" < "+daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen)[i]+" >";
+=======
+			if (SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",
+					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
+							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
+				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
+					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+>>>>>>> omar-v1
 				}
-				System.out.println("hallo"+ mitarbeiter);
-				//JOptionPane.showConfirmDialog(frame, mitarbeiter,"fur diese Abteilung sind schon Mitarbeiter ", 1);
+				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;
-				
-				
 			}
+<<<<<<< HEAD
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection.idTabelle(
 					"Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName(), SQLITE_TABLE), SQLITE_TABLE);
 >>>>>>> aref-v1
+=======
+			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
+					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+>>>>>>> omar-v1
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
-
 	}
-	public  void updet(String nameNeu,String nameAlte) {
-		Connection connection=null;
-		PreparedStatement preparedStatement=null;
+
+	public void updateAbteilung(String nameNeu, String nameAlte) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		if(abteilungExists(nameNeu)) {
+			return;
+		}
 		try {
-			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(SQLITE_TABLE));
-			String sql ="UPDATE Abteilung set nameAbteilung=? where Abteilung.id =(SELECT Abteilung.id from Abteilung INNER join Geascheaft on Abteilung.agf=Geascheaft.id where Abteilung.nameAbteilung=? )";
-			
-			
-			preparedStatement=connection.prepareStatement(sql);
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "UPDATE Abteilung set nameAbteilung=? where Abteilung.id =(SELECT Abteilung.id from Abteilung INNER join Geascheaft on Abteilung.agf=Geascheaft.id where Abteilung.nameAbteilung=? )";
+
+			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, nameNeu);
 			preparedStatement.setString(2, nameAlte);
-		    System.out.println(sql);
-			
+			System.out.println(sql);
+
 			preparedStatement.execute();
-			
-			
+
 		} catch (SQLException e) {
 			// TODO: handle exception
-		}finally {
+		} finally {
 			try {
 				preparedStatement.close();
 				connection.close();

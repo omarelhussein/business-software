@@ -29,24 +29,28 @@ public class Daoanmelden {
 
 		try {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 =======
 			rabita =  DriverManager.getConnection(SQLiteConnection.getSQLiteConnectionString(DATEI));
 >>>>>>> aref-v1
+=======
+			rabita = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+>>>>>>> omar-v1
 
 			String sql = "SELECT  namegaeschaeft, pass, * from Geascheaft WHERE namegaeschaeft = ? AND pass = ? LIMIT 1";
 
 			vorbereitungAussage = rabita.prepareStatement(sql);
 			vorbereitungAussage.setString(1, name);
 			vorbereitungAussage.setString(2, password);
-			
+
 			ResultSet ergebniss = vorbereitungAussage.executeQuery();
 
-				if (ergebniss.next()) {
-					return true;					
-				} else {
-					return false;
-				}
+			if (ergebniss.next()) {
+				return true;
+			} else {
+				return false;
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -61,6 +65,7 @@ public class Daoanmelden {
 		}
 
 	}
+
 	/**
 	 * @author Aref
 	 * @return
@@ -73,7 +78,7 @@ public class Daoanmelden {
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "select namegaeschaeft from Geascheaft";
-			
+
 			preparedStatement = connection.prepareStatement(sql);
 			System.out.println("SDa");
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -83,7 +88,7 @@ public class Daoanmelden {
 			}
 			abteilungen = abteilunge.split("_");
 		} catch (SQLException e) {
-			System.out.println("von an :"+e);
+			System.out.println("von an :" + e);
 		} finally {
 			try {
 				connection.close();
@@ -95,6 +100,5 @@ public class Daoanmelden {
 		}
 		return abteilungen;
 	}
-	
 
 }

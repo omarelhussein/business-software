@@ -20,6 +20,7 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
+import java.awt.Font;
 
 @SuppressWarnings("serial")
 public class JFrameAbteilungAnzeigen extends JFrame {
@@ -29,7 +30,6 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	private JLabel labelNewLabel;
 	private JButton btn_abteilung_check;
 	private JScrollPane scrollPane;
-	private JButton btn_abteilung_anzeigen;
 	DaoAbteilung abteilung = null;
 	ArrayList<String> value;
 
@@ -54,7 +54,7 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
-	public JFrameAbteilungAnzeigen() throws ClassNotFoundException {
+	public JFrameAbteilungAnzeigen() {
 		abteilung = new DaoAbteilung();
 		value = new ArrayList<String>();
 		initGUI();
@@ -72,8 +72,9 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 			contentPane.add(scrollPane);
 			{
 				list = new JList<Object>();
+				list.setFont(new Font("Tahoma", Font.PLAIN, 13));
 				list.setModel(new AbstractListModel<Object>() {
-					String[] values = new String[] { "Lebensmittel", "Elektronik", "Kleidung" };
+					String[] values = new String[] {};
 
 					public int getSize() {
 						return values.length;
@@ -95,26 +96,23 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 		}
 		{
 			btn_abteilung_check = new JButton(Unicodes.CHECK);
+			btn_abteilung_check.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					onCheckClicked(arg0);
+				}
+			});
 			btn_abteilung_check.setBounds(285, 327, 89, 23);
 			Utils.setStandardButtonOptions(btn_abteilung_check);
 			contentPane.add(btn_abteilung_check);
 		}
-		{
-			btn_abteilung_anzeigen = new JButton("Anzeigen");
-			btn_abteilung_anzeigen.addActionListener(new ActionListener() {
-
-				public void actionPerformed(ActionEvent e) {
-					btn_abteilung_anzeigenActionPerformed(e);
-				}
-
-			});
-			btn_abteilung_anzeigen.setBounds(285, 293, 89, 23);
-			Utils.setStandardButtonOptions(btn_abteilung_anzeigen);
-			contentPane.add(btn_abteilung_anzeigen);
-		}
+		loadAbteilungenList();
 	}
 
 	protected void do_btn_abteilung_anzeigen_actionPerformed(ActionEvent arg0) {
+		loadAbteilungenList();
+	}
+
+	private void loadAbteilungenList() {
 		arraytoArrayList();
 
 		list.setModel(new AbstractListModel<Object>() {
@@ -133,9 +131,8 @@ public class JFrameAbteilungAnzeigen extends JFrame {
 			value.add(abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i]);
 		}
 	}
-
-	protected void btn_abteilung_anzeigenActionPerformed(ActionEvent e) {
-//		int selectindex = list.getSelectedIndex(); TODO?
-		do_btn_abteilung_anzeigen_actionPerformed(e);
+	
+	protected void onCheckClicked(ActionEvent arg0) {
+		this.setVisible(false);
 	}
 }

@@ -23,6 +23,8 @@ import general.design.Fonts;
 import general.design.Unicodes;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class JFrameArtikelAnzeigen extends JFrame {
 
@@ -79,6 +81,11 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 		{
 			comboBox = new JComboBox();
+			comboBox.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					comboBoxActionPerformed(e);
+				}
+			});
 			comboBox.setModel(new DefaultComboBoxModel(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			comboBox.setBounds(277, 42, 83, 21);
 			contentPane.add(comboBox);
@@ -136,4 +143,16 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		return artikelArray;
 	}
 	
+	private ArrayList<String> arrayToArrayList(String[] artikeln) {
+		ArrayList<String> liste = new ArrayList<String>();
+		for (int i = 0; i < artikeln.length; i++) {
+			liste.add(artikeln[i]);
+		}
+		return liste;
+	}
+	
+	protected void comboBoxActionPerformed(ActionEvent e) {
+		String[] values = loadArtikelNames(artikelList);
+		Utils.updateList(list, true, scrollPane, arrayToArrayList(values));
+	}
 }

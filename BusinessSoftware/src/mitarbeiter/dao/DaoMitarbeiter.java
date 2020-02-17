@@ -35,7 +35,7 @@ public class DaoMitarbeiter {
 	 * @param anschrift
 	 * @author Aref
 	 */
-	public void insert(Mitarbeiter mitarbeiter, String aNmae, Anschrift anschrift) {
+	public void insert(Mitarbeiter mitarbeiter, int id, Anschrift anschrift) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		try {
@@ -56,9 +56,7 @@ public class DaoMitarbeiter {
 			preparedStatement.setString(3, mitarbeiter.getNachname());
 			preparedStatement.setString(4, mitarbeiter.getLohn());
 			preparedStatement.setString(5, mitarbeiter.getPass());
-			preparedStatement.setInt(6, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), aNmae));
-
+			preparedStatement.setInt(6, getId(id));
 			preparedStatement.setInt(7, SQLiteConnection.anzalAnschrift("Anschrift"));
 			preparedStatement.execute();
 		} catch (SQLException e) {
@@ -72,6 +70,34 @@ public class DaoMitarbeiter {
 			}
 		}
 
+	}
+	
+	private int getId(int id) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int foundId = 0;
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			System.out.println("ABTEILUNG ID BY MITARBEITER IS : " + id);
+			final String SQL = "SELECT Abteilung.id FROM Abteilung INNER JOIN Geascheaft on Abteilung.agf = Geascheaft.id WHERE namegaeschaeft = ? AND Abteilung.id = ?";
+			ps = conn.prepareStatement(SQL);
+			ps.setString(1, GeschaeftDB.getInstance().getCurrentAccountName());
+			ps.setInt(2, id);
+			ResultSet result = ps.executeQuery();
+			if(result.next()) {
+				foundId = result.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return foundId;
 	}
 
 	/**
@@ -118,7 +144,7 @@ public class DaoMitarbeiter {
 	 * @param nameGeascheaft
 	 * @param nameabtei
 	 */
-	public Mitarbeiter[] loadMitarbeiter(String nameGeascheaft, String nameabtei) {
+	public Mitarbeiter[] loadMitarbeiter(int abteilungID) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ArrayList<Mitarbeiter> mitarbeiterListe = new ArrayList<>();
@@ -128,8 +154,7 @@ public class DaoMitarbeiter {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "select * from Mitarbeiter inner join Abteilung on Mitarbeiter.maf=Abteilung.id where  Mitarbeiter.maf =?";
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", nameGeascheaft, nameabtei));
+			preparedStatement.setInt(1, getId(abteilungID));
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				currentMitarbeiter = new Mitarbeiter();

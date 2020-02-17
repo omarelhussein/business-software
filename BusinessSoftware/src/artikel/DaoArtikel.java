@@ -128,7 +128,7 @@ public class DaoArtikel {
 	 * 
 	 * @return liste von artikeln der Abteilung
 	 */
-	public List<Artikel> loadAbteilungArtikeln(String abteilung) {
+	public  List<Artikel> loadAbteilungArtikeln(String abteilung) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;

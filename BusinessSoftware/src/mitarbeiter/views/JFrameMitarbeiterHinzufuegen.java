@@ -135,7 +135,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		{
 			panel = new JPanel();
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel.setBounds(21, 47, 589, 526);
+			panel.setBounds(21, 47, 603, 526);
 			panel.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(panel);
 			panel.setLayout(null);
@@ -282,7 +282,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				}
 				{
 					scrollPane_1 = new JScrollPane();
-					scrollPane_1.setBounds(306, 31, 273, 468);
+					scrollPane_1.setBounds(315, 31, 278, 468);
 					panel.add(scrollPane_1);
 					{
 						list_1 = new List();
@@ -299,7 +299,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 					contentPane.add(lblNewLabel_1);
 				}
 				btnCheck = new JButton(Unicodes.CHECK);
-				btnCheck.setBounds(521, 577, 89, 23);
+				btnCheck.setBounds(535, 577, 89, 23);
 				Utils.setStandardButtonOptions(btnCheck);
 				btnCheck.addActionListener(new ActionListener() {
 

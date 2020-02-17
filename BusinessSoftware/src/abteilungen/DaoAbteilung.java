@@ -118,56 +118,31 @@ public class DaoAbteilung {
 		DaoMitarbeiter daomit = new DaoMitarbeiter();
 		String mitarbeiter = "";
 		try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen,
 					SQLiteConnection.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
-=======
-			if(SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",bedinungErfullen,SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", nameGeascheaft
-					, bedinungErfullen, SQLITE_TABLE), SQLITE_TABLE)!=0) {
-				for (int i = 0; i <daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen) .length; i++) {
-					mitarbeiter+=" < "+daomit.nameMitarbeiter(nameGeascheaft,bedinungErfullen)[i]+" >";
-=======
-=======
 
->>>>>>> aref-v1
+
+
 			if (SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
 				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
-<<<<<<< HEAD
+
 					mitarbeiter += " < " + daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
-<<<<<<< HEAD
->>>>>>> omar-v1
-=======
-					mitarbeiter += " < "
-							+ daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
->>>>>>> omar-v1
-=======
-		
->>>>>>> aref-v1
+
+
 				}
 				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;
 				
 			}
-<<<<<<< HEAD
-<<<<<<< HEAD
-			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection.idTabelle(
-					"Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName(), SQLITE_TABLE), SQLITE_TABLE);
->>>>>>> aref-v1
-=======
-			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
-					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
->>>>>>> omar-v1
-=======
+
 
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
 					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
 
->>>>>>> aref-v1
-		} catch (Exception e) {
+	} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";

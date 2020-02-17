@@ -29,19 +29,18 @@ import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
 import general.design.Unicodes;
-<<<<<<< HEAD
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
-=======
+
 import kategorie.dao.DaoKategorie;
->>>>>>> 1508884fb3e2640e8fbc945e451d309502b4fbe7
-=======
+
+
 import java.awt.Font;
 import java.awt.Color;
->>>>>>> aref-v1
+
 
 @SuppressWarnings("serial")
 public class JFrameArtikelAnzeigen extends JFrame {
@@ -55,7 +54,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	private DaoKategorie daoKategorie;
 	private JComboBox<String> comboBoxAbteilung;
 	private DaoAbteilung daoAbteilung;
-<<<<<<< HEAD
+
 	private JButton buttonAnzeigen;
 	private JButton buttonSpeichern;
 	private JList<Object> list;
@@ -64,12 +63,10 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	private JComboBox<String> comboBoxKategorie;
 	private JTextField textFieldSuchen;
 	private JButton button;
-
-=======
 	private Artikel[] value = new Artikel[] {};
 	Artikel artikel;
 	private JLabel lblNewLabel;
->>>>>>> aref-v1
+
 	/**
 	 * Launch the application.
 	 */
@@ -118,22 +115,8 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			contentPane.add(labelArtikelAnzeigen);
 		}
 		{
-<<<<<<< HEAD
-			comboBox = new JComboBox();
-			comboBox.addActionListener(new ActionListener() {
-<<<<<<< HEAD
-				public void actionPerformed(ActionEvent e) {
-					comboBoxActionPerformed(e);
-=======
-				public void actionPerformed(ActionEvent arg0) {
-					do_comboBox_actionPerformed(arg0);
->>>>>>> aref-v1
-				}
-			});
-			comboBox.setModel(new DefaultComboBoxModel(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
-			comboBox.setBounds(277, 42, 83, 21);
-			contentPane.add(comboBox);
-=======
+
+
 			comboBoxAbteilung = new JComboBox<>();
 			comboBoxAbteilung.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -145,7 +128,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 					daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())));
 			comboBoxAbteilung.setBounds(240, 121, 135, 21);
 			contentPane.add(comboBoxAbteilung);
->>>>>>> 1508884fb3e2640e8fbc945e451d309502b4fbe7
+
 		}
 
 		{
@@ -162,11 +145,11 @@ public class JFrameArtikelAnzeigen extends JFrame {
 					String[] values = loadArtikelNames(artikelList);
 
 					public int getSize() {
-						return values.length;
+						return value.length;
 					}
 
 					public Object getElementAt(int index) {
-						return values[index];
+						return value[index];
 					}
 				});
 			}
@@ -238,36 +221,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 	}
 
-	protected void onAnzeigenClicked(ActionEvent e) {
-		int selectedIndex = list.getSelectedIndex();
-		int selectedAbteilung = comboBoxAbteilung.getSelectedIndex();
-		int selectedKategorie = comboBoxKategorie.getSelectedIndex();
-		if (!list.isSelectedIndex(selectedIndex)) {
-			JOptionPane.showMessageDialog(this, "Bitte ein Artikel aus der Liste auswählen");
-			return;
-		}
-		List<Artikel> currentList = loadArticles(true);
-		comboBoxAbteilung.setSelectedIndex(selectedAbteilung);
-		comboBoxKategorie.setSelectedIndex(selectedKategorie);
-		JFrameArtikelData dataPage = new JFrameArtikelData(currentList.get(selectedIndex));
-		dataPage.setVisible(true);
-	}
-	/**
-	 * ajabnoor 
-	 * @param artikels
-	 * @return
-	 */
-=======
-			lblNewLabel = new JLabel("New label");
-			lblNewLabel.setForeground(Color.BLUE);
-			lblNewLabel.setFont(new Font("Lucida Sans", Font.PLAIN, 11));
-			lblNewLabel.setBounds(289, 106, 46, 14);
-			lblNewLabel.setText(daoArtikel.nameKategorie(comboBox.getSelectedItem().toString()));
-			contentPane.add(lblNewLabel);
-		}
-	}
 
->>>>>>> aref-v1
 
 	private String[] loadArtikelNames(Artikel[] artikels) {
 		String[] artikelNames = new String[artikels.length];
@@ -276,24 +230,17 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		}
 		return artikelNames;
 	}
-<<<<<<< HEAD
 
-	private Artikel[] arrayListToArrayArtikel(List<Artikel> artikelList) {
-=======
-	
-	
+
 	private Artikel[] arrayListToArray(List<Artikel> artikelList) {
->>>>>>> aref-v1
+
 		Artikel[] artikelArray = new Artikel[artikelList.size()];
 		for (int i = 0; i < artikelList.size(); i++) {
 			artikelArray[i] = artikelList.get(i);
 		}
 		return artikelArray;
-	}
-<<<<<<< HEAD
-	
-<<<<<<< HEAD
-	private ArrayList<String> arrayToArrayList(String[] artikeln) {
+}
+	private ArrayList<String> arrayToArrayList1(String[] artikeln) {
 		ArrayList<String> liste = new ArrayList<String>();
 		for (int i = 0; i < artikeln.length; i++) {
 			liste.add(artikeln[i]);
@@ -304,7 +251,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	protected void comboBoxActionPerformed(ActionEvent e) {
 		String[] values = loadArtikelNames(artikelList);
 		Utils.updateList(list, true, scrollPane, arrayToArrayList(values));
-=======
+	}
 
 	private String[] arrayListToArrayString(List<String> list) {
 		String[] array = new String[daoKategorie.loadKategorien(comboBoxAbteilung.getSelectedItem().toString()).size()];
@@ -346,13 +293,13 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		if (loadCategories(comboBoxAbteilung.getSelectedItem().toString()).length == 0) {
 			values = loadArtikelNames(arrayListToArrayArtikel(
 					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
-			valuesList = arrayToArrayList(values);
+			valuesList = arrayToArrayList1(values);
 			artikelnList = daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
 			Utils.updateList(list, true, scrollPane, valuesList);
 		} else {
 			values = loadArtikelNames(arrayListToArrayArtikel(
 					daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString())));
-			valuesList = arrayToArrayList(values);
+			valuesList = arrayToArrayList1(values);
 			artikelnList = daoArtikel.loadKategorienArtikeln(comboBoxKategorie.getSelectedItem().toString());
 			Utils.updateList(list, true, scrollPane, valuesList);
 		}
@@ -376,7 +323,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 
 	protected void onSearchClicked(ActionEvent e) {
 		artikelList = arrayListToArrayArtikel(loadArticles(false));
-		Utils.searchWord(arrayToArrayList(loadArtikelNames(artikelList)), textFieldSuchen, list, this);
+		Utils.searchWord(arrayToArrayList1(loadArtikelNames(artikelList)), textFieldSuchen, list, this);
 	}
 
 	protected void onCheckClicked(ActionEvent e) {

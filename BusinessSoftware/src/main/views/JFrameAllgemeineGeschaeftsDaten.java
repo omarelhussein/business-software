@@ -10,6 +10,9 @@ import javax.swing.border.EmptyBorder;
 import abteilungen.DaoAbteilung;
 import artikel.DaoArtikel;
 import general.code.GeschaeftDB;
+import general.code.Utils;
+import general.design.Colors;
+import general.design.Fonts;
 import mitarbeiter.business_classes.Mitarbeiter;
 import mitarbeiter.dao.DaoMitarbeiter;
 
@@ -23,15 +26,21 @@ import javax.swing.AbstractListModel;
 import javax.swing.JTextPane;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
+import javax.swing.SwingConstants;
 
 public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 
 	private JPanel contentPane;
-	private JTextPane textPane;
 	private JButton buttonAnzeigen;
 	DaoMitarbeiter daoMitarbeiter;
 	DaoAbteilung abteilung;
 	DaoArtikel artikel;
+	private JTextPane textPane;
+	private JScrollPane scrollPane;
+	private JLabel labelNewLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -58,18 +67,12 @@ public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 		initGUI();
 	}
 	private void initGUI() {
-		
-		setBounds(100, 100, 764, 520);
+		Utils.setMiddleFrameOptions(this);
 		contentPane = new JPanel();
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		{
-			textPane = new JTextPane();
-			textPane.setBounds(22, 10, 678, 393);
-			contentPane.add(textPane);
-			textPane.setVisible(false);
-		}
 		{
 			buttonAnzeigen = new JButton("Anzeigen");
 			buttonAnzeigen.addActionListener(new ActionListener() {
@@ -77,14 +80,31 @@ public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 					buttonAnzeigenActionPerformed(e);
 				}
 			});
-			buttonAnzeigen.setBounds(20, 426, 117, 36);
+			buttonAnzeigen.setBounds(10, 567, 616, 36);
 			contentPane.add(buttonAnzeigen);
+		}
+		{
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 76, 616, 481);
+			contentPane.add(scrollPane);
+			{
+				textPane = new JTextPane();
+				textPane.setEditable(false);
+				scrollPane.setViewportView(textPane);
+			}
+		}
+		{
+			labelNewLabel = new JLabel(GeschaeftDB.getInstance().getCurrentAccountName());
+			labelNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			Fonts.setCenturySchoolbookFont(labelNewLabel, 20);
+			labelNewLabel.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
+			labelNewLabel.setBounds(10, 10, 616, 56);
+			contentPane.add(labelNewLabel);
 		}
 	}
 	protected void buttonAnzeigenActionPerformed(ActionEvent e) {
 		textPane.setVisible(true);
-		textPane.setText("\n Geschäft Liste "+GeschaeftDB.getInstance().getCurrentAccountName()+"\n\n\nAbteilungen:"+arraytoString()+"\n\n\tMitarbeiter"+mitarbeiter()+"Artikel Name \n\n "+Artikel());
-		
+		textPane.setText("\nGeschäft Liste >>>"+GeschaeftDB.getInstance().getCurrentAccountName()+"\n\n\nAbteilungen>>>"+arraytoString()+"\n\nMitarbeiter>>>"+mitarbeiter()+"\n\nArtikel Name>>>"+Artikel());
 	}
 	
 	private String mitarbeiter() {
@@ -130,7 +150,5 @@ public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 		return artike;
 		
 	}
-
-		
 	}
 

@@ -21,17 +21,22 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
 import general.code.GeschaeftDB;
+import general.code.JComboBoxAdapter;
 import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
+import general.design.Fonts;
 import general.design.Unicodes;
 import main.business_classes.Anschrift;
 import mitarbeiter.business_classes.Mitarbeiter;
 import mitarbeiter.dao.DaoMitarbeiter;
 import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
+import javax.swing.JSeparator;
+import java.awt.List;
 
 @SuppressWarnings("serial")
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
@@ -52,23 +57,30 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private JLabel lblStadt;
 	private JLabel lblAdresse;
 	private JLabel lblTel;
-	private JButton btnNewButton;
+	private JButton btnCheck;
 	private boolean textnutz;
-	Mitarbeiter mitarbeiter;
-	DaoMitarbeiter daoMitarbeiter;
-	private JComboBox<String> comboBox;
-	JFrameRegistrieren frameRegistrieren;
-	DaoAbteilung abteilung;
-	Anschrift anschrift;
-	JFrameAbteilunghinzufuegen abteilunghinzufuegen;
+	private Mitarbeiter mitarbeiter;
+	private DaoMitarbeiter daoMitarbeiter;
+	private JFrameRegistrieren frameRegistrieren;
+	private DaoAbteilung daoAbteilung;
+	private Anschrift anschrift;
+	private JFrameAbteilunghinzufuegen abteilunghinzufuegen;
 	private JList<String> list;
 	private JScrollPane scrollPane;
 	private JTextField plz;
 	private JLabel lblNewLabel;
 	private JPanel panel;
-	private JButton btnNewButtonWeiter;
-	private JButton btnNewButtonZurueck;
 	private JLabel lblNewLabel_1;
+	private JSeparator separator;
+	private JLabel label;
+	private JTextField textField;
+	private JLabel labelPasswortWied;
+	private JTextField textField_1;
+	private JComboBox<Abteilung> comboBoxAbteilungen;
+	private JButton btnAddMitarbeiter;
+	private JButton btnRemoveMitarbeiter;
+	private List list_1;
+	private JScrollPane scrollPane_1;
 
 	/**
 	 * Launch the application.
@@ -92,17 +104,17 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	 * @throws ClassNotFoundException
 	 */
 	public JFrameMitarbeiterHinzufuegen() {
-		abteilung = new DaoAbteilung();
+		daoAbteilung = new DaoAbteilung();
 		frameRegistrieren = new JFrameRegistrieren();
-		initGUI();
 		anschrift = new Anschrift();
 		mitarbeiter = new Mitarbeiter();
 		daoMitarbeiter = new DaoMitarbeiter();
+		initGUI();
 	}
 
 	private void initGUI() {
 
-		setBounds(100, 100, 651, 650);
+		Utils.setMiddleFrameOptions(this);
 		contentPane = new JPanel();
 		contentPane.setBackground(Colors.parseColor(Colors.LIGHT_GREY));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -116,56 +128,6 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			contentPane.add(buttonSpeichern);
 		}
 		{
-			Stadt = new JTextField();
-			Stadt.setBounds(480, 45, 86, 20);
-			contentPane.add(Stadt);
-			Stadt.setColumns(10);
-		}
-		{
-			Adresse = new JTextField();
-			Adresse.setBounds(480, 129, 86, 20);
-			contentPane.add(Adresse);
-			Adresse.setColumns(10);
-		}
-		{
-			Tel = new JTextField();
-			Tel.setBounds(480, 215, 86, 20);
-			contentPane.add(Tel);
-			Tel.setColumns(10);
-		}
-		{
-			lblStadt = new JLabel("stadt");
-			lblStadt.setBounds(393, 48, 46, 14);
-			contentPane.add(lblStadt);
-		}
-		{
-			lblAdresse = new JLabel("Adresse");
-			lblAdresse.setBounds(393, 132, 46, 14);
-			contentPane.add(lblAdresse);
-		}
-		{
-			lblTel = new JLabel("Tel");
-			lblTel.setBounds(393, 218, 46, 14);
-			contentPane.add(lblTel);
-		}
-		{
-			btnNewButton = new JButton("New button");
-			btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					do_btnNewButton_actionPerformed(arg0);
-				}
-			});
-			btnNewButton.setBounds(420, 284, 89, 23);
-			contentPane.add(btnNewButton);
-		}
-		{
-			comboBox = new JComboBox<String>();
-			if (!JFrameStart.wegRegistierung) {
-				comboBox.setModel(new DefaultComboBoxModel<String>(
-						SQLiteConnection.loadAbteilungenNamen()));
-			}
-		}
-		{
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(666, 47, 1, 1);
 			contentPane.add(scrollPane);
@@ -173,155 +135,190 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 		{
 			panel = new JPanel();
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel.setBounds(21, 47, 589, 526);
+			panel.setBounds(21, 47, 603, 526);
 			panel.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			contentPane.add(panel);
 			panel.setLayout(null);
 			{
 				labelNewLabel = new JLabel("Vorname");
-				labelNewLabel.setBounds(10, 107, 97, 19);
+				labelNewLabel.setBounds(10, 67, 106, 25);
 				panel.add(labelNewLabel);
-				labelNewLabel.setFont(new Font("Calisto MT", Font.ITALIC, 20));
+				labelNewLabel.setFont(new Font("Calibri", Font.PLAIN, 15));
 			}
 			{
 				name = new JTextField();
-				name.setBounds(126, 96, 143, 30);
+				name.setBounds(126, 67, 143, 25);
 				panel.add(name);
 				name.setColumns(10);
 			}
 			{
-				labelGeburtsdatum = new JLabel("Name");
-				labelGeburtsdatum.setBounds(10, 30, 143, 22);
+				labelGeburtsdatum = new JLabel("Nachname");
+				labelGeburtsdatum.setBounds(10, 31, 106, 25);
 				panel.add(labelGeburtsdatum);
-				labelGeburtsdatum.setFont(new Font("Calisto MT", Font.ITALIC, 20));
+				labelGeburtsdatum.setFont(new Font("Calibri", Font.PLAIN, 15));
 			}
 			{
 				nachname = new JTextField();
-				nachname.setBounds(126, 33, 143, 32);
+				nachname.setBounds(126, 31, 143, 25);
 				panel.add(nachname);
 				nachname.setColumns(10);
 			}
 			{
 				labelEmail = new JLabel("Lohn");
-				labelEmail.setBounds(10, 419, 110, 19);
+				labelEmail.setBounds(10, 298, 106, 25);
 				panel.add(labelEmail);
-				labelEmail.setFont(new Font("Calisto MT", Font.ITALIC, 20));
+				labelEmail.setFont(new Font("Calibri", Font.PLAIN, 15));
 			}
 			{
 				Lohn = new JTextField();
-				Lohn.setBounds(126, 416, 143, 30);
+				Lohn.setBounds(126, 298, 143, 25);
 				panel.add(Lohn);
 				Lohn.setColumns(10);
 			}
 			{
-				labelGehalt = new JLabel("pass");
-				labelGehalt.setBounds(10, 477, 137, 38);
+				labelGehalt = new JLabel("Passwort");
+				labelGehalt.setBounds(10, 334, 106, 25);
 				panel.add(labelGehalt);
-				labelGehalt.setFont(new Font("Calisto MT", Font.ITALIC, 20));
+				labelGehalt.setFont(new Font("Calibri", Font.PLAIN, 15));
 			}
 			{
 				pass = new JTextField();
-				pass.setBounds(126, 483, 143, 33);
+				pass.setBounds(126, 334, 143, 25);
 				panel.add(pass);
 				pass.setColumns(10);
 			}
 			{
-				lblStadt = new JLabel("Stadt");
-				lblStadt.setFont(new Font("Calisto MT", Font.ITALIC, 20));
-				lblStadt.setBounds(10, 172, 82, 22);
+				lblStadt = new JLabel("Ort");
+				lblStadt.setFont(new Font("Calibri", Font.PLAIN, 15));
+				lblStadt.setBounds(10, 103, 106, 25);
 				panel.add(lblStadt);
 			}
 			{
 				Stadt = new JTextField();
-				Stadt.setBounds(126, 166, 143, 30);
+				Stadt.setBounds(126, 103, 143, 25);
 				panel.add(Stadt);
 				Stadt.setColumns(10);
 			}
 			{
-				lblAdresse = new JLabel("Stra\u00DFe");
-				lblAdresse.setFont(new Font("Calisto MT", Font.ITALIC, 20));
-				lblAdresse.setBounds(10, 236, 97, 14);
+				lblAdresse = new JLabel("Stra\u00DFe / HausNr.");
+				lblAdresse.setFont(new Font("Calibri", Font.PLAIN, 15));
+				lblAdresse.setBounds(10, 139, 106, 25);
 				panel.add(lblAdresse);
 			}
 			{
 				Adresse = new JTextField();
-				Adresse.setBounds(126, 226, 143, 30);
+				Adresse.setBounds(126, 139, 143, 25);
 				panel.add(Adresse);
 				Adresse.setColumns(10);
 			}
 			{
 				lblNewLabel = new JLabel("PLZ");
-				lblNewLabel.setFont(new Font("Calisto MT", Font.ITALIC, 20));
-				lblNewLabel.setBounds(10, 298, 82, 14);
+				lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 15));
+				lblNewLabel.setBounds(10, 175, 106, 25);
 				panel.add(lblNewLabel);
 			}
 			{
 				plz = new JTextField();
-				plz.setBounds(126, 288, 143, 30);
+				plz.setBounds(126, 175, 143, 25);
 				panel.add(plz);
 				plz.setColumns(10);
 			}
 			{
 				lblTel = new JLabel("Tel");
-				lblTel.setFont(new Font("Calisto MT", Font.ITALIC, 20));
-				lblTel.setBounds(10, 363, 82, 14);
+				lblTel.setFont(new Font("Calibri", Font.PLAIN, 15));
+				lblTel.setBounds(10, 211, 106, 25);
 				panel.add(lblTel);
 			}
 			{
 				Tel = new JTextField();
-				Tel.setBounds(126, 353, 143, 30);
+				Tel.setBounds(126, 211, 143, 25);
 				panel.add(Tel);
 				Tel.setColumns(10);
 			}
 			{
-				btnNewButton = new JButton("Ok");
-				btnNewButton.setBounds(490, 488, 89, 23);
-				panel.add(btnNewButton);
 				{
-					btnNewButtonWeiter = new JButton(Unicodes.CHECK);
-					btnNewButtonWeiter.addActionListener(new ActionListener() {
+					separator = new JSeparator();
+					separator.setBounds(10, 286, 295, 1);
+					panel.add(separator);
+				}
+				{
+					labelPasswortWied = new JLabel("Passwort wied.");
+					labelPasswortWied.setFont(new Font("Calibri", Font.PLAIN, 15));
+					labelPasswortWied.setBounds(10, 370, 106, 25);
+					panel.add(labelPasswortWied);
+				}
+				{
+					textField_1 = new JTextField();
+					textField_1.setColumns(10);
+					textField_1.setBounds(126, 370, 143, 25);
+					panel.add(textField_1);
+				}
+				{
+					comboBoxAbteilungen = new JComboBox<>(
+							daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
+					comboBoxAbteilungen.setRenderer(new JComboBoxAdapter(new Abteilung()));
+					comboBoxAbteilungen.setBounds(10, 406, 259, 25);
+					comboBoxAbteilungen.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
+					panel.add(comboBoxAbteilungen);
+				}
+				{
+					btnAddMitarbeiter = new JButton("Mitarbeiter hinzuf\u00FCgen");
+					btnAddMitarbeiter.setBounds(10, 442, 259, 23);
+					Utils.setStandardButtonOptions(btnAddMitarbeiter);
+					btnAddMitarbeiter.addActionListener(new ActionListener() {
 
+						@Override
 						public void actionPerformed(ActionEvent e) {
-							btnNewButtonWeiterActionPerformed(e);
+							onAddMitarbeiterClicked(e);
 						}
 					});
-					Utils.setStandardButtonOptions(btnNewButtonWeiter);
-					btnNewButtonWeiter.setBounds(521, 584, 89, 23);
-					contentPane.add(btnNewButtonWeiter);
+					panel.add(btnAddMitarbeiter);
 				}
 				{
-					btnNewButtonZurueck = new JButton(Unicodes.BACK_ARROW);
-					btnNewButtonZurueck.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							btnNewButtonZurueckActionPerformed(e);
-						}
-					});
-					Utils.setStandardButtonOptions(btnNewButtonZurueck);
-					btnNewButtonZurueck.setBounds(21, 584, 89, 23);
-					contentPane.add(btnNewButtonZurueck);
+					btnRemoveMitarbeiter = new JButton("Mitarbeiter aus der Liste entfernen");
+					btnRemoveMitarbeiter.setBounds(10, 476, 259, 23);
+					Utils.setStandardButtonOptions(btnRemoveMitarbeiter);
+					panel.add(btnRemoveMitarbeiter);
 				}
 				{
-					lblNewLabel_1 = new JLabel("Hinzuf\u00FCgen");
-					lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+					scrollPane_1 = new JScrollPane();
+					scrollPane_1.setBounds(315, 31, 278, 468);
+					panel.add(scrollPane_1);
+					{
+						list_1 = new List();
+						scrollPane_1.setViewportView(list_1);
+					}
+				}
+				{
+					lblNewLabel_1 = new JLabel("Mitarbeiter hinzufügen");
+					Fonts.setCenturySchoolbookFont(lblNewLabel_1, 20);
 					lblNewLabel_1.setForeground(Colors.parseColor(Colors.SEXY_BLUE));
 					lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 
 					lblNewLabel_1.setBounds(123, 11, 335, 25);
 					contentPane.add(lblNewLabel_1);
 				}
-				btnNewButton.addActionListener(new ActionListener() {
+				btnCheck = new JButton(Unicodes.CHECK);
+				btnCheck.setBounds(535, 577, 89, 23);
+				Utils.setStandardButtonOptions(btnCheck);
+				btnCheck.addActionListener(new ActionListener() {
 
-					public void actionPerformed(ActionEvent arg0) {
-						do_btnNewButton_actionPerformed(arg0);
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						onCheckClicked(e);
 					}
-
 				});
+				contentPane.add(btnCheck);
 			}
 		}
 
 	}
 
-	protected void do_btnNewButton_actionPerformed(ActionEvent arg0) {
+	private void onCheckClicked(ActionEvent e) {
+		this.setVisible(false);
+	}
+
+	protected void onAddMitarbeiterClicked(ActionEvent arg0) {
 		boolean[] textBenutzung = new boolean[7];
 		boolean textnutz;
 		textBenutzung[0] = Utils.textFullen(name);
@@ -336,6 +333,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			JOptionPane.showMessageDialog(null, "Bitte alle Pflicht Felder ausfüllen!");
 
 		} else if (textnutz == true) {
+			Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilungen.getSelectedIndex()];
 			mitarbeiter.setNamemitarbeiter(name.getText());
 			mitarbeiter.setLohn(Lohn.getText());
 			mitarbeiter.setNachname(nachname.getText());
@@ -344,8 +342,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			anschrift.setAdressse(Adresse.getText());
 			anschrift.setTel(Tel.getText());
 			anschrift.setPlz(plz.getText());
-			daoMitarbeiter.insert(mitarbeiter, comboBox.getSelectedItem().toString(), anschrift);
-
+			daoMitarbeiter.insert(mitarbeiter, currentAbteilung.getId(), anschrift);
 		}
 
 	}
@@ -366,8 +363,5 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	}
 
 	protected void btnNewButtonWeiterActionPerformed(ActionEvent e) {
-	}
-
-	protected void btnNewButtonZurueckActionPerformed(ActionEvent e) {
 	}
 }

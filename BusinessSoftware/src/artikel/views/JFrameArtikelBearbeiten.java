@@ -317,16 +317,17 @@ public class JFrameArtikelBearbeiten extends JFrame {
 		String[] values;
 		ArrayList<String> valuesList;
 		List<Artikel> artikelnList;
-
+		
 		if (refreshComboBox) {
 			comboBoxKategorie.setModel(new DefaultComboBoxModel<Kategorie>(
 					loadCategories(getCurrentAbteilungFromIndex(comboBoxAbteilung.getSelectedIndex()))));
 		}
 		if (loadCategories(getCurrentAbteilungFromIndex(comboBoxAbteilung.getSelectedIndex())).length == 0) {
+			Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
 			values = loadArtikelNames(arrayListToArrayArtikel(
-					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
+					daoArtikel.loadAbteilungArtikeln(currentAbteilung.getId())));
 			valuesList = arrayToArrayList(values);
-			artikelnList = daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
+			artikelnList = daoArtikel.loadAbteilungArtikeln(currentAbteilung.getId());
 			if (reloadList) {
 				Utils.updateList(list, true, scrollPane, valuesList);
 			}

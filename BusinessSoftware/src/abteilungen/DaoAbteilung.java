@@ -110,14 +110,18 @@ public class DaoAbteilung {
 	 */
 	public String AbteilungDelete(String bedinungErfullen, String nameGeascheaft) throws ClassNotFoundException {
 		DaoMitarbeiter daomit = new DaoMitarbeiter();
+		DaoAbteilung daoAbteilung = new DaoAbteilung();
 		String mitarbeiter = "";
 		try {
 			if (SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
-				for (int i = 0; i < daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen).length; i++) {
-					mitarbeiter += " < "
-							+ daomit.loadMitarbeiter(nameGeascheaft, bedinungErfullen)[i].getNamemitarbeiter() + " >";
+				for (int i = 0; i < daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length; i++) {
+					Abteilung abteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i];
+					for (int j = 0; j < daomit.loadMitarbeiter(abteilung.getId()).length; j++) {
+						mitarbeiter += " < "
+								+ daomit.loadMitarbeiter(abteilung.getId())[i].getNamemitarbeiter() + " >";
+					}
 				}
 				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;

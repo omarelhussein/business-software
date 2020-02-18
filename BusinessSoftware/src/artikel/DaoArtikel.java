@@ -128,7 +128,7 @@ public class DaoArtikel {
 	 * 
 	 * @return liste von artikeln der Abteilung
 	 */
-	public  List<Artikel> loadAbteilungArtikeln(String abteilung) {
+	public List<Artikel> loadAbteilungArtikeln(int abteilung) {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
@@ -137,8 +137,7 @@ public class DaoArtikel {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT * from Artikel INNER JOIN Kategorie on Artikel.akf = Kategorie.id where kategorie.kaf = ?";
 			preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
-					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
+			preparedStatement.setInt(1, getID(abteilung));
 			preparedStatement.execute();
 			result = preparedStatement.executeQuery();
 
@@ -164,6 +163,33 @@ public class DaoArtikel {
 
 		}
 		return null;
+	}
+
+	private int getID(int abteilungID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int id = 0;
+		try {
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			final String SQL = "SELECT Abteilung.id FROM Abteilung INNER JOIN Geascheaft ON Abteilung.agf = Geascheaft.id WHERE Abteilung.id = ? AND Geascheaft.namegaeschaeft = ?";
+			ps = conn.prepareStatement(SQL);
+			ps.setInt(1, abteilungID);
+			ps.setString(2, GeschaeftDB.getInstance().getCurrentAccountName());
+			ResultSet result = ps.executeQuery();
+			if (result.next()) {
+				id = result.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return id;
 	}
 
 	/**

@@ -53,6 +53,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	private JComboBox<Kategorie> comboBoxKategorie;
 	private JTextField textFieldSuchen;
 	private JButton button;
+
 	/**
 	 * Launch the application.
 	 */
@@ -100,7 +101,8 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			contentPane.add(labelArtikelAnzeigen);
 		}
 		{
-			comboBoxAbteilung = new JComboBox<>(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
+			comboBoxAbteilung = new JComboBox<>(
+					daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
 			comboBoxAbteilung.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					onAbteilungSelected(e);
@@ -119,8 +121,8 @@ public class JFrameArtikelAnzeigen extends JFrame {
 			{
 				list = new JList<>();
 				scrollPane.setViewportView(list);
-				List<Artikel> artikeln = daoArtikel
-						.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
+				List<Artikel> artikeln = daoArtikel.loadAbteilungArtikeln(
+						daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[0].getId());
 				artikelList = arrayListToArrayArtikel(artikeln);
 				list.setModel(new AbstractListModel<Object>() {
 					String[] values = loadArtikelNames(artikelList);
@@ -233,7 +235,8 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	}
 
 	private String[] arrayListToArrayString(List<String> list) {
-		Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
+		Abteilung currentAbteilung = daoAbteilung
+				.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
 		String[] array = new String[daoKategorie.loadKategorien(currentAbteilung.getId()).size()];
 		for (int i = 0; i < array.length; i++) {
 			array[i] = list.get(i);
@@ -265,21 +268,21 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		String[] values;
 		ArrayList<String> valuesList;
 		List<Artikel> artikelnList;
-		Abteilung currentAbteilung = daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
+		Abteilung currentAbteilung = daoAbteilung
+				.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[comboBoxAbteilung.getSelectedIndex()];
 
 		if (refreshComboBox) {
 			comboBoxKategorie.setModel(new DefaultComboBoxModel<Kategorie>(loadCategories(currentAbteilung.getId())));
 		}
 		if (loadCategories(currentAbteilung.getId()).length == 0) {
-			values = loadArtikelNames(arrayListToArrayArtikel(
-					daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString())));
+			values = loadArtikelNames(
+					arrayListToArrayArtikel(daoArtikel.loadAbteilungArtikeln(currentAbteilung.getId())));
 			valuesList = arrayToArrayList(values);
-			artikelnList = daoArtikel.loadAbteilungArtikeln(comboBoxAbteilung.getSelectedItem().toString());
+			artikelnList = daoArtikel.loadAbteilungArtikeln(currentAbteilung.getId());
 			Utils.updateList(list, true, scrollPane, valuesList);
 		} else {
 			Kategorie currentKat = loadCategories(currentAbteilung.getId())[comboBoxKategorie.getSelectedIndex()];
-			values = loadArtikelNames(arrayListToArrayArtikel(
-					daoArtikel.loadKategorienArtikeln(currentKat.getId())));
+			values = loadArtikelNames(arrayListToArrayArtikel(daoArtikel.loadKategorienArtikeln(currentKat.getId())));
 			valuesList = arrayToArrayList(values);
 			artikelnList = daoArtikel.loadKategorienArtikeln(currentKat.getId());
 			Utils.updateList(list, true, scrollPane, valuesList);

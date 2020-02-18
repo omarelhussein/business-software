@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -23,9 +22,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
-import general.code.AutoCompletition;
+import abteilungen.business_classes.Abteilung;
 import general.code.GeschaeftDB;
-import general.code.SQLiteConnection;
+import general.code.JComboBoxAdapter;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -43,7 +42,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JScrollPane scrollPane;
 	private JButton button;
 	private Mitarbeiter[] values = new Mitarbeiter[] {};
-	private JComboBox<String> comboBox;
+	private JComboBox<Abteilung> comboBox;
 	private String[] abteilungenValues;
 	private DaoAbteilung daoAbteilungen;
 	private DaoMitarbeiter daoMitarbeiter;
@@ -142,15 +141,13 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 			contentPane.add(button);
 		}
 		{
-			comboBox = new JComboBox<String>();
-			AutoCompletition.enable(comboBox, abteilungenValues);
+			comboBox = new JComboBox<Abteilung>(daoAbteilungen.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
+			comboBox.setRenderer(new JComboBoxAdapter(new Abteilung()));
 			comboBox.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					onItemSelected(arg0);
 				}
 			});
-			abteilungenValues = SQLiteConnection.loadAbteilungenNamen();
-			comboBox.setModel(new DefaultComboBoxModel<String>(abteilungenValues));
 			comboBox.setBackground(Colors.parseColor(Colors.LIGHT_PINK));
 			comboBox.setBounds(240, 91, 135, 20);
 			contentPane.add(comboBox);
@@ -229,9 +226,9 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	 */
 	private void onItemSelected() {
 		String geschaeftName = GeschaeftDB.getInstance().getCurrentAccountName();
-		String abteilungName = String.valueOf(comboBox.getSelectedItem());
+		Abteilung abteilung = daoAbteilungen.Abteilungen(geschaeftName)[comboBox.getSelectedIndex()];
 
-		values = daoMitarbeiter.loadMitarbeiter(geschaeftName, abteilungName);
+		values = daoMitarbeiter.loadMitarbeiter(abteilung.getId());
 
 		Utils.updateList(list, true, scrollPane, arrayToArrayList(values));
 	}

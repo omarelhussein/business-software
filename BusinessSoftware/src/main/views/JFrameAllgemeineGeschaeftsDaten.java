@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import abteilungen.DaoAbteilung;
+import abteilungen.business_classes.Abteilung;
 import artikel.DaoArtikel;
 import general.code.GeschaeftDB;
 import general.code.Utils;
@@ -41,6 +42,7 @@ public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 	private JTextPane textPane;
 	private JScrollPane scrollPane;
 	private JLabel labelNewLabel;
+
 	/**
 	 * Launch the application.
 	 */
@@ -61,20 +63,22 @@ public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameAllgemeineGeschaeftsDaten() {
-		daoMitarbeiter=new DaoMitarbeiter();
-		abteilung =new DaoAbteilung();
+		daoMitarbeiter = new DaoMitarbeiter();
+		abteilung = new DaoAbteilung();
 		artikel = new DaoArtikel();
 		initGUI();
 	}
+
 	private void initGUI() {
 		Utils.setMiddleFrameOptions(this);
 		contentPane = new JPanel();
-		
+
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		{
 			buttonAnzeigen = new JButton("Anzeigen");
+			Utils.setStandardButtonOptions(buttonAnzeigen);
 			buttonAnzeigen.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					buttonAnzeigenActionPerformed(e);
@@ -102,53 +106,54 @@ public class JFrameAllgemeineGeschaeftsDaten extends JFrame {
 			contentPane.add(labelNewLabel);
 		}
 	}
+
 	protected void buttonAnzeigenActionPerformed(ActionEvent e) {
 		textPane.setVisible(true);
-		textPane.setText("\nGeschäft Liste >>>"+GeschaeftDB.getInstance().getCurrentAccountName()+"\n\n\nAbteilungen>>>"+arraytoString()+"\n\nMitarbeiter>>>"+mitarbeiter()+"\n\nArtikel Name>>>"+Artikel());
+		textPane.setText("\nGeschäft Liste >>>" + GeschaeftDB.getInstance().getCurrentAccountName()
+				+ "\n\n\nAbteilungen>>>\n" + arraytoString() + "\n\nMitarbeiter Namen>>>\n" + mitarbeiter()
+				+ "\n\nArtikel Namen>>>\n" + Artikel());
 	}
-	
+
 	private String mitarbeiter() {
-		String mitarbeiter="";
-		int y=0;
-		for (int i = 0; i < daoMitarbeiter.loadMitarbeiter(GeschaeftDB.getInstance().getCurrentAccountName(),Abteilung()[y]).length; i++) {
-			mitarbeiter+=daoMitarbeiter.loadMitarbeiter(GeschaeftDB.getInstance().getCurrentAccountName(),Abteilung()[y])[i].getNamemitarbeiter()+"\n";
-			if(i==daoMitarbeiter.loadMitarbeiter(GeschaeftDB.getInstance().getCurrentAccountName(),Abteilung()[y]).length&& y!=Abteilung().length) {
+		int y = 0;
+		String mitarbeiter = "";
+		for (int i = 0; i < daoMitarbeiter.loadMitarbeiter(abteilungID()[y]).length; i++) {
+			mitarbeiter += daoMitarbeiter.loadMitarbeiter(abteilungID()[y])[i].getNamemitarbeiter() + "\n";
+			if (i == daoMitarbeiter.loadMitarbeiter(abteilungID()[y]).length && y != abteilungID().length) {
 				y++;
 			}
 		}
 		return mitarbeiter;
-		
+
 	}
-	
-	private String [] Abteilung() {
-		String [] name=new String [abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length];
-		for (int i = 0; i < abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length; i++) {
-			name[i]=abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i].getNameAbteilung();
+
+	private int[] abteilungID() {
+		int[] IDs = new int[abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length];
+		for (int i = 0; i < IDs.length; i++) {
+			IDs[i] = abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i].getId();
 		}
-		
-		return name;
+		return IDs;
 	}
+
 	private String arraytoString() {
-		String Abteilungen="";
-		for (int i = 0; i < Abteilung().length; i++) {
-			Abteilungen+=Abteilung()[i]+"\n";
+		String Abteilungen = "";
+		for (int i = 0; i < abteilungID().length; i++) {
+			Abteilungen += abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i]
+					.getNameAbteilung() + "\n";
 		}
 		return Abteilungen;
 	}
-	private String Artikel () {
-		int y=0;
-		String artike="";
-		for (int i = 0; i <  artikel.loadAbteilungArtikeln(Abteilung()[y]).size(); i++) {
-			artike+=artikel.loadAbteilungArtikeln(Abteilung()[y]).get(i).getNameArtikel()+"\n";
-			if(i==artikel.loadAbteilungArtikeln(Abteilung()[y]).size()&&y!=Abteilung().length) {
-				y++;
+
+	private String Artikel() {
+		String artike = "";
+		int length = abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()).length;
+		for (int i = 0; i < length; i++) {
+			int categorieLength = artikel.loadAbteilungArtikeln(
+					abteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName())[i].getId()).size();
+			for (int j = 0; j < categorieLength; j++) {
+				artike += artikel.loadAbteilungArtikeln(abteilungID()[i]).get(j).getNameArtikel() + "\n";
 			}
-			
-			
-			
 		}
 		return artike;
-		
 	}
-	}
-
+}

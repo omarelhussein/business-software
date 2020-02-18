@@ -366,6 +366,7 @@ public class JFrameMain extends JFrame {
 		switch (answer) {
 		case 0:
 			JFrameStart start = new JFrameStart();
+			GeschaeftDB.getInstance().setLoginStatus(false);
 			Utils.reviewOldJFrame(this, start);
 			break;
 		}

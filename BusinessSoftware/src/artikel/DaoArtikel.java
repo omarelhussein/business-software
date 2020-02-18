@@ -255,14 +255,17 @@ public class DaoArtikel {
 
 		try {
 			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-			final String SQL = "UPDATE Artikel SET nameartikel = ?, preis = ? WHERE id = ?";
+			final String SQL = "UPDATE Artikel SET nameartikel = ?, preis = ?, gewicht = ?, marke = ?, anzahl = ? WHERE id = ?";
 			ps = conn.prepareStatement(SQL);
 			if (artikel == null) {
 				return;
 			}
 			ps.setString(1, artikel.getNameArtikel());
 			ps.setString(2, artikel.getPreis());
-			ps.setInt(3, artikel.getId());
+			ps.setInt(6, artikel.getId());
+			ps.setDouble(3, artikel.getGewicht());
+			ps.setString(4, artikel.getMarke());
+			ps.setInt(5, artikel.getAnzahl());
 			ps.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

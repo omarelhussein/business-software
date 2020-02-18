@@ -74,7 +74,6 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameArtikelAnzeigen() {
-		artikel=new Artikel();
 		daoArtikel = new DaoArtikel();
 		daoAbteilung = new DaoAbteilung();
 		daoKategorie = new DaoKategorie();
@@ -209,7 +208,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		int selectedAbteilung = comboBoxAbteilung.getSelectedIndex();
 		int selectedKategorie = comboBoxKategorie.getSelectedIndex();
 		if (!list.isSelectedIndex(selectedIndex)) {
-			JOptionPane.showMessageDialog(this, "Bitte ein Artikel aus der Liste auswählen");
+			JOptionPane.showMessageDialog(this, "Bitte ein Artikel aus der Liste auswï¿½hlen");
 			return;
 		}
 		List<Artikel> currentList = loadArticles(true);

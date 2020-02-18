@@ -171,7 +171,7 @@ public class JFrameStart extends JFrame {
 	 * @param arg0 action event
 	 */
 	protected void btnWeiterAlsGast(ActionEvent arg0) {
-		BesuchalsGast newJFrame=new BesuchalsGast();
+		BesuchAlsGast newJFrame=new BesuchAlsGast();
 		Utils.startNewJFrame(this, newJFrame);
 	}
 

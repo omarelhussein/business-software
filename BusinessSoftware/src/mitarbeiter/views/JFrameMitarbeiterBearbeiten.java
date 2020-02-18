@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.AbstractListModel;
 
@@ -328,11 +330,44 @@ public class JFrameMitarbeiterBearbeiten extends JFrame {
 	}
 
 	protected void onUpdateClicked(ActionEvent arg0) {
-		
+		boolean isFilled = false;
+		List<JTextField> views = new ArrayList<>();
+		views.add(textFieldLohn);
+		views.add(textFieldNachname);
+		views.add(textFieldPass);
+		views.add(textFieldVorname);
+		for (JTextField jTextField : views) {
+			if(jTextField.getText().trim().isEmpty()) {
+				isFilled = false;
+				JOptionPane.showMessageDialog(this, "Bitte Alle Felder vollständig ausfüllen");
+				return;
+			} else {
+				isFilled = true;
+			}
+		}
+		if(isFilled) {
+			Mitarbeiter currentMitarbeiter = daoMitarbeiter.loadMitarbeiter(getAbteilungID().getId())[list.getSelectedIndex()];
+			currentMitarbeiter.setLohn(textFieldLohn.getText());
+			currentMitarbeiter.setPass(textFieldPassWied.getText());
+			currentMitarbeiter.setNachname(textFieldNachname.getText());
+			currentMitarbeiter.setNamemitarbeiter(textFieldVorname.getText());
+			if(textFieldPass.getText().equals(textFieldPassWied.getText())) {
+				daoMitarbeiter.updateMitarbeiter(currentMitarbeiter);
+				JOptionPane.showMessageDialog(this, "Daten wurden erfolgereich aktualisiert");
+			} else {
+				JOptionPane.showMessageDialog(this, "Bitte Passwort Eingabe überprüfen");
+			}
+		}
 	}
 
 	protected void onDeleteClicked(ActionEvent e) {
-
+		if(list.isSelectionEmpty()) {
+			JOptionPane.showMessageDialog(this, "Bitte einen Mitarbeiter auswählen um Fortzufahren");
+			return;
+		}
+		MitarbeiterkundigenFormular formular = new MitarbeiterkundigenFormular();
+		formular.setVisible(true);
+		formular.setAlwaysOnTop(true);
 	}
 
 	protected void onAbteilungSelected(ActionEvent e) {
@@ -364,6 +399,7 @@ public class JFrameMitarbeiterBearbeiten extends JFrame {
 		textFieldOrt.setText("");
 		textFieldPlz.setText("");
 		textFieldTel.setText("");
+		textFieldPassWied.setText("");
 	}
 
 	private void loadMitarbeiterForSelectedAbteilung() {

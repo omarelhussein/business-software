@@ -49,7 +49,7 @@ public class JComboBoxAdapter extends BasicComboBoxRenderer {
 			break;
 		case 2:
 			mitarbeiter = (Mitarbeiter) value;
-			setText(mitarbeiter.getNamemitarbeiter());
+			setText(mitarbeiter != null ? mitarbeiter.getNamemitarbeiter() : "");
 			break;
 		case 3:
 			artikel = (Artikel) value;

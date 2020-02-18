@@ -3,10 +3,11 @@ package mitarbeiter.views;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,7 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -25,7 +28,6 @@ import abteilungen.business_classes.Abteilung;
 import abteilungen.views.JFrameAbteilunghinzufuegen;
 import general.code.GeschaeftDB;
 import general.code.JComboBoxAdapter;
-import general.code.SQLiteConnection;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
@@ -35,8 +37,6 @@ import mitarbeiter.business_classes.Mitarbeiter;
 import mitarbeiter.dao.DaoMitarbeiter;
 import start.register.views.JFrameRegistrieren;
 import start.views.JFrameStart;
-import javax.swing.JSeparator;
-import java.awt.List;
 
 @SuppressWarnings("serial")
 public class JFrameMitarbeiterHinzufuegen extends JFrame {
@@ -49,7 +49,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private JLabel labelEmail;
 	private JTextField Lohn;
 	private JLabel labelGehalt;
-	private JTextField pass;
+	private JPasswordField pass;
 	private JButton buttonSpeichern;
 	private JTextField Stadt;
 	private JTextField Adresse;
@@ -65,8 +65,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private DaoAbteilung daoAbteilung;
 	private Anschrift anschrift;
 	private JFrameAbteilunghinzufuegen abteilunghinzufuegen;
-	private JList<String> list;
-	private JScrollPane scrollPane;
+	private JList<Object> list;
 	private JTextField plz;
 	private JLabel lblNewLabel;
 	private JPanel panel;
@@ -75,12 +74,11 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	private JLabel label;
 	private JTextField textField;
 	private JLabel labelPasswortWied;
-	private JTextField textField_1;
+	private JPasswordField passWied;
 	private JComboBox<Abteilung> comboBoxAbteilungen;
 	private JButton btnAddMitarbeiter;
-	private JButton btnRemoveMitarbeiter;
-	private List list_1;
-	private JScrollPane scrollPane_1;
+	private ArrayList<String> values;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -104,6 +102,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 	 * @throws ClassNotFoundException
 	 */
 	public JFrameMitarbeiterHinzufuegen() {
+		values = new ArrayList<>();
 		daoAbteilung = new DaoAbteilung();
 		frameRegistrieren = new JFrameRegistrieren();
 		anschrift = new Anschrift();
@@ -126,11 +125,6 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			buttonSpeichern.setFont(new Font("Century Schoolbook", Font.PLAIN, 21));
 			buttonSpeichern.setBounds(692, 215, 141, 58);
 			contentPane.add(buttonSpeichern);
-		}
-		{
-			scrollPane = new JScrollPane();
-			scrollPane.setBounds(666, 47, 1, 1);
-			contentPane.add(scrollPane);
 		}
 		{
 			panel = new JPanel();
@@ -182,7 +176,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				labelGehalt.setFont(new Font("Calibri", Font.PLAIN, 15));
 			}
 			{
-				pass = new JTextField();
+				pass = new JPasswordField();
 				pass.setBounds(126, 334, 143, 25);
 				panel.add(pass);
 				pass.setColumns(10);
@@ -238,7 +232,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			{
 				{
 					separator = new JSeparator();
-					separator.setBounds(10, 286, 295, 1);
+					separator.setBounds(10, 285, 283, 2);
 					panel.add(separator);
 				}
 				{
@@ -248,10 +242,10 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 					panel.add(labelPasswortWied);
 				}
 				{
-					textField_1 = new JTextField();
-					textField_1.setColumns(10);
-					textField_1.setBounds(126, 370, 143, 25);
-					panel.add(textField_1);
+					passWied = new JPasswordField();
+					passWied.setColumns(10);
+					passWied.setBounds(126, 370, 143, 25);
+					panel.add(passWied);
 				}
 				{
 					comboBoxAbteilungen = new JComboBox<>(
@@ -263,7 +257,7 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				}
 				{
 					btnAddMitarbeiter = new JButton("Mitarbeiter hinzuf\u00FCgen");
-					btnAddMitarbeiter.setBounds(10, 442, 259, 23);
+					btnAddMitarbeiter.setBounds(10, 450, 259, 23);
 					Utils.setStandardButtonOptions(btnAddMitarbeiter);
 					btnAddMitarbeiter.addActionListener(new ActionListener() {
 
@@ -275,19 +269,15 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 					panel.add(btnAddMitarbeiter);
 				}
 				{
-					btnRemoveMitarbeiter = new JButton("Mitarbeiter aus der Liste entfernen");
-					btnRemoveMitarbeiter.setBounds(10, 476, 259, 23);
-					Utils.setStandardButtonOptions(btnRemoveMitarbeiter);
-					panel.add(btnRemoveMitarbeiter);
+					scrollPane = new JScrollPane();
+					scrollPane.setBounds(298, 31, 285, 442);
+					panel.add(scrollPane);
+					{
+						list = new JList<Object>();
+						scrollPane.setViewportView(list);
+					}
 				}
 				{
-					scrollPane_1 = new JScrollPane();
-					scrollPane_1.setBounds(315, 31, 278, 468);
-					panel.add(scrollPane_1);
-					{
-						list_1 = new List();
-						scrollPane_1.setViewportView(list_1);
-					}
 				}
 				{
 					lblNewLabel_1 = new JLabel("Mitarbeiter hinzufügen");
@@ -310,16 +300,6 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				});
 				contentPane.add(btnCheck);
 			}
-		}
-		{
-			btnNewButton_1 = new JButton("New button");
-			btnNewButton_1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					do_btnNewButton_1_actionPerformed(e);
-				}
-			});
-			btnNewButton_1.setBounds(628, 128, 89, 23);
-			contentPane.add(btnNewButton_1);
 		}
 
 	}
@@ -347,14 +327,34 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 			mitarbeiter.setNamemitarbeiter(name.getText());
 			mitarbeiter.setLohn(Lohn.getText());
 			mitarbeiter.setNachname(nachname.getText());
-			mitarbeiter.setPass(pass.getText());
+			mitarbeiter.setPass(String.valueOf(pass.getPassword()));
 			anschrift.setStadt(Stadt.getText());
 			anschrift.setAdressse(Adresse.getText());
 			anschrift.setTel(Tel.getText());
 			anschrift.setPlz(plz.getText());
-			daoMitarbeiter.insert(mitarbeiter, currentAbteilung.getId(), anschrift);
+			if(String.valueOf(pass.getPassword()).equals(String.valueOf(passWied.getPassword()))) {
+				daoMitarbeiter.insert(mitarbeiter, currentAbteilung.getId(), anschrift);
+				clearFields();
+				values.add(mitarbeiter.getNamemitarbeiter());
+				Utils.updateList(list, true, scrollPane, values);
+			} else {
+				JOptionPane.showMessageDialog(this, "Bitte den Passwort richtig eingeben");
+			}
 		}
 
+	}
+	
+	private void clearFields() {
+		name.setText("");
+		Lohn.setText("");
+		nachname.setText("");
+		pass.setText("");
+		passWied.setText("");
+		plz.setText("");
+		Stadt.setText("");
+		Adresse.setText("");
+		Tel.setText("");
+		nachname.requestFocus();
 	}
 
 	private boolean texteprüfen(boolean[] textBenutzung) {

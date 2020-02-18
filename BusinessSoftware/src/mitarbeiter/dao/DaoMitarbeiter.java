@@ -71,7 +71,7 @@ public class DaoMitarbeiter {
 		}
 
 	}
-	
+
 	private int getId(int id) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -84,7 +84,7 @@ public class DaoMitarbeiter {
 			ps.setString(1, GeschaeftDB.getInstance().getCurrentAccountName());
 			ps.setInt(2, id);
 			ResultSet result = ps.executeQuery();
-			if(result.next()) {
+			if (result.next()) {
 				foundId = result.getInt(1);
 			}
 		} catch (SQLException e) {
@@ -163,7 +163,7 @@ public class DaoMitarbeiter {
 				currentMitarbeiter.setNachname(resultSet.getString("nachname"));
 				currentMitarbeiter.setLohn(resultSet.getString("lohn"));
 				currentMitarbeiter.setPass(resultSet.getString("pass"));
-				
+
 				mitarbeiterListe.add(currentMitarbeiter);
 			}
 			mitarbeiterArray = new Mitarbeiter[mitarbeiterListe.size()];
@@ -184,52 +184,78 @@ public class DaoMitarbeiter {
 		}
 		return mitarbeiterArray;
 	}
-	
-	public void deletMitarbeiter(String abteilung,String namemitarbeiter) {
-		Connection connection=null;
-		PreparedStatement preparedStatement=null;
+
+	public void deletMitarbeiter(int abteilungID, int mitarbeiterID) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 		try {
-			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-			String sql="Delete from mitarbeiter where mitarbeiter.namemitarbeiter=? and mitarbeiter.nachname=? ";
-			System.out.println("arefii"+sql);
-			preparedStatement=connection.prepareStatement(sql);
-			preparedStatement.setString(1, namemitarbeiter);
-			preparedStatement.setString(2, namchNamemitarbeiter(abteilung, namemitarbeiter));
-			
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "Delete from mitarbeiter where mitarbeiter.id = ? AND (SELECT Abteilung.id FROM Abteilung WHERE Abteilung.id = ?)";
+			System.out.println("arefii" + sql);
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, mitarbeiterID);
+			preparedStatement.setInt(2, abteilungID);
 
 			preparedStatement.execute();
-			
+
 		} catch (Exception e) {
-			System.out.println("von delet:"+e);
-		}finally {
+			e.printStackTrace();
+		} finally {
 			try {
 				connection.close();
 				preparedStatement.close();
 			} catch (Exception e2) {
-				// TODO: handle exception
+				e2.printStackTrace();
 			}
 		}
 	}
-	public String namchNamemitarbeiter(String abteilung,String namemitarbeiter) {
-		Connection connection=null;
-		PreparedStatement preparedStatement=null;
-		String nachname="";
+	
+	public void updateMitarbeiter(Mitarbeiter mitarbeiter) {
+		Connection conn = null;
+		PreparedStatement ps = null;
 		try {
-			connection=DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
-			String sql="select mitarbeiter.nachname from mitarbeiter inner join Abteilung on Abteilung.id=Mitarbeiter.maf where  Mitarbeiter.namemitarbeiter=? and Abteilung.id=?";
-			preparedStatement=connection.prepareStatement(sql);
-			
+			conn = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			final String PROFILE_SQL = "UPDATE Mitarbeiter SET namemitarbeiter = ?, nachname = ?, lohn = ?, pass = ? WHERE id = ?";
+//			final String ANSCHRIFT_SQL = "UPDATE Anschrift SET Adresse = ?, stadt = ?, Tel = ?, Plz = ? WHERE id = "
+			ps = conn.prepareStatement(PROFILE_SQL);
+			ps.setString(1, mitarbeiter.getNamemitarbeiter());
+			ps.setString(2, mitarbeiter.getNachname());
+			ps.setString(3, mitarbeiter.getLohn());
+			ps.setString(4, mitarbeiter.getPass());
+			ps.setInt(5, mitarbeiter.getId());
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public String namchNamemitarbeiter(String abteilung, String namemitarbeiter) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		String nachname = "";
+		try {
+			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
+			String sql = "select mitarbeiter.nachname from mitarbeiter inner join Abteilung on Abteilung.id=Mitarbeiter.maf where  Mitarbeiter.namemitarbeiter=? and Abteilung.id=?";
+			preparedStatement = connection.prepareStatement(sql);
+
 			preparedStatement.setString(1, namemitarbeiter);
 			preparedStatement.setInt(2, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 					"namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
-		ResultSet resultSet=preparedStatement.executeQuery();
-		nachname=resultSet.getString("nachname");
-		System.out.println(nachname);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			nachname = resultSet.getString("nachname");
+			System.out.println(nachname);
 			preparedStatement.execute();
-			
+
 		} catch (Exception e) {
-			System.out.println("von delet:"+e);
-		}finally {
+			System.out.println("von delet:" + e);
+		} finally {
 			try {
 				connection.close();
 				preparedStatement.close();

@@ -53,7 +53,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	private JLabel labelNeuerName;
 	private JTextField textFieldSuchen;
 	private JButton buttonNewButton;
-	int loschen=0;
+	int loschen = 0;
 
 	/**
 	 * Launch the application.
@@ -79,7 +79,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	public JFrameAbteilungVerarbeiten() {
 		daoAbteilung = new DaoAbteilung();
 		initGUI();
-	
+
 	}
 
 	private void initGUI() {
@@ -140,7 +140,6 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 				do_textField_neuerName_mouseEntered(arg0);
 			}
 		});
-	
 
 		Fonts.setCenturySchoolbookFont(textField_neuerName, 14);
 		textField_neuerName.setBounds(230, 162, 143, 30);
@@ -164,8 +163,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		contentPane.add(button_abteilung_verarbeiten_check);
 		{
 			btnNewButton = new JButton("Löschen");
-		
-		
+
 			btnNewButton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -187,7 +185,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 		}
 		{
 			btnndern = new JButton("Aktualisieren");
-		
+
 			Utils.setStandardButtonOptions(btnndern);
 			btnndern.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -290,18 +288,19 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 	protected void onCheckClicked(ActionEvent e) {
 		this.setVisible(false);
 	}
-/*
-	protected void do_btnndern_actionPerformed(ActionEvent arg0) throws ClassNotFoundException {
-		
-		if(list.isSelectedIndex(list.getSelectedIndex())) {
-			daoAbteilung.updet(labelNeuerName.getText(),values.get(list.getSelectedIndex()));
-			values.remove(list.getSelectedIndex());
-			Utils.updateList(list, false, null, values);
-		}else {
-			JOptionPane.showMessageDialog(null, "Bitte eine Abteilung wählen");
 
-		}
-		*/
+	/*
+	 * protected void do_btnndern_actionPerformed(ActionEvent arg0) throws
+	 * ClassNotFoundException {
+	 * 
+	 * if(list.isSelectedIndex(list.getSelectedIndex())) {
+	 * daoAbteilung.updet(labelNeuerName.getText(),values.get(list.getSelectedIndex(
+	 * ))); values.remove(list.getSelectedIndex()); Utils.updateList(list, false,
+	 * null, values); }else { JOptionPane.showMessageDialog(null,
+	 * "Bitte eine Abteilung wählen");
+	 * 
+	 * }
+	 */
 	protected void onItemClicked(ListSelectionEvent arg0) {
 		if (list.isSelectedIndex(list.getSelectedIndex())) {
 			textField_alterName.setText(list.getSelectedValue().toString());
@@ -315,72 +314,67 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 
 	protected void do_btnNewButton_mouseEntered(MouseEvent arg0) {
 		btnNewButton.setToolTipText("");
-		if(textFieldSuchen.isFocusOwner()) {
+		if (textFieldSuchen.isFocusOwner()) {
 			btnNewButton.setToolTipText("Alt+Enter");
-			
-		}
-		
-		
-	
 
+		}
 
 	}
 
-/**
- * @author Aref
- * @param arg0
- * @throws HeadlessException
- * @throws ClassNotFoundException
- */
+	/**
+	 * @author Aref
+	 * @param arg0
+	 * @throws HeadlessException
+	 * @throws ClassNotFoundException
+	 */
 	protected void do_textFieldSuchen_keyPressed(KeyEvent arg0) throws HeadlessException, ClassNotFoundException {
-		if(arg0.getKeyCode()==18||arg0.getKeyCode()==10) {
-			loschen+=arg0.getKeyCode();
-			
-		}
-		
-			
-		
-		 try {
-				if(loschen==28) {
-					loschen=0;
-					if (!daoAbteilung
-							.AbteilungDelete(values.get(list.getSelectedIndex()), GeschaeftDB.getInstance().getCurrentAccountName())
-							.equals("")) {
-						// this.setVisible(false);
-						JOptionPane.showMessageDialog(this,
-								"dazu sind folgende Mitarbeiter zu geordnet :\n" + daoAbteilung.AbteilungDelete(
-										values.get(list.getSelectedIndex()), GeschaeftDB.getInstance().getCurrentAccountName()));
-						// JOptionPane.showConfirmDialog(null,abteilung.AbteilungDelete(values.get(list.getSelectedIndex()),
-						// GeschaeftDB.getInstance().getCurrentAccountName()) ,"fur diese Abteilung sind
-						// schon Mitarbeiter ", 1);
-					} else {
-						if (list.isSelectedIndex(list.getSelectedIndex())) {
-							daoAbteilung.AbteilungDelete(values.get(list.getSelectedIndex()),
-									GeschaeftDB.getInstance().getCurrentAccountName());
-							values.remove(list.getSelectedIndex());
-							Utils.updateList(list, false, null, values);
-						}
+		if (arg0.getKeyCode() == 18 || arg0.getKeyCode() == 10) {
+			loschen += arg0.getKeyCode();
 
+		}
+
+		try {
+			if (loschen == 28) {
+				loschen = 0;
+				if (!daoAbteilung.AbteilungDelete(values.get(list.getSelectedIndex()),
+						GeschaeftDB.getInstance().getCurrentAccountName()).equals("")) {
+					// this.setVisible(false);
+					JOptionPane.showMessageDialog(this,
+							"dazu sind folgende Mitarbeiter zu geordnet :\n"
+									+ daoAbteilung.AbteilungDelete(values.get(list.getSelectedIndex()),
+											GeschaeftDB.getInstance().getCurrentAccountName()));
+					// JOptionPane.showConfirmDialog(null,abteilung.AbteilungDelete(values.get(list.getSelectedIndex()),
+					// GeschaeftDB.getInstance().getCurrentAccountName()) ,"fur diese Abteilung sind
+					// schon Mitarbeiter ", 1);
+				} else {
+					if (list.isSelectedIndex(list.getSelectedIndex())) {
+						daoAbteilung.AbteilungDelete(values.get(list.getSelectedIndex()),
+								GeschaeftDB.getInstance().getCurrentAccountName());
+						values.remove(list.getSelectedIndex());
+						Utils.updateList(list, false, null, values);
 					}
-					
+
 				}
-			
+
+			}
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Bitte wählen sie eine Abteilung aus");
 		}
-		
+
 	}
+
 	protected void do_textField_neuerName_mouseEntered(MouseEvent arg0) {
 		btnndern.setToolTipText("strg+Enter");
 
 	}
 
 	protected void do_textField_neuerName_keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode()==17||arg0.getKeyCode()==10) {
-			loschen+=arg0.getKeyCode();
+		if (arg0.getKeyCode() == 17 || arg0.getKeyCode() == 10) {
+			loschen += arg0.getKeyCode();
 		}
 		try {
-			if(loschen==27) {
+			if (loschen == 27) {
 				if (list.isSelectedIndex(list.getSelectedIndex())) {
 					if (textField_neuerName.getText().trim().isEmpty()) {
 						JOptionPane.showMessageDialog(this, "Der neue Name darf nicht leer sein");
@@ -388,7 +382,7 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 					}
 					daoAbteilung.updateAbteilung(textField_neuerName.getText(), values.get(list.getSelectedIndex()));
 					values.clear();
-					values = arrayToArrayList(daoAbteilung.Abteilungen(GeschaeftDB.getInstance().getCurrentAccountName()));
+					values = arrayToArrayList(SQLiteConnection.loadAbteilungenNamen());
 					Utils.updateList(list, true, scrollPane, values);
 					textField_alterName.setText("");
 					textField_neuerName.setText("");
@@ -396,13 +390,11 @@ public class JFrameAbteilungVerarbeiten extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(this, "Bitte eine Abteilung markieren");
 				}
-				}
-			
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-	}
-	}
 
-
+	}
+}

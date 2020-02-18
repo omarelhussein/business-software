@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import general.code.GeschaeftDB;
 import general.code.Utils;
 import general.design.Colors;
-import javafx.scene.chart.PieChart.Data;
+
 import mitarbeiter.dao.Printjob;
 import mitarbeiter.dao.Printjob;
 

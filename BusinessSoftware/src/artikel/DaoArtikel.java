@@ -124,22 +124,31 @@ public class DaoArtikel {
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 		List<Artikel> artikelList = new ArrayList<Artikel>();
+		
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT  * from Artikel INNER JOIN Kategorie on Artikel.akf = Kategorie.id where kategorie.kaf = ?";
+			System.out.println(sql);
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung));
+			int s=SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf", "namegaeschaeft", "nameAbteilung", GeschaeftDB.getInstance().getCurrentAccountName(), abteilung);
+			System.out.println(GeschaeftDB.getInstance().getCurrentAccountName());
+			System.out.println(s);
 			result = preparedStatement.executeQuery();
 			
-			while(result.next()) {
+			do {
+					 
 				Artikel artikel = new Artikel();
 				artikel.setId(result.getInt(1));
-				
 				artikel.setNameArtikel(result.getString("nameartikel"));
-				artikel.setPreis(result.getString("preis"));	
+				artikel.setPreis(result.getString("preis"));
 				artikelList.add(artikel);
-			}
-			System.out.println(artikelList.get(1));
+				System.out.println("von do");
+					
+				
+			}while(result.next());
+			
+			System.out.println(artikelList.get(0));
 			return artikelList;
 			
 		} catch (Exception e) {

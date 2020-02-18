@@ -134,51 +134,56 @@ public class BesuchalsGast extends JFrame {
 			contentPane.add(scrollPane);
 			{
 				list_1 = new JList();
-				scrollPane.setViewportView(list_1);
-				
-					
-				
-			
-				
+				scrollPane.setViewportView(list_1);	
 				
 			}
 		}
 	}
 	private String  dieselecteditem() {
+		
 		String  nameabteilung ="";
 		DefaultMutableTreeNode selectedElement 
 		   =(DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent();
+		
+		GeschaeftDB.getInstance().setCurrentAccountName(selectedElement.getParent().toString());
 		nameabteilung=selectedElement.toString();
 		return nameabteilung;
 		}
 		
 	
 	protected void do_tree_ancestorAdded(AncestorEvent arg0) {
-		System.out.println("do_tree_ancestorAdded");
-		//System.out.println(arrraylisttoArray());
+	try {
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	}
 	protected void do_tree_valueChanged(TreeSelectionEvent arg0) {
-		System.out.println("do_tree_valueChanged");
-		String[] values=ARTIKELABHOLEN(); 
-		
+	try {
 		list_1.setModel(new AbstractListModel() {
+			String[] values=ARTIKELABHOLEN(); 
 			public int getSize() {
+			
 				return values.length;
 			}
 			public Object getElementAt(int index) {
 				return values[index];
 			}
 		});
-	
+		
+	} catch (Exception e) {
+		JOptionPane.showMessageDialog(null, null, "dies abteilung hat keine Artikel", 1);
+	}
+
 	}
 	private String [] ARTIKELABHOLEN() {
-		System.out.println("dsa");
-		String [] artikell=new  String[artikel.artikelLaden(dieselecteditem()).size()];
+		
+		System.out.println("große :"+dieselecteditem());
+		String [] artikell= new  String[artikel.artikelLaden(dieselecteditem()).size()];
 		System.out.println("dsadsa");
-		for (int i = 0; i < artikell.length; i++) {
-			System.out.println("dsadsaaaaaaaaaaaa");
+		for (int i = 1; i < artikell.length; i++) {
 			artikell[i]=artikel.artikelLaden(dieselecteditem()).get(i).getNameArtikel();
-			System.out.println("ARTIKEL: "+artikell[i]);
+			System.out.println("j ."+i+"artokrl :"+artikell[i]);
 		}
 		return artikell;
 		

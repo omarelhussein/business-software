@@ -171,7 +171,8 @@ public class JFrameStart extends JFrame {
 	 * @param arg0 action event
 	 */
 	protected void btnWeiterAlsGast(ActionEvent arg0) {
-		showPane("Feature kommt irgendwann...");
+		BesuchalsGast newJFrame=new BesuchalsGast();
+		Utils.startNewJFrame(this, newJFrame);
 	}
 
 	/**

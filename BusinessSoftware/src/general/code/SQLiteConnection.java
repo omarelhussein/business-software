@@ -50,8 +50,9 @@ public class SQLiteConnection {
 			statmment.setString(2, bedinungErfullung2);
 			statmment.execute();
 			ResultSet resultSet = statmment.executeQuery();
-			resultSet.next();
-			d = resultSet.getInt("id");
+			if(resultSet.next()) {
+				d = resultSet.getInt("id");				
+			}
 		} catch (SQLException e) {
 			System.out.println(e);
 		} finally {

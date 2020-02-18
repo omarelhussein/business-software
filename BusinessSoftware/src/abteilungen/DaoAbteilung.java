@@ -113,6 +113,7 @@ public class DaoAbteilung {
 		DaoAbteilung daoAbteilung = new DaoAbteilung();
 		String mitarbeiter = "";
 		try {
+
 			if (SQLiteConnection.forigkeyBetrefendesache("Mitarbeiter", "maf", "Abteilung", "nameAbteilung",
 					bedinungErfullen, SQLiteConnection.idBetrefendesache("Abteilung", "Geascheaft", "agf",
 							"namegaeschaeft", "nameAbteilung", nameGeascheaft, bedinungErfullen)) != 0) {
@@ -125,14 +126,23 @@ public class DaoAbteilung {
 				}
 				System.out.println("hallo" + mitarbeiter);
 				return mitarbeiter;
+				
 			}
+
 			SQLiteConnection.Delete("Abteilung", "nameAbteilung", "agf", bedinungErfullen, SQLiteConnection
 					.idTabelle("Geascheaft", "namegaeschaeft", GeschaeftDB.getInstance().getCurrentAccountName()));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "";
 	}
+
+	/**
+	 * @author Aref
+	 * @param nameNeu
+	 * @param nameAlte
+	 */
 
 	public void updateAbteilung(String nameNeu, String nameAlte) {
 		Connection connection = null;

@@ -41,6 +41,7 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JButton buttonAnzeigen;
 	private JScrollPane scrollPane;
 	private JButton button;
+
 	private Mitarbeiter[] values = new Mitarbeiter[] {};
 	private JComboBox<Abteilung> comboBox;
 	private String[] abteilungenValues;
@@ -50,6 +51,10 @@ public class JFrameMitarbeiterAnzeigen extends JFrame {
 	private JLabel labelAbteilungen;
 	private JTextField textFieldSuchen;
 	private JButton buttonNewButton;
+
+	
+	private JPanel panel;
+
 
 	/**
 	 * 

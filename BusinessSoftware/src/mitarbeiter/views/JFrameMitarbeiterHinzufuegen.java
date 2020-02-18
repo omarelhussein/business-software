@@ -311,6 +311,16 @@ public class JFrameMitarbeiterHinzufuegen extends JFrame {
 				contentPane.add(btnCheck);
 			}
 		}
+		{
+			btnNewButton_1 = new JButton("New button");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					do_btnNewButton_1_actionPerformed(e);
+				}
+			});
+			btnNewButton_1.setBounds(628, 128, 89, 23);
+			contentPane.add(btnNewButton_1);
+		}
 
 	}
 

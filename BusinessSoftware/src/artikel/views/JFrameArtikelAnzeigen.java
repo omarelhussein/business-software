@@ -74,6 +74,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 	 * Create the frame.
 	 */
 	public JFrameArtikelAnzeigen() {
+		artikel=new Artikel();
 		daoArtikel = new DaoArtikel();
 		daoAbteilung = new DaoAbteilung();
 		daoKategorie = new DaoKategorie();
@@ -217,6 +218,7 @@ public class JFrameArtikelAnzeigen extends JFrame {
 		JFrameArtikelData dataPage = new JFrameArtikelData(currentList.get(selectedIndex));
 		dataPage.setVisible(true);
 	}
+
 
 	private String[] loadArtikelNames(Artikel[] artikels) {
 		String[] artikelNames = new String[artikels.length];

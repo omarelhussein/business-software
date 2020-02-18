@@ -15,6 +15,7 @@ import kategorie.business_classes.Kategorie;
 
 public class DaoArtikel {
 
+	
 	public DaoArtikel() {
 		try {
 			SQLiteConnection.getSQLiteConnectionInstance();
@@ -133,18 +134,17 @@ public class DaoArtikel {
 		PreparedStatement preparedStatement = null;
 		ResultSet result = null;
 		List<Artikel> artikelList = new ArrayList<Artikel>();
+		
 		try {
 			connection = DriverManager.getConnection(SQLiteConnection.getSQLiteConnection());
 			String sql = "SELECT * from Artikel INNER JOIN Kategorie on Artikel.akf = Kategorie.id where kategorie.kaf = ?";
 			preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setInt(1, getID(abteilung));
-			preparedStatement.execute();
 			result = preparedStatement.executeQuery();
 
 			while (result.next()) {
 				Artikel artikel = new Artikel();
 				artikel.setId(result.getInt(1));
-
 				artikel.setNameArtikel(result.getString("nameartikel"));
 				artikel.setPreis(result.getString("preis"));
 				artikelList.add(artikel);

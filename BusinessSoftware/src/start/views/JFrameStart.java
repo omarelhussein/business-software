@@ -23,6 +23,8 @@ import mitarbeiter.dao.DaoMitarbeiter;
 import start.login.dao.Daoanmelden;
 import start.login.views.JFrameAnmelden;
 import start.register.views.JFrameRegistrieren;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Created on 25.11.2019
@@ -87,6 +89,7 @@ public class JFrameStart extends JFrame {
 			panel.setLayout(null);
 			{
 				btnStartGeschaeft = new JButton("Starte dein Gesch\u00E4ft");
+			
 				btnStartGeschaeft.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						try {
@@ -168,7 +171,8 @@ public class JFrameStart extends JFrame {
 	 * @param arg0 action event
 	 */
 	protected void btnWeiterAlsGast(ActionEvent arg0) {
-		showPane("Feature kommt irgendwann...");
+		BesuchalsGast newJFrame=new BesuchalsGast();
+		Utils.startNewJFrame(this, newJFrame);
 	}
 
 	/**
@@ -210,4 +214,5 @@ public class JFrameStart extends JFrame {
 				"Falls Sie noch kein eigenes Geschنft erstellt haben, kِnnen Sie auf \"Starte dein Geschنft\" klicken und den Prozess durchführen, "
 						+ "\num Ihre Organisation zu erstellen. Ansonsten melden Sie sich an");
 	}
+
 }

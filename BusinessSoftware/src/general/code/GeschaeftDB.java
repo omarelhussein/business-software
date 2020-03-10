@@ -11,7 +11,7 @@ public class GeschaeftDB {
 	}
 
 	/**
-	 * if no instance is created yet, it creates one
+	 * if no instance is created yet, it creates a new one
 	 * @return new Instance for {@link GeschaeftDB}
 	 */
 	public static GeschaeftDB getInstance() {

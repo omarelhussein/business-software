@@ -368,6 +368,8 @@ public class JFrameMain extends JFrame {
 			JFrameStart start = new JFrameStart();
 			GeschaeftDB.getInstance().setLoginStatus(false);
 			Utils.reviewOldJFrame(this, start);
+			
+			GeschaeftDB.getInstance().deleteInstance();
 			break;
 		}
 	}

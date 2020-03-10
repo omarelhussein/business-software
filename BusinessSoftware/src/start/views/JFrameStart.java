@@ -19,12 +19,9 @@ import javax.swing.border.LineBorder;
 import general.code.Utils;
 import general.design.Colors;
 import general.design.Fonts;
-import mitarbeiter.dao.DaoMitarbeiter;
 import start.login.dao.Daoanmelden;
 import start.login.views.JFrameAnmelden;
 import start.register.views.JFrameRegistrieren;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * Created on 25.11.2019

@@ -139,7 +139,7 @@ public class MitarbeiterkundigenFormular extends JFrame {
 		System.out.println(comboBox_1.getSelectedItem().toString());
 
 		MitarbeiterKundigenAusdrucken newJFrame = new MitarbeiterKundigenAusdrucken(grundkendigung.getText(),
-				comboBox_1.getSelectedItem().toString());
+				currentMitarbeiter.getNamemitarbeiter());
 		Utils.startNewJFrame(this, newJFrame);
 
 	}
